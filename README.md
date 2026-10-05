@@ -4,7 +4,7 @@
 
 **`In thrust we trust.`**
 
-I build reliable, robust software systems — AI or otherwise.<br/>
+I build reliable, robust software systems, AI or otherwise.<br/>
 The kind that holds under load, states its own assumptions, and fails loud instead of silent.
 
 [![Website](https://img.shields.io/badge/www-akshaybajpai.com-1a1a1e?style=for-the-badge&labelColor=ece6d9&color=8c2f24)](https://www.akshaybajpai.com)
@@ -24,7 +24,7 @@ The kind that holds under load, states its own assumptions, and fails loud inste
 ```
 
 I design systems the way you'd design a propulsion stack: **thrust is easy, control is the work.**
-Most of what I build sits in the unglamorous middle — the orchestration, the safety layer, the
+Most of what I build sits in the unglamorous middle: the orchestration, the safety layer, the
 schema that refuses bad data, the job queue that survives a restart. Shipping a demo is thrust.
 Keeping it upright in production is trust.
 
@@ -41,7 +41,7 @@ workloads that run where the data actually lives.
 <td width="50%" valign="top">
 
 **[AURIXA](https://github.com/ax5hay/AURIXA)** · care-ops platform<br/>
-<sub>Multi-tenant conversational care operations — governed LLM assistance over one orchestration + safety layer. `TypeScript` · `Python` · `Next.js` · `FastAPI` · `Fastify`</sub>
+<sub>Multi-tenant conversational care operations: governed LLM assistance over one orchestration and safety layer. `TypeScript` · `Python` · `Next.js` · `FastAPI` · `Fastify`</sub>
 
 </td>
 <td width="50%" valign="top">
@@ -61,7 +61,7 @@ workloads that run where the data actually lives.
 <td width="50%" valign="top">
 
 **[Vigilix](https://github.com/ax5hay/Vigilix)** · AI video wall<br/>
-<sub>Live multi-camera wall for security ops — RTSP ingest, YOLO overlays, incident alerts. `React` · `FastAPI` · `Python`</sub>
+<sub>Live multi-camera wall for security ops: RTSP ingest, YOLO overlays, incident alerts. `React` · `FastAPI` · `Python`</sub>
 
 </td>
 </tr>
@@ -81,7 +81,7 @@ workloads that run where the data actually lives.
 </tr>
 </table>
 
-<sub>More in the <a href="https://github.com/ax5hay?tab=repositories">repository index</a> — lead CRMs, job-application automation, OCR + local-LLM document chat, a behavioral-evidence OS, and a pile of ML notebooks from earlier flight tests.</sub>
+<sub>More in the <a href="https://github.com/ax5hay?tab=repositories">repository index</a>: lead CRMs, job-application automation, OCR and local-LLM document chat, a behavioral-evidence OS, and a pile of ML notebooks from earlier flight tests.</sub>
 
 ---
 
