@@ -176,12 +176,12 @@ workloads that run where the data actually lives.
 
 <div align="center">
 
-<img height="170" src="https://github-readme-stats.vercel.app/api?username=ax5hay&hide_rank=true&show_icons=true&hide_border=true&count_private=true&include_all_commits=true&title_color=d8bd85&icon_color=8c2f24&text_color=c9c9c9&bg_color=0b0b0f" alt="GitHub stats" />
-<img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ax5hay&layout=compact&hide_border=true&langs_count=12&title_color=d8bd85&text_color=c9c9c9&bg_color=0b0b0f" alt="Most-used languages" />
-
-<img width="98%" src="https://github-readme-activity-graph.vercel.app/graph?username=ax5hay&hide_border=true&bg_color=0b0b0f&color=f3ede0&line=d8bd85&point=8c2f24&area=true&area_color=8c2f24&title_color=d8bd85&custom_title=Contribution%20activity" alt="Contribution activity graph" />
+<img height="175" src="https://github-readme-stats.vercel.app/api?username=ax5hay&hide_rank=true&show_icons=true&hide_border=true&count_private=true&title_color=d8bd85&icon_color=8c2f24&text_color=c9c9c9&bg_color=0b0b0f" alt="GitHub stats" />
+<img height="175" src="https://github-readme-stats.vercel.app/api/top-langs/?username=ax5hay&layout=compact&hide_border=true&langs_count=8&hide=jupyter%20notebook,html,css,scss,dockerfile,hcl,plpgsql,mako,go%20template,batchfile,makefile,cobol,roff&title_color=d8bd85&text_color=c9c9c9&bg_color=0b0b0f" alt="Most-used languages" />
 
 </div>
+
+<sub align="center">No rank grades, no vanity trophies: just what I build with and how much.</sub>
 
 ---
 
