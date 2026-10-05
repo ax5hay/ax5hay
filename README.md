@@ -15,12 +15,29 @@ The kind that holds under load, states its own assumptions, and fails loud inste
 
 ---
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│  AKSHAY BAJPAI                               REV   2026.10   STATUS   ▲  │
-│  Systems · AI · the boring reliability in between                        │
-│  "Thrust is cheap. Controlled thrust is the whole job."                  │
-└────────────────────────────────────────────────────────────────────────┘
+<div align="center"><i>Thrust is cheap. Controlled thrust is the whole job.</i></div>
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#15151c','primaryTextColor':'#f3ede0','primaryBorderColor':'#d8bd85','lineColor':'#6f6a5f','fontSize':'15px'}}}%%
+flowchart LR
+  F(["ideas and raw data"]) --> T["THRUST<br/>ship the thing"]
+  T --> C{"control<br/>surfaces"}
+  C --> O["orchestration"]
+  C --> S["safety and guardrails"]
+  C --> D["schema that<br/>refuses bad data"]
+  C --> M["observability"]
+  O --> R(["TRUST<br/>holds under load, in prod"])
+  S --> R
+  D --> R
+  M --> R
+  classDef thrust fill:#8c2f24,stroke:#d8bd85,stroke-width:1.5px,color:#f6f1e6;
+  classDef hub fill:#14141a,stroke:#d8bd85,stroke-width:1.5px,color:#d8bd85;
+  classDef node fill:#15151c,stroke:#3a3a42,color:#e8e3d6;
+  classDef seed fill:#0f0f14,stroke:#3a3a42,color:#b4b0a4;
+  class T,R thrust;
+  class C hub;
+  class O,S,D,M node;
+  class F seed;
 ```
 
 I design systems the way you'd design a propulsion stack: **thrust is easy, control is the work.**
@@ -35,6 +52,34 @@ workloads that run where the data actually lives.
 ---
 
 ## What I'm flying right now
+
+<div align="center"><sub>A map of what I build, and the domains it falls into.</sub></div>
+
+```mermaid
+%%{init: {'theme':'base','themeVariables':{'primaryColor':'#15151c','primaryTextColor':'#f3ede0','primaryBorderColor':'#d8bd85','lineColor':'#6f6a5f'}}}%%
+flowchart TB
+  ME(("Akshay<br/>Bajpai"))
+  ME --> AI["AI systems<br/>and LLMs"]
+  ME --> CV["computer vision<br/>and edge"]
+  ME --> DP["data platforms<br/>and pipelines"]
+  ME --> WP["web, product<br/>and sites"]
+  AI --> AURIXA["AURIXA"]
+  AI --> GHDA["GHDA-SaaS"]
+  AI --> OCR["OCR-LLM-DIST"]
+  CV --> VIG["Vigilix"]
+  CV --> DADM["DADM"]
+  CV --> FS["FlowState"]
+  DP --> AIDA["AIDA"]
+  DP --> RS["RestroScraper"]
+  WP --> MST["MirrorState"]
+  WP --> SITE["akshaybajpai.com"]
+  classDef core fill:#8c2f24,stroke:#d8bd85,stroke-width:2px,color:#f6f1e6;
+  classDef dom fill:#14141a,stroke:#d8bd85,stroke-width:1.3px,color:#d8bd85;
+  classDef proj fill:#15151c,stroke:#3a3a42,color:#e8e3d6;
+  class ME core;
+  class AI,CV,DP,WP dom;
+  class AURIXA,GHDA,OCR,VIG,DADM,FS,AIDA,RS,MST,SITE proj;
+```
 
 <table>
 <tr>
