@@ -1,0 +1,2330 @@
+[
+ {
+  "category": "Languages",
+  "items": [
+   {
+    "name": "TypeScript",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "Vigilix",
+     "ai-automation-main",
+     "akshaybajpai.com",
+     "shelf"
+    ],
+    "n": 11
+   },
+   {
+    "name": "Python",
+    "repos": [
+     "AURIXA",
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "Cervical-Cancer-Classification",
+     "DADM-Aiximius",
+     "FlowState",
+     "GAN-Anime-Faces",
+     "GHDA-SaaS",
+     "Hangman_API_Optimisation_Problem",
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM",
+     "RNN_TheSocialDilemma",
+     "RestroScraper-PY",
+     "Stock-Market-Prediction-GRU",
+     "TracePulse",
+     "Vigilix",
+     "shelf"
+    ],
+    "n": 17
+   },
+   {
+    "name": "JavaScript",
+    "repos": [
+     "JobSlave",
+     "Merakiel.in",
+     "ai-automation-main",
+     "aiximius.com",
+     "akshay-medha-wedding-2026",
+     "akshaybajpai.com",
+     "ew-dashboard",
+     "medhathapliyal.site"
+    ],
+    "n": 8
+   },
+   {
+    "name": "C#",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Rust",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "SQL",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "RestroScraper-PY",
+     "Vigilix",
+     "ai-automation-main",
+     "shelf"
+    ],
+    "n": 9
+   },
+   {
+    "name": "Bash",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "GHDA-SaaS",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "TracePulse",
+     "Vigilix",
+     "ai-automation-main",
+     "shelf"
+    ],
+    "n": 11
+   },
+   {
+    "name": "HTML & CSS",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "Merakiel.in",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "Vigilix",
+     "ai-automation-main",
+     "aiximius.com",
+     "akshaybajpai.com",
+     "ew-dashboard",
+     "medhathapliyal.site",
+     "shelf"
+    ],
+    "n": 14
+   },
+   {
+    "name": "SCSS",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Cypher",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "HCL",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Google Apps Script",
+    "repos": [
+     "akshay-medha-wedding-2026"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Frontend & UI",
+  "items": [
+   {
+    "name": "React",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "Vigilix",
+     "ai-automation-main",
+     "akshaybajpai.com",
+     "ew-dashboard"
+    ],
+    "n": 10
+   },
+   {
+    "name": "Next.js",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "ai-automation-main",
+     "akshaybajpai.com"
+    ],
+    "n": 7
+   },
+   {
+    "name": "Angular",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Astro",
+    "repos": [
+     "medhathapliyal.site"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Vite",
+    "repos": [
+     "AURIXA",
+     "JobSlave",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Create React App",
+    "repos": [
+     "ew-dashboard"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Tailwind CSS",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "Vigilix",
+     "ai-automation-main",
+     "ew-dashboard"
+    ],
+    "n": 9
+   },
+   {
+    "name": "Sass",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Bootstrap",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Radix UI",
+    "repos": [
+     "AURIXA",
+     "JobSlave"
+    ],
+    "n": 2
+   },
+   {
+    "name": "shadcn/ui",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Framer Motion",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "MirrorState",
+     "ai-automation-main"
+    ],
+    "n": 4
+   },
+   {
+    "name": "TanStack Query",
+    "repos": [
+     "AIDA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Zustand",
+    "repos": [
+     "JobSlave",
+     "MirrorState"
+    ],
+    "n": 2
+   },
+   {
+    "name": "React Router",
+    "repos": [
+     "JobSlave",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "RxJS",
+    "repos": [
+     "AIDA",
+     "shelf"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Storybook",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Lucide",
+    "repos": [
+     "GHDA-SaaS",
+     "JobSlave",
+     "OCR-LLM-DIST",
+     "Vigilix",
+     "ai-automation-main",
+     "ew-dashboard"
+    ],
+    "n": 6
+   },
+   {
+    "name": "Quill",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Swiper",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "remark / rehype",
+    "repos": [
+     "AIDA",
+     "ai-automation-main",
+     "akshaybajpai.com",
+     "shelf"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Transloco i18n",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "View Transitions API",
+    "repos": [
+     "akshaybajpai.com",
+     "medhathapliyal.site",
+     "shelf"
+    ],
+    "n": 3
+   },
+   {
+    "name": "JSON-LD / schema.org",
+    "repos": [
+     "Merakiel.in",
+     "RestroScraper-PY",
+     "aiximius.com",
+     "akshaybajpai.com",
+     "medhathapliyal.site"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Satori",
+    "repos": [
+     "akshaybajpai.com"
+    ],
+    "n": 1
+   },
+   {
+    "name": "resvg",
+    "repos": [
+     "akshaybajpai.com"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Charts & dataviz",
+  "items": [
+   {
+    "name": "Recharts",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "ew-dashboard"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Apache ECharts",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Charts.css",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Matplotlib",
+    "repos": [
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "FlowState",
+     "GAN-Anime-Faces",
+     "RNN_TheSocialDilemma",
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 6
+   },
+   {
+    "name": "Seaborn",
+    "repos": [
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Plotly",
+    "repos": [
+     "Cervical-Cancer-Classification"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Backend & APIs",
+  "items": [
+   {
+    "name": "Node.js",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "ai-automation-main",
+     "akshay-medha-wedding-2026",
+     "akshaybajpai.com"
+    ],
+    "n": 9
+   },
+   {
+    "name": "Fastify",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState"
+    ],
+    "n": 3
+   },
+   {
+    "name": "NestJS",
+    "repos": [
+     "AIDA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Express",
+    "repos": [
+     "JobSlave",
+     "ai-automation-main"
+    ],
+    "n": 2
+   },
+   {
+    "name": "FastAPI",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Starlette",
+    "repos": [
+     "AURIXA",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Flask",
+    "repos": [
+     "DADM-Aiximius",
+     "RestroScraper-PY"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Uvicorn",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Gunicorn",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ASP.NET Core",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": ".NET 8 / 10",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Socket.IO",
+    "repos": [
+     "JobSlave",
+     "MirrorState",
+     "ai-automation-main"
+    ],
+    "n": 3
+   },
+   {
+    "name": "WebSockets",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS"
+    ],
+    "n": 2
+   },
+   {
+    "name": "SignalR",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Server-sent events",
+    "repos": [
+     "AURIXA",
+     "JobSlave",
+     "OCR-LLM-DIST"
+    ],
+    "n": 3
+   },
+   {
+    "name": "OpenAPI / Swagger",
+    "repos": [
+     "MirrorState",
+     "shelf"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Zod",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "JobSlave",
+     "MirrorState"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Pydantic",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 4
+   },
+   {
+    "name": "class-validator",
+    "repos": [
+     "AIDA",
+     "ai-automation-main"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Joi",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "JWT",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "RestroScraper-PY",
+     "Vigilix",
+     "ai-automation-main",
+     "shelf"
+    ],
+    "n": 7
+   },
+   {
+    "name": "OpenID Connect",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ASP.NET Identity",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Argon2",
+    "repos": [
+     "MirrorState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "bcrypt",
+    "repos": [
+     "RestroScraper-PY",
+     "Vigilix",
+     "ai-automation-main"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Helmet",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "ai-automation-main"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Rate limiting",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "RestroScraper-PY",
+     "ai-automation-main"
+    ],
+    "n": 5
+   },
+   {
+    "name": "BullMQ",
+    "repos": [
+     "MirrorState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Hangfire",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "APScheduler",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "node-cron",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Polly",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "AutoMapper",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Multer",
+    "repos": [
+     "JobSlave",
+     "ai-automation-main"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Axios / httpx",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "Vigilix",
+     "ai-automation-main"
+    ],
+    "n": 4
+   },
+   {
+    "name": "aiohttp",
+    "repos": [
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Flurl",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "reqwest",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "tokio",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "serde",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "AI & LLM systems",
+  "items": [
+   {
+    "name": "OpenAI API",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "ai-automation-main"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Anthropic Claude",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Google Gemini",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Ollama",
+    "repos": [
+     "AURIXA",
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM"
+    ],
+    "n": 3
+   },
+   {
+    "name": "LM Studio",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM"
+    ],
+    "n": 6
+   },
+   {
+    "name": "LangChain",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "RAG pipelines",
+    "repos": [
+     "AURIXA",
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM",
+     "ai-automation-main"
+    ],
+    "n": 4
+   },
+   {
+    "name": "LLM guardrails",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius",
+     "GHDA-SaaS"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Prompt & schema contracts",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "AIDA",
+     "MirrorState"
+    ],
+    "n": 4
+   },
+   {
+    "name": "sentence-transformers",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "FAISS",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "BM25",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Weaviate",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "tiktoken",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "natural / compromise NLP",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "fuzzy matching",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "faster-whisper",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Vosk",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "SpeechBrain",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Piper TTS",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "edge-tts",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "pyttsx3",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Machine learning & data science",
+  "items": [
+   {
+    "name": "PyTorch",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState"
+    ],
+    "n": 2
+   },
+   {
+    "name": "torchvision",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "TensorFlow",
+    "repos": [
+     "CNN-Chinese-MNIST",
+     "FlowState",
+     "GAN-Anime-Faces",
+     "RNN_TheSocialDilemma",
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Keras",
+    "repos": [
+     "FlowState",
+     "GAN-Anime-Faces",
+     "RNN_TheSocialDilemma"
+    ],
+    "n": 3
+   },
+   {
+    "name": "scikit-learn",
+    "repos": [
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "Cervical-Cancer-Classification",
+     "DADM-Aiximius",
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 5
+   },
+   {
+    "name": "imbalanced-learn",
+    "repos": [
+     "Cervical-Cancer-Classification"
+    ],
+    "n": 1
+   },
+   {
+    "name": "SHAP",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "NumPy",
+    "repos": [
+     "AURIXA",
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "Cervical-Cancer-Classification",
+     "DADM-Aiximius",
+     "FlowState",
+     "GAN-Anime-Faces",
+     "GHDA-SaaS",
+     "RNN_TheSocialDilemma",
+     "RestroScraper-PY",
+     "Stock-Market-Prediction-GRU",
+     "Vigilix"
+    ],
+    "n": 12
+   },
+   {
+    "name": "pandas",
+    "repos": [
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "Cervical-Cancer-Classification",
+     "DADM-Aiximius",
+     "FlowState",
+     "GHDA-SaaS",
+     "OCR-LocalLLM",
+     "RNN_TheSocialDilemma",
+     "RestroScraper-PY",
+     "Stock-Market-Prediction-GRU",
+     "id1sas-surveycto"
+    ],
+    "n": 11
+   },
+   {
+    "name": "SciPy",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState"
+    ],
+    "n": 2
+   },
+   {
+    "name": "scikit-image",
+    "repos": [
+     "CNN-Chinese-MNIST"
+    ],
+    "n": 1
+   },
+   {
+    "name": "joblib",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "h5py",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ndarray (Rust)",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ONNX",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ONNX Runtime",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Jupyter",
+    "repos": [
+     "AlzheimersDiagnosis",
+     "CNN-Chinese-MNIST",
+     "Cervical-Cancer-Classification",
+     "FlowState",
+     "GAN-Anime-Faces",
+     "Hangman_API_Optimisation_Problem",
+     "IBM-TEST-REPO",
+     "Python-Practice-For-Beginners",
+     "RNN_TheSocialDilemma",
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 10
+   },
+   {
+    "name": "yfinance",
+    "repos": [
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 1
+   },
+   {
+    "name": "jStat",
+    "repos": [
+     "AIDA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Federated learning",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "CNNs",
+    "repos": [
+     "CNN-Chinese-MNIST"
+    ],
+    "n": 1
+   },
+   {
+    "name": "RNNs & GRUs",
+    "repos": [
+     "RNN_TheSocialDilemma",
+     "Stock-Market-Prediction-GRU"
+    ],
+    "n": 2
+   },
+   {
+    "name": "GANs",
+    "repos": [
+     "GAN-Anime-Faces"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Anomaly detection",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Vision, audio & documents",
+  "items": [
+   {
+    "name": "OpenCV",
+    "repos": [
+     "FlowState",
+     "GAN-Anime-Faces",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "YOLO / Ultralytics",
+    "repos": [
+     "FlowState",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "MediaPipe",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "dlib",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "supervision",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Pillow",
+    "repos": [
+     "FlowState",
+     "GHDA-SaaS"
+    ],
+    "n": 2
+   },
+   {
+    "name": "imutils",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "RTSP ingest",
+    "repos": [
+     "FlowState",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "FFmpeg",
+    "repos": [
+     "FlowState",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "PyAV",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "MoviePy",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "sounddevice / pydub",
+    "repos": [
+     "AURIXA",
+     "FlowState"
+    ],
+    "n": 2
+   },
+   {
+    "name": "EasyOCR",
+    "repos": [
+     "Vigilix"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Tesseract",
+    "repos": [
+     "GHDA-SaaS",
+     "JobSlave"
+    ],
+    "n": 2
+   },
+   {
+    "name": "PyMuPDF",
+    "repos": [
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM"
+    ],
+    "n": 2
+   },
+   {
+    "name": "pdfplumber",
+    "repos": [
+     "GHDA-SaaS"
+    ],
+    "n": 1
+   },
+   {
+    "name": "PyPDF2",
+    "repos": [
+     "GHDA-SaaS"
+    ],
+    "n": 1
+   },
+   {
+    "name": "pdf-parse / pdf.js",
+    "repos": [
+     "JobSlave",
+     "shelf"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Docnet",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ReportLab",
+    "repos": [
+     "GHDA-SaaS"
+    ],
+    "n": 1
+   },
+   {
+    "name": "python-docx",
+    "repos": [
+     "GHDA-SaaS"
+    ],
+    "n": 1
+   },
+   {
+    "name": "EPUB (VersOne)",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "NetVips",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "sharp",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "node-canvas",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "QR codes",
+    "repos": [
+     "Vigilix"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ExcelJS / xlsx",
+    "repos": [
+     "AIDA",
+     "akshay-medha-wedding-2026"
+    ],
+    "n": 2
+   },
+   {
+    "name": "openpyxl",
+    "repos": [
+     "GHDA-SaaS",
+     "RestroScraper-PY",
+     "id1sas-surveycto"
+    ],
+    "n": 3
+   },
+   {
+    "name": "CsvHelper",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Data stores & ORMs",
+  "items": [
+   {
+    "name": "PostgreSQL",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 6
+   },
+   {
+    "name": "Redis",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "Vigilix",
+     "ai-automation-main"
+    ],
+    "n": 5
+   },
+   {
+    "name": "SQLite",
+    "repos": [
+     "DADM-Aiximius",
+     "JobSlave",
+     "shelf"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Neo4j",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "MinIO / S3",
+    "repos": [
+     "GHDA-SaaS"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Weaviate (vector)",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "FAISS (vector)",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Supabase",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Prisma",
+    "repos": [
+     "AIDA",
+     "MirrorState"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Drizzle ORM",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "SQLAlchemy",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Alembic",
+    "repos": [
+     "AURIXA",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "asyncpg",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "psycopg",
+    "repos": [
+     "AURIXA",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Entity Framework Core",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "PL/pgSQL",
+    "repos": [
+     "AURIXA",
+     "ai-automation-main"
+    ],
+    "n": 2
+   },
+   {
+    "name": "JSONB storage",
+    "repos": [
+     "RestroScraper-PY"
+    ],
+    "n": 1
+   },
+   {
+    "name": "cache-manager / EasyCaching",
+    "repos": [
+     "AIDA",
+     "shelf"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Google Sheets as a store",
+    "repos": [
+     "akshay-medha-wedding-2026"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Infrastructure & delivery",
+  "items": [
+   {
+    "name": "Docker",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "GHDA-SaaS",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "Vigilix",
+     "ai-automation-main",
+     "shelf"
+    ],
+    "n": 11
+   },
+   {
+    "name": "Docker Compose",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "DADM-Aiximius",
+     "GHDA-SaaS",
+     "MirrorState",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "Vigilix",
+     "ai-automation-main"
+    ],
+    "n": 9
+   },
+   {
+    "name": "Kubernetes",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Helm",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Terraform",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Ansible",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "AWS",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Amazon EKS",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Amazon RDS",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ElastiCache",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Amazon ECR",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "VPC networking",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "vSphere",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Nginx",
+    "repos": [
+     "MirrorState",
+     "ai-automation-main"
+    ],
+    "n": 2
+   },
+   {
+    "name": "GitHub Actions",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "OCR-LLM-DIST",
+     "TracePulse",
+     "Vigilix",
+     "akshaybajpai.com",
+     "medhathapliyal.site",
+     "shelf"
+    ],
+    "n": 9
+   },
+   {
+    "name": "GitHub Pages",
+    "repos": [
+     "Merakiel.in",
+     "aiximius.com",
+     "akshaybajpai.com",
+     "medhathapliyal.site"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Docker Buildx",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius",
+     "OCR-LLM-DIST"
+    ],
+    "n": 3
+   },
+   {
+    "name": "crane",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Turborepo",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState"
+    ],
+    "n": 4
+   },
+   {
+    "name": "pnpm workspaces",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState",
+     "Vigilix",
+     "ai-automation-main"
+    ],
+    "n": 7
+   },
+   {
+    "name": "npm workspaces",
+    "repos": [
+     "AIDA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "uv",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Make",
+    "repos": [
+     "DADM-Aiximius",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Air-gapped, zero-trust deploys",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Observability & security",
+  "items": [
+   {
+    "name": "Prometheus",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "ai-automation-main"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Grafana",
+    "repos": [
+     "GHDA-SaaS",
+     "ai-automation-main"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Loki & Promtail",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "OpenTelemetry",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Pino",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "JobSlave",
+     "MirrorState"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Winston",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Loguru",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM",
+     "TracePulse",
+     "Vigilix"
+    ],
+    "n": 6
+   },
+   {
+    "name": "Serilog",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "tracing (Rust)",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "TracePulse (my own)",
+    "repos": [
+     "TracePulse"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Trivy",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "CodeQL / SARIF",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "SonarAnalyzer",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Codecov",
+    "repos": [
+     "OCR-LLM-DIST"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Husky & lint-staged",
+    "repos": [
+     "MirrorState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "commitlint",
+    "repos": [
+     "MirrorState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "pre-commit",
+    "repos": [
+     "OCR-LLM-DIST"
+    ],
+    "n": 1
+   },
+   {
+    "name": "AES-GCM / ring",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "cryptography (py)",
+    "repos": [
+     "DADM-Aiximius",
+     "Vigilix"
+    ],
+    "n": 2
+   },
+   {
+    "name": "SHA-2 / HMAC",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Data Protection API",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Testing & code quality",
+  "items": [
+   {
+    "name": "Vitest",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "Vigilix"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Jest",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "pytest",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "OCR-LLM-DIST",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 6
+   },
+   {
+    "name": "pytest-asyncio",
+    "repos": [
+     "AURIXA",
+     "RestroScraper-PY"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Playwright",
+    "repos": [
+     "AURIXA",
+     "JobSlave",
+     "RestroScraper-PY",
+     "id1sas-surveycto"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Selenium",
+    "repos": [
+     "RestroScraper-PY"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Testing Library",
+    "repos": [
+     "ai-automation-main",
+     "ew-dashboard"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Supertest",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "xUnit",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "NSubstitute",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "BenchmarkDotNet",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "criterion (Rust)",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Karma",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ESLint",
+    "repos": [
+     "AURIXA",
+     "GHDA-SaaS",
+     "MirrorState",
+     "Vigilix",
+     "ai-automation-main",
+     "shelf"
+    ],
+    "n": 6
+   },
+   {
+    "name": "typescript-eslint",
+    "repos": [
+     "AURIXA",
+     "MirrorState",
+     "Vigilix",
+     "ai-automation-main",
+     "shelf"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Prettier",
+    "repos": [
+     "AURIXA",
+     "MirrorState",
+     "Vigilix",
+     "ai-automation-main"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Ruff",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Black",
+    "repos": [
+     "OCR-LLM-DIST",
+     "RestroScraper-PY"
+    ],
+    "n": 2
+   },
+   {
+    "name": "mypy",
+    "repos": [
+     "OCR-LLM-DIST"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Pylint",
+    "repos": [
+     "OCR-LLM-DIST"
+    ],
+    "n": 1
+   },
+   {
+    "name": "flake8",
+    "repos": [
+     "RestroScraper-PY"
+    ],
+    "n": 1
+   },
+   {
+    "name": "markdownlint",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Storybook a11y",
+    "repos": [
+     "AURIXA"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Desktop, edge & automation",
+  "items": [
+   {
+    "name": "Electron",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "electron-vite",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "electron-builder",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "PySide6 / Qt",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Tkinter",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Streamlit",
+    "repos": [
+     "OCR-LLM-DIST",
+     "OCR-LocalLLM"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Rust edge agent",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "sysinfo",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Windows API (Rust)",
+    "repos": [
+     "DADM-Aiximius"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Playwright automation",
+    "repos": [
+     "JobSlave",
+     "RestroScraper-PY",
+     "id1sas-surveycto"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Selenium scraping",
+    "repos": [
+     "RestroScraper-PY"
+    ],
+    "n": 1
+   },
+   {
+    "name": "BeautifulSoup / lxml",
+    "repos": [
+     "RestroScraper-PY"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Cheerio",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "HtmlAgilityPack",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "SurveyCTO",
+    "repos": [
+     "id1sas-surveycto"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ngrok",
+    "repos": [
+     "OCR-LLM-DIST"
+    ],
+    "n": 1
+   }
+  ]
+ },
+ {
+  "category": "Integrations & services",
+  "items": [
+   {
+    "name": "Twilio",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "WhatsApp & Instagram channels",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Nodemailer",
+    "repos": [
+     "ai-automation-main"
+    ],
+    "n": 1
+   },
+   {
+    "name": "MailKit",
+    "repos": [
+     "shelf"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Google Sheets API",
+    "repos": [
+     "akshay-medha-wedding-2026"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Google Calendar",
+    "repos": [
+     "akshay-medha-wedding-2026"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Apps Script / clasp",
+    "repos": [
+     "akshay-medha-wedding-2026"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Naukri.com automation",
+    "repos": [
+     "JobSlave"
+    ],
+    "n": 1
+   },
+   {
+    "name": "OpenGraph & sitemaps",
+    "repos": [
+     "Merakiel.in",
+     "aiximius.com",
+     "akshaybajpai.com",
+     "medhathapliyal.site"
+    ],
+    "n": 4
+   }
+  ]
+ }
+]

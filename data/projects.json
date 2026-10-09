@@ -1,0 +1,59 @@
+{
+  "zones": [
+    {
+      "code": "A",
+      "title": "AI & LLM systems",
+      "projects": [
+        {"name": "AURIXA", "sub": "governed care-ops platform"},
+        {"name": "GHDA-SaaS", "sub": "gov health-data automation"},
+        {"name": "OCR-LLM-DIST", "sub": "local document chat"},
+        {"name": "ai-automation", "sub": "support triage, multichannel"},
+        {"name": "JobSlave", "sub": "LLM-driven job applications"},
+        {"name": "OCR-LocalLLM", "sub": "single-file PDF chat"}
+      ]
+    },
+    {
+      "code": "V",
+      "title": "Vision & edge",
+      "projects": [
+        {"name": "Vigilix", "sub": "AI video wall"},
+        {"name": "DADM", "sub": "defensive AI mesh"},
+        {"name": "FlowState", "sub": "desktop video analytics"}
+      ]
+    },
+    {
+      "code": "D",
+      "title": "Data & platforms",
+      "projects": [
+        {"name": "AIDA", "sub": "health intelligence"},
+        {"name": "RestroScraper", "sub": "lead-gen CRM"},
+        {"name": "TracePulse", "sub": "Python tracing library"},
+        {"name": "shelf", "sub": "family reading server"}
+      ]
+    },
+    {
+      "code": "W",
+      "title": "Web & product",
+      "projects": [
+        {"name": "MirrorState", "sub": "behavioral evidence OS"},
+        {"name": "akshaybajpai.com", "sub": "a site as a drawing set"},
+        {"name": "medhathapliyal.site", "sub": "notebook portfolio"},
+        {"name": "aiximius.com", "sub": "company site, no build"},
+        {"name": "ew-dashboard", "sub": "React analytics"}
+      ]
+    },
+    {
+      "code": "R",
+      "title": "Research notebooks",
+      "projects": [
+        {"name": "Alzheimer's thesis", "sub": "nine models, OASIS"},
+        {"name": "Anime-face GAN", "sub": "TensorFlow"},
+        {"name": "Chinese MNIST CNN", "sub": "15 classes"},
+        {"name": "Tweet sentiment RNN", "sub": "Keras"},
+        {"name": "Stock-price GRU", "sub": "time series"},
+        {"name": "Cervical risk classifier", "sub": "scikit-learn"},
+        {"name": "Hangman solver", "sub": "n-gram back-off"}
+      ]
+    }
+  ]
+}

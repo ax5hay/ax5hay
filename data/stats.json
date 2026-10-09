@@ -1,0 +1,57 @@
+{
+ "generated": "2026-10-10",
+ "repos_total": 33,
+ "repos_public": 28,
+ "contributions_last_year": 276,
+ "active_since": "2020",
+ "languages_by_repos": [
+  {
+   "name": "TypeScript",
+   "repos": 12
+  },
+  {
+   "name": "Python",
+   "repos": 9
+  },
+  {
+   "name": "Jupyter Notebook",
+   "repos": 9
+  },
+  {
+   "name": "HTML",
+   "repos": 4
+  },
+  {
+   "name": "Shell",
+   "repos": 4
+  },
+  {
+   "name": "CSS",
+   "repos": 3
+  },
+  {
+   "name": "JavaScript",
+   "repos": 3
+  },
+  {
+   "name": "C#",
+   "repos": 1
+  },
+  {
+   "name": "Rust",
+   "repos": 1
+  },
+  {
+   "name": "Astro",
+   "repos": 1
+  },
+  {
+   "name": "Dockerfile",
+   "repos": 1
+  },
+  {
+   "name": "PLpgSQL",
+   "repos": 1
+  }
+ ]
+}
