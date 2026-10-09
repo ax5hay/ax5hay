@@ -105,8 +105,8 @@
 <text x="532.0" y="426.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">NTS</text>
 <line x1="610.0" y1="386.0" x2="610.0" y2="438.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
 <text x="622.0" y="404.0" class="mono-m" font-size="9.5" fill="#6f6655" text-anchor="start" letter-spacing="0.16em">ISSUED</text>
-<text x="622.0" y="426.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">2026-10-10</text>
+<text x="622.0" y="426.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">2026-10-09</text>
 <line x1="760.0" y1="386.0" x2="760.0" y2="438.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
 <text x="772.0" y="404.0" class="mono-m" font-size="9.5" fill="#6f6655" text-anchor="start" letter-spacing="0.16em">REV</text>
-<text x="772.0" y="426.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">6</text>
+<text x="772.0" y="426.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">1</text>
 </svg>

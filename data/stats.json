@@ -1,29 +1,25 @@
 {
- "generated": "2026-10-10",
- "repos_total": 33,
+ "generated": "2026-10-09",
+ "repos_total": 28,
  "repos_public": 28,
  "contributions_last_year": 276,
  "active_since": "2020",
  "languages_by_repos": [
   {
    "name": "TypeScript",
-   "repos": 12
-  },
-  {
-   "name": "Python",
-   "repos": 9
+   "repos": 11
   },
   {
    "name": "Jupyter Notebook",
    "repos": 9
   },
   {
-   "name": "HTML",
-   "repos": 4
+   "name": "Python",
+   "repos": 9
   },
   {
    "name": "Shell",
-   "repos": 4
+   "repos": 3
   },
   {
    "name": "CSS",
@@ -31,10 +27,18 @@
   },
   {
    "name": "JavaScript",
-   "repos": 3
+   "repos": 2
   },
   {
-   "name": "C#",
+   "name": "HTML",
+   "repos": 2
+  },
+  {
+   "name": "PLpgSQL",
+   "repos": 1
+  },
+  {
+   "name": "Dockerfile",
    "repos": 1
   },
   {
@@ -43,14 +47,6 @@
   },
   {
    "name": "Astro",
-   "repos": 1
-  },
-  {
-   "name": "Dockerfile",
-   "repos": 1
-  },
-  {
-   "name": "PLpgSQL",
    "repos": 1
   }
  ]
