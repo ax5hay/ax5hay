@@ -4,7 +4,7 @@
 <defs><pattern id="k" width="24" height="24" patternUnits="userSpaceOnUse"><path d="M24 0H0V24" fill="none" stroke="rgba(20,20,23,0.06)" stroke-width="0.5"/></pattern><pattern id="kM" width="120" height="120" patternUnits="userSpaceOnUse"><rect width="120" height="120" fill="url(#k)"/><path d="M120 0H0V120" fill="none" stroke="rgba(20,20,23,0.115)" stroke-width="0.6"/></pattern><filter id="kg" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix type="matrix" values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.055 0"/></filter></defs>
 <rect width="920" height="378" fill="#fcfaf4"/>
 <rect x="0" y="0" width="920" height="378" fill="url(#kM)"/>
-<rect x="5.0" y="5" width="187.74365044336554" height="342" fill="#ffffff" fill-opacity="0.35"/>
+<rect x="5.0" y="5" width="187.74365044336557" height="342" fill="#ffffff" fill-opacity="0.35"/>
 <circle cx="30.0" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
 <text x="30.0" y="29.0" class="mono-m" font-size="11" fill="#983729" text-anchor="middle">A</text>
 <text x="49.0" y="29.0" class="mono-m" font-size="9.5" fill="#5c5548" text-anchor="start" letter-spacing="0.16em">AI &amp; LLM SYSTEMS</text>
@@ -22,8 +22,8 @@
 <text x="21.0" y="248.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">OCR-LocalLLM</text>
 <text x="21.0" y="262.0" class="mono" font-size="10" fill="#6f6655" text-anchor="start">single-file PDF chat</text>
 <text x="176.7" y="335.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="end">6 sheets</text>
-<rect x="197.74365044336554" y="5" width="160.20884323717047" height="342" fill="#ffffff" fill-opacity="0.35"/>
-<circle cx="222.74365044336554" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
+<rect x="197.74365044336557" y="5" width="160.2088432371705" height="342" fill="#ffffff" fill-opacity="0.35"/>
+<circle cx="222.74365044336557" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
 <text x="222.7" y="29.0" class="mono-m" font-size="11" fill="#983729" text-anchor="middle">V</text>
 <text x="241.7" y="29.0" class="mono-m" font-size="9.5" fill="#5c5548" text-anchor="start" letter-spacing="0.16em">VISION &amp; EDGE</text>
 <line x1="213.7" y1="50.0" x2="342.0" y2="50.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
@@ -34,8 +34,8 @@
 <text x="213.7" y="146.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">FlowState</text>
 <text x="213.7" y="160.0" class="mono" font-size="10" fill="#6f6655" text-anchor="start">desktop video analytics</text>
 <text x="342.0" y="335.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="end">3 sheets</text>
-<rect x="362.952493680536" y="5" width="167.1109015768567" height="342" fill="#ffffff" fill-opacity="0.35"/>
-<circle cx="387.952493680536" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
+<rect x="362.95249368053607" y="5" width="167.1109015768567" height="342" fill="#ffffff" fill-opacity="0.35"/>
+<circle cx="387.95249368053607" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
 <text x="388.0" y="29.0" class="mono-m" font-size="11" fill="#983729" text-anchor="middle">D</text>
 <text x="407.0" y="29.0" class="mono-m" font-size="9.5" fill="#5c5548" text-anchor="start" letter-spacing="0.16em">DATA &amp; PLATFORMS</text>
 <line x1="379.0" y1="50.0" x2="514.1" y2="50.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
@@ -48,8 +48,8 @@
 <text x="379.0" y="180.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">shelf</text>
 <text x="379.0" y="194.0" class="mono" font-size="10" fill="#6f6655" text-anchor="start">family reading server</text>
 <text x="514.1" y="335.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="end">4 sheets</text>
-<rect x="535.0633952573927" y="5" width="169.57067768727677" height="342" fill="#ffffff" fill-opacity="0.35"/>
-<circle cx="560.0633952573927" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
+<rect x="535.0633952573928" y="5" width="169.5706776872768" height="342" fill="#ffffff" fill-opacity="0.35"/>
+<circle cx="560.0633952573928" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
 <text x="560.1" y="29.0" class="mono-m" font-size="11" fill="#983729" text-anchor="middle">W</text>
 <text x="579.1" y="29.0" class="mono-m" font-size="9.5" fill="#5c5548" text-anchor="start" letter-spacing="0.16em">WEB &amp; PRODUCT</text>
 <line x1="551.1" y1="50.0" x2="688.6" y2="50.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
@@ -64,8 +64,8 @@
 <text x="551.1" y="214.0" class="mono-m" font-size="13" fill="#141417" text-anchor="start">ew-dashboard</text>
 <text x="551.1" y="228.0" class="mono" font-size="10" fill="#6f6655" text-anchor="start">React analytics</text>
 <text x="688.6" y="335.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="end">5 sheets</text>
-<rect x="709.6340729446695" y="5" width="205.3659270553304" height="342" fill="#ffffff" fill-opacity="0.35"/>
-<circle cx="734.6340729446695" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
+<rect x="709.6340729446696" y="5" width="205.36592705533042" height="342" fill="#ffffff" fill-opacity="0.35"/>
+<circle cx="734.6340729446696" cy="25" r="10" fill="none" stroke="#983729" stroke-width="1"/>
 <text x="734.6" y="29.0" class="mono-m" font-size="11" fill="#983729" text-anchor="middle">R</text>
 <text x="753.6" y="29.0" class="mono-m" font-size="9.5" fill="#5c5548" text-anchor="start" letter-spacing="0.16em">RESEARCH NOTEBOOKS</text>
 <line x1="725.6" y1="50.0" x2="899.0" y2="50.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
@@ -92,17 +92,17 @@
 <rect x="31.0" y="346" width="26" height="7" fill="#fcfaf4"/>
 <path d="M31.0,347 V321 A26,26 0 0 1 57.0,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
 <line x1="31.0" y1="347.0" x2="31.0" y2="321.0" stroke="rgba(20,20,23,0.9)" stroke-width="1.6" stroke-linecap="square"/>
-<rect x="223.74365044336554" y="346" width="26" height="7" fill="#fcfaf4"/>
-<path d="M223.74365044336554,347 V321 A26,26 0 0 1 249.74365044336554,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
+<rect x="223.74365044336557" y="346" width="26" height="7" fill="#fcfaf4"/>
+<path d="M223.74365044336557,347 V321 A26,26 0 0 1 249.74365044336557,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
 <line x1="223.7" y1="347.0" x2="223.7" y2="321.0" stroke="rgba(20,20,23,0.9)" stroke-width="1.6" stroke-linecap="square"/>
-<rect x="388.952493680536" y="346" width="26" height="7" fill="#fcfaf4"/>
-<path d="M388.952493680536,347 V321 A26,26 0 0 1 414.952493680536,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
+<rect x="388.95249368053607" y="346" width="26" height="7" fill="#fcfaf4"/>
+<path d="M388.95249368053607,347 V321 A26,26 0 0 1 414.95249368053607,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
 <line x1="389.0" y1="347.0" x2="389.0" y2="321.0" stroke="rgba(20,20,23,0.9)" stroke-width="1.6" stroke-linecap="square"/>
-<rect x="561.0633952573927" y="346" width="26" height="7" fill="#fcfaf4"/>
-<path d="M561.0633952573927,347 V321 A26,26 0 0 1 587.0633952573927,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
+<rect x="561.0633952573928" y="346" width="26" height="7" fill="#fcfaf4"/>
+<path d="M561.0633952573928,347 V321 A26,26 0 0 1 587.0633952573928,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
 <line x1="561.1" y1="347.0" x2="561.1" y2="321.0" stroke="rgba(20,20,23,0.9)" stroke-width="1.6" stroke-linecap="square"/>
-<rect x="735.6340729446695" y="346" width="26" height="7" fill="#fcfaf4"/>
-<path d="M735.6340729446695,347 V321 A26,26 0 0 1 761.6340729446695,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
+<rect x="735.6340729446696" y="346" width="26" height="7" fill="#fcfaf4"/>
+<path d="M735.6340729446696,347 V321 A26,26 0 0 1 761.6340729446696,347" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>
 <line x1="735.6" y1="347.0" x2="735.6" y2="321.0" stroke="rgba(20,20,23,0.9)" stroke-width="1.6" stroke-linecap="square"/>
 <text x="12.0" y="370.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">key plan, not to scale. the corridor is where the ideas walk in.</text>
 <circle cx="896" cy="365" r="9" fill="none" stroke="rgba(20,20,23,0.62)" stroke-width="0.7"/>

@@ -4,8 +4,8 @@
 <defs><filter id="ng" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch" result="n"/><feColorMatrix type="matrix" values="0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0 0.5  0 0 0 0.055 0"/></filter></defs>
 <rect width="920" height="250" fill="#fcfaf4" stroke="rgba(20,20,23,0.62)" stroke-width="1"/>
 <text x="17.0" y="26.0" class="mono-m" font-size="9.5" fill="#6f6655" text-anchor="start" letter-spacing="0.16em">REPOSITORIES</text>
-<text x="16.0" y="82.0" class="serif" font-size="52" fill="#141417" text-anchor="start">33</text>
-<text x="17.0" y="108.0" class="mono" font-size="10.5" fill="#5c5548" text-anchor="start">28 public</text>
+<text x="16.0" y="82.0" class="serif" font-size="52" fill="#141417" text-anchor="start">28</text>
+<text x="17.0" y="108.0" class="mono" font-size="10.5" fill="#5c5548" text-anchor="start">all public</text>
 <line x1="171.0" y1="1.0" x2="171.0" y2="132.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
 <text x="187.0" y="26.0" class="mono-m" font-size="9.5" fill="#6f6655" text-anchor="start" letter-spacing="0.16em">CONTRIBUTIONS, LAST 12 MONTHS</text>
 <text x="186.0" y="82.0" class="serif" font-size="52" fill="#141417" text-anchor="start">276</text>
@@ -20,25 +20,25 @@
 <rect x="689" y="38.0" width="184.0" height="8" fill="#983729" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <text x="879.0" y="46.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">11</text>
 <text x="597.0" y="58.5" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">Python</text>
-<rect x="689" y="50.5" width="138.0" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<text x="833.0" y="58.5" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">9</text>
-<text x="597.0" y="71.0" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">HTML</text>
-<rect x="689" y="63.0" width="61.3" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<text x="756.3" y="71.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">4</text>
-<text x="597.0" y="83.5" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">Shell</text>
-<rect x="689" y="75.5" width="61.3" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<text x="756.3" y="83.5" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">4</text>
-<text x="597.0" y="96.0" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">CSS</text>
-<rect x="689" y="88.0" width="46.0" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<text x="741.0" y="96.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">3</text>
-<text x="597.0" y="108.5" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">JavaScript</text>
-<rect x="689" y="100.5" width="46.0" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<text x="741.0" y="108.5" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">3</text>
-<text x="597.0" y="121.0" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">C#</text>
-<rect x="689" y="113.0" width="15.3" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<text x="710.3" y="121.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">1</text>
+<rect x="689" y="50.5" width="150.5" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<text x="845.5" y="58.5" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">9</text>
+<text x="597.0" y="71.0" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">Shell</text>
+<rect x="689" y="63.0" width="50.2" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<text x="745.2" y="71.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">3</text>
+<text x="597.0" y="83.5" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">CSS</text>
+<rect x="689" y="75.5" width="50.2" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<text x="745.2" y="83.5" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">3</text>
+<text x="597.0" y="96.0" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">JavaScript</text>
+<rect x="689" y="88.0" width="33.5" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<text x="728.5" y="96.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">2</text>
+<text x="597.0" y="108.5" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">HTML</text>
+<rect x="689" y="100.5" width="33.5" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<text x="728.5" y="108.5" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">2</text>
+<text x="597.0" y="121.0" class="mono" font-size="9.5" fill="#413c34" text-anchor="start">PLpgSQL</text>
+<rect x="689" y="113.0" width="16.7" height="8" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<text x="711.7" y="121.0" class="mono" font-size="9.5" fill="#6f6655" text-anchor="start">1</text>
 <line x1="1.0" y1="132.0" x2="919.0" y2="132.0" stroke="rgba(20,20,23,0.62)" stroke-width="0.8" stroke-linecap="square"/>
-<text x="16.0" y="156.0" class="mono-m" font-size="9.5" fill="#6f6655" text-anchor="start" letter-spacing="0.16em">CONTRIBUTION PROFILE, LAST 52 WEEKS  ·  PEAK WEEK 105</text>
+<text x="16.0" y="156.0" class="mono-m" font-size="9.5" fill="#6f6655" text-anchor="start" letter-spacing="0.16em">CONTRIBUTION PROFILE, LAST 52 WEEKS  ·  PEAK WEEK 104</text>
 <line x1="16.0" y1="224.0" x2="16.0" y2="228.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
 <line x1="84.3" y1="224.0" x2="84.3" y2="228.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
 <line x1="152.6" y1="224.0" x2="152.6" y2="228.0" stroke="rgba(20,20,23,0.28)" stroke-width="0.6" stroke-linecap="square"/>
@@ -80,8 +80,8 @@
 <rect x="409.8" y="223.5" width="15.1" height="0.5" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="426.8" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="443.9" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<rect x="461.0" y="217.6" width="15.1" height="6.4" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<rect x="478.1" y="221.9" width="15.1" height="2.1" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<rect x="461.0" y="217.5" width="15.1" height="6.5" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<rect x="478.1" y="221.8" width="15.1" height="2.2" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="495.2" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="512.2" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="529.3" y="223.5" width="15.1" height="0.5" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
@@ -101,13 +101,13 @@
 <rect x="768.4" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="785.5" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="802.5" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<rect x="819.6" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<rect x="819.6" y="223.5" width="15.1" height="0.5" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="836.7" y="168.0" width="15.1" height="56.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<rect x="853.8" y="197.3" width="15.1" height="26.7" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<rect x="853.8" y="197.1" width="15.1" height="26.9" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
 <rect x="870.8" y="224.0" width="15.1" height="0.0" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<rect x="887.9" y="181.3" width="15.1" height="42.7" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
-<polyline points="24.5,224.0 41.6,224.0 58.7,224.0 75.8,224.0 92.8,224.0 109.9,224.0 127.0,224.0 144.1,224.0 161.2,224.0 178.2,224.0 195.3,224.0 212.4,222.9 229.5,223.5 246.5,224.0 263.6,224.0 280.7,223.5 297.8,224.0 314.8,222.4 331.9,224.0 349.0,222.9 366.1,224.0 383.2,224.0 400.2,224.0 417.3,223.5 434.4,224.0 451.5,224.0 468.5,217.6 485.6,221.9 502.7,224.0 519.8,224.0 536.8,223.5 553.9,224.0 571.0,224.0 588.1,224.0 605.2,224.0 622.2,222.9 639.3,224.0 656.4,224.0 673.5,221.3 690.5,224.0 707.6,224.0 724.7,224.0 741.8,220.8 758.8,223.5 775.9,224.0 793.0,224.0 810.1,224.0 827.2,224.0 844.2,168.0 861.3,197.3 878.4,224.0 895.5,181.3" fill="none" stroke="#983729" stroke-width="1" stroke-linejoin="round"/>
+<rect x="887.9" y="180.9" width="15.1" height="43.1" fill="rgba(152,55,41,0.14)" stroke="rgba(152,55,41,0.55)" stroke-width="0.6"/>
+<polyline points="24.5,224.0 41.6,224.0 58.7,224.0 75.8,224.0 92.8,224.0 109.9,224.0 127.0,224.0 144.1,224.0 161.2,224.0 178.2,224.0 195.3,224.0 212.4,222.9 229.5,223.5 246.5,224.0 263.6,224.0 280.7,223.5 297.8,224.0 314.8,222.4 331.9,224.0 349.0,222.9 366.1,224.0 383.2,224.0 400.2,224.0 417.3,223.5 434.4,224.0 451.5,224.0 468.5,217.5 485.6,221.8 502.7,224.0 519.8,224.0 536.8,223.5 553.9,224.0 571.0,224.0 588.1,224.0 605.2,224.0 622.2,222.9 639.3,224.0 656.4,224.0 673.5,221.3 690.5,224.0 707.6,224.0 724.7,224.0 741.8,220.8 758.8,223.5 775.9,224.0 793.0,224.0 810.1,224.0 827.2,223.5 844.2,168.0 861.3,197.1 878.4,224.0 895.5,180.9" fill="none" stroke="#983729" stroke-width="1" stroke-linejoin="round"/>
 <text x="16.0" y="240.0" class="mono" font-size="9" fill="#6f6655" text-anchor="start">52 weeks ago</text>
-<text x="904.0" y="240.0" class="mono" font-size="9" fill="#6f6655" text-anchor="end">this week · updated 2026-10-10</text>
+<text x="904.0" y="240.0" class="mono" font-size="9" fill="#6f6655" text-anchor="end">this week · updated 2026-10-09</text>
 <rect x="1" y="1" width="918" height="248" filter="url(#ng)" pointer-events="none"/>
 </svg>
