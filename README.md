@@ -11,6 +11,8 @@
   <a href="mailto:contact@akshaybajpai.com"><b>contact@akshaybajpai.com</b></a>
 </p>
 
+<p align="center"><sub>Last updated <!-- updated:start -->10 October 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
+
 <br>
 
 <picture>
@@ -135,7 +137,7 @@
 <br>
 <br>
 
-<p align="center">
-  <i>Reliability is a feature. So is honesty about what isn't done yet.</i><br>
-  <b>In thrust we trust.</b>
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/closing.svg">
+  <img src="assets/light/closing.svg" width="100%" alt="End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet.">
+</picture>
