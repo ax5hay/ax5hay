@@ -1,13 +1,13 @@
 {
- "generated": "2026-11-06",
- "repos_total": 28,
- "repos_public": 28,
- "contributions_last_year": 338,
+ "generated": "2026-11-07",
+ "repos_total": 29,
+ "repos_public": 29,
+ "contributions_last_year": 611,
  "active_since": "2020",
  "languages_by_repos": [
   {
    "name": "TypeScript",
-   "repos": 11
+   "repos": 12
   },
   {
    "name": "Jupyter Notebook",
@@ -34,6 +34,10 @@
    "repos": 2
   },
   {
+   "name": "Rust",
+   "repos": 2
+  },
+  {
    "name": "PLpgSQL",
    "repos": 1
   },
@@ -42,11 +46,11 @@
    "repos": 1
   },
   {
-   "name": "Rust",
+   "name": "Astro",
    "repos": 1
   },
   {
-   "name": "Astro",
+   "name": "Svelte",
    "repos": 1
   }
  ],
@@ -102,6 +106,6 @@
   34,
   3,
   0,
-  0
+  273
  ]
 }
