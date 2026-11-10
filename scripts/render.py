@@ -193,12 +193,12 @@ def plate_hero(t, stats, updated, rev) -> str:
     o.append(text(56, 170, "Akshay Bajpai", "serif", 78, t["ink"]))
     o.append(text(58, 222, "In thrust we trust.", "serif-i", 36, t["accent"]))
     o.append(rule(58, 250, 178, 250, t["rule_strong"], 0.8))
-    o.append(text(58, 284, "I take software from a blank page to the", "mono", 13, t["ink2"]))
-    o.append(text(58, 304, "thing people run, AI or otherwise: built to", "mono", 13, t["ink2"]))
-    o.append(text(58, 324, "hold under load, state its own assumptions,", "mono", 13, t["ink2"]))
-    o.append(text(58, 344, "and fail loud instead of silent.", "mono", 13, t["ink2"]))
-    o.append(label(58, 386, "Architect of systems  ·  builder of products", t, t["ink3"]))
-    o.append(label(58, 406, "AI · data · vision · desktop · edge · cloud", t, t["ink4"]))
+    o.append(text(58, 284, "I lead technology from the first client", "mono", 13, t["ink2"]))
+    o.append(text(58, 304, "conversation to the release: the architecture,", "mono", 13, t["ink2"]))
+    o.append(text(58, 324, "the team, the code, and the runbook after.", "mono", 13, t["ink2"]))
+    o.append(text(58, 344, "Built to hold under load and fail loud.", "mono", 13, t["ink2"]))
+    o.append(label(58, 386, "Boardroom to bare metal", t, t["accent"]))
+    o.append(label(58, 406, "Clients · teams · architecture · AI · code", t, t["ink4"]))
 
     # ---- right field: the engine, in section
     o.append(engine_section(t, cx=574, top=50))
@@ -454,11 +454,11 @@ def plate_schedule(t, stack) -> str:
     ly = y + 14
     o.append(label(14, ly + 10, "legend", t))
     o.append(f'<rect x="{LAB_W+12}" y="{ly}" width="16" height="12" rx="2" fill="{t["accent_soft"]}" stroke="{t["accent_line"]}" stroke-width="0.8"/>')
-    o.append(text(LAB_W + 36, ly + 10, "in three or more repositories", "mono", 10.5, t["ink3"]))
-    o.append(f'<rect x="{LAB_W+262}" y="{ly}" width="16" height="12" rx="2" fill="none" stroke="{t["rule"]}" stroke-width="0.8"/>')
-    o.append(text(LAB_W + 286, ly + 10, "in one or two", "mono", 10.5, t["ink3"]))
+    o.append(text(LAB_W + 36, ly + 10, "in three or more repos or engagements", "mono", 10.5, t["ink3"]))
+    o.append(f'<rect x="{LAB_W+304}" y="{ly}" width="16" height="12" rx="2" fill="none" stroke="{t["rule"]}" stroke-width="0.8"/>')
+    o.append(text(LAB_W + 328, ly + 10, "in one or two", "mono", 10.5, t["ink3"]))
     total = sum(len(c["items"]) for c in stack)
-    o.append(text(W - 14, ly + 10, f"{total} items, from every repo I have pushed", "mono", 10.5, t["ink4"], "end"))
+    o.append(text(W - 14, ly + 10, f"{total} items, from every repo and engagement", "mono", 10.5, t["ink4"], "end"))
     o.append(grain(1, 1, W - 2, H - 2, "sg"))
     return svg(W, H, "\n".join(o), ("serif", "mono", "mono-m"),
                "Schedule of materials: every technology across my repositories, grouped by discipline.")
@@ -634,7 +634,7 @@ def main():
     rev = revision() + 1  # this render lands in the next commit
     headers = [
         ("notes", "GN", "General notes", "read before the drawings", "01 / 06"),
-        ("details", "DT", "Detail sheets", "the newest work, drawn larger", "02 / 06"),
+        ("record", "RW", "Record of work", "what was built, and what it changed", "02 / 06"),
         ("keyplan", "KP", "Key plan", "sheets filed by domain", "03 / 06"),
         ("index", "SI", "Sheet index", "numbered like the site", "04 / 06"),
         ("schedule", "SM", "Schedule of materials", "every tool, from every repo", "05 / 06"),

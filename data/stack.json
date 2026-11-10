@@ -1,7 +1,79 @@
 [
  {
-  "category": "Practice & delivery",
+  "category": "Leadership & practice",
   "items": [
+   {
+    "name": "Technical leadership",
+    "repos": [],
+    "engagements": [
+     "defence video intelligence",
+     "multi-tenant health AI",
+     "restaurant-operations SaaS",
+     "finance and healthcare AI"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Building engineering teams",
+    "repos": [],
+    "engagements": [
+     "defence video intelligence",
+     "restaurant-operations SaaS"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Client & stakeholder ownership",
+    "repos": [],
+    "engagements": [
+     "multi-tenant health AI",
+     "defence video intelligence",
+     "finance and healthcare AI"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Product strategy & roadmaps",
+    "repos": [],
+    "engagements": [
+     "multi-tenant health AI",
+     "restaurant-operations SaaS",
+     "prototype to federal SaaS"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Executive & C-suite readouts",
+    "repos": [],
+    "engagements": [
+     "multi-tenant health AI"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Scope negotiation",
+    "repos": [],
+    "engagements": [
+     "multi-tenant health AI"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Release governance & UAT",
+    "repos": [],
+    "engagements": [
+     "multi-tenant health AI"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Forward-deployed engineering",
+    "repos": [],
+    "engagements": [
+     "multi-tenant health AI"
+    ],
+    "n": 1
+   },
    {
     "name": "System architecture",
     "repos": [
