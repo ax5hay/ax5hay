@@ -5,6 +5,7 @@
       "title": "AI & LLM systems",
       "projects": [
         {"name": "AURIXA", "sub": "governed care-ops platform"},
+        {"name": "ReBo", "sub": "self-learning SQL reports"},
         {"name": "GHDA-SaaS", "sub": "gov health-data automation"},
         {"name": "OCR-LLM-DIST", "sub": "local document chat"},
         {"name": "ai-automation", "sub": "support triage, multichannel"},
@@ -14,11 +15,12 @@
     },
     {
       "code": "V",
-      "title": "Vision & edge",
+      "title": "Vision, edge & desktop",
       "projects": [
         {"name": "Vigilix", "sub": "AI video wall"},
         {"name": "DADM", "sub": "defensive AI mesh"},
-        {"name": "FlowState", "sub": "desktop video analytics"}
+        {"name": "FlowState", "sub": "offline threat console"},
+        {"name": "KeepMeAwake", "sub": "native tray app, Rust"}
       ]
     },
     {
@@ -39,7 +41,8 @@
         {"name": "akshaybajpai.com", "sub": "a site as a drawing set"},
         {"name": "medhathapliyal.site", "sub": "notebook portfolio"},
         {"name": "aiximius.com", "sub": "company site, no build"},
-        {"name": "ew-dashboard", "sub": "React analytics"}
+        {"name": "ew-dashboard", "sub": "React analytics"},
+        {"name": "Merakiel.in", "sub": "a doorplate, client work"}
       ]
     },
     {

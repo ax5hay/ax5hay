@@ -1,5 +1,168 @@
 [
  {
+  "category": "Practice & delivery",
+  "items": [
+   {
+    "name": "System architecture",
+    "repos": [
+     "AIDA",
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "GHDA-SaaS",
+     "KeepMeAwake",
+     "MirrorState",
+     "Vigilix",
+     "rebo"
+    ],
+    "n": 9
+   },
+   {
+    "name": "Design docs & specs",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "KeepMeAwake",
+     "MirrorState",
+     "akshay-medha-wedding-2026",
+     "rebo",
+     "shelf"
+    ],
+    "n": 8
+   },
+   {
+    "name": "Architecture decision records",
+    "repos": [
+     "FlowState",
+     "KeepMeAwake",
+     "MirrorState",
+     "shelf"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Runbooks & operations",
+    "repos": [
+     "AURIXA",
+     "DADM-Aiximius",
+     "FlowState",
+     "rebo",
+     "shelf"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Security policy & threat modelling",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState",
+     "KeepMeAwake",
+     "rebo",
+     "shelf"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Multi-tenant SaaS design",
+    "repos": [
+     "AURIXA",
+     "RestroScraper-PY",
+     "Vigilix"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Air-gapped delivery",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState"
+    ],
+    "n": 2
+   },
+   {
+    "name": "LLM evals & cost engineering",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Resource & inference budgets",
+    "repos": [
+     "FlowState",
+     "KeepMeAwake"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Cross-platform release pipelines",
+    "repos": [
+     "FlowState",
+     "KeepMeAwake"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Changelogs & semver",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState",
+     "KeepMeAwake",
+     "OCR-LLM-DIST"
+    ],
+    "n": 4
+   },
+   {
+    "name": "Conventional commits",
+    "repos": [
+     "AURIXA",
+     "KeepMeAwake",
+     "MirrorState",
+     "RestroScraper-PY",
+     "rebo"
+    ],
+    "n": 5
+   },
+   {
+    "name": "Handoff notes",
+    "repos": [
+     "KeepMeAwake",
+     "medhathapliyal.site",
+     "rebo"
+    ],
+    "n": 3
+   },
+   {
+    "name": "Agentic dev workflows",
+    "repos": [
+     "FlowState",
+     "KeepMeAwake",
+     "rebo"
+    ],
+    "n": 3
+   },
+   {
+    "name": "UX writing in plain words",
+    "repos": [
+     "KeepMeAwake",
+     "rebo"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Brand & visual design",
+    "repos": [
+     "FlowState",
+     "KeepMeAwake",
+     "akshaybajpai.com",
+     "rebo"
+    ],
+    "n": 4
+   }
+  ]
+ },
+ {
   "category": "Languages",
   "items": [
    {
@@ -7,17 +170,20 @@
     "repos": [
      "AIDA",
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
      "JobSlave",
+     "KeepMeAwake",
      "MirrorState",
      "OCR-LLM-DIST",
      "RestroScraper-PY",
      "Vigilix",
      "ai-automation-main",
      "akshaybajpai.com",
+     "rebo",
      "shelf"
     ],
-    "n": 11
+    "n": 14
    },
    {
     "name": "Python",
@@ -38,9 +204,10 @@
      "Stock-Market-Prediction-GRU",
      "TracePulse",
      "Vigilix",
+     "rebo",
      "shelf"
     ],
-    "n": 17
+    "n": 18
    },
    {
     "name": "JavaScript",
@@ -66,9 +233,10 @@
    {
     "name": "Rust",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "KeepMeAwake"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "SQL",
@@ -81,9 +249,10 @@
      "RestroScraper-PY",
      "Vigilix",
      "ai-automation-main",
+     "rebo",
      "shelf"
     ],
-    "n": 9
+    "n": 10
    },
    {
     "name": "Bash",
@@ -107,8 +276,10 @@
     "repos": [
      "AIDA",
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
      "JobSlave",
+     "KeepMeAwake",
      "Merakiel.in",
      "MirrorState",
      "OCR-LLM-DIST",
@@ -118,9 +289,10 @@
      "akshaybajpai.com",
      "ew-dashboard",
      "medhathapliyal.site",
+     "rebo",
      "shelf"
     ],
-    "n": 14
+    "n": 17
    },
    {
     "name": "SCSS",
@@ -161,6 +333,7 @@
     "repos": [
      "AIDA",
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
      "JobSlave",
      "MirrorState",
@@ -168,9 +341,10 @@
      "Vigilix",
      "ai-automation-main",
      "akshaybajpai.com",
-     "ew-dashboard"
+     "ew-dashboard",
+     "rebo"
     ],
-    "n": 10
+    "n": 12
    },
    {
     "name": "Next.js",
@@ -200,13 +374,23 @@
     "n": 1
    },
    {
+    "name": "Svelte 5",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
     "name": "Vite",
     "repos": [
      "AURIXA",
+     "FlowState",
      "JobSlave",
-     "Vigilix"
+     "KeepMeAwake",
+     "Vigilix",
+     "rebo"
     ],
-    "n": 3
+    "n": 6
    },
    {
     "name": "Create React App",
@@ -260,6 +444,13 @@
     "n": 1
    },
    {
+    "name": "React Aria",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
     "name": "Framer Motion",
     "repos": [
      "AIDA",
@@ -275,25 +466,28 @@
      "AIDA",
      "GHDA-SaaS",
      "JobSlave",
-     "MirrorState"
+     "MirrorState",
+     "rebo"
     ],
-    "n": 4
+    "n": 5
    },
    {
     "name": "Zustand",
     "repos": [
+     "FlowState",
      "JobSlave",
      "MirrorState"
     ],
-    "n": 2
+    "n": 3
    },
    {
     "name": "React Router",
     "repos": [
      "JobSlave",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 2
+    "n": 3
    },
    {
     "name": "RxJS",
@@ -313,14 +507,16 @@
    {
     "name": "Lucide",
     "repos": [
+     "FlowState",
      "GHDA-SaaS",
      "JobSlave",
      "OCR-LLM-DIST",
      "Vigilix",
      "ai-automation-main",
-     "ew-dashboard"
+     "ew-dashboard",
+     "rebo"
     ],
-    "n": 6
+    "n": 8
    },
    {
     "name": "Quill",
@@ -342,9 +538,10 @@
      "AIDA",
      "ai-automation-main",
      "akshaybajpai.com",
+     "rebo",
      "shelf"
     ],
-    "n": 4
+    "n": 5
    },
    {
     "name": "Transloco i18n",
@@ -386,6 +583,34 @@
      "akshaybajpai.com"
     ],
     "n": 1
+   },
+   {
+    "name": "cmdk",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "CodeMirror",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Sonner",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Liquid Glass (SVG lensing)",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    }
   ]
  },
@@ -401,6 +626,20 @@
      "ew-dashboard"
     ],
     "n": 4
+   },
+   {
+    "name": "Observable Plot",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "uPlot",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
    },
    {
     "name": "Apache ECharts",
@@ -492,12 +731,14 @@
     "name": "FastAPI",
     "repos": [
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
      "OCR-LLM-DIST",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 5
+    "n": 7
    },
    {
     "name": "Starlette",
@@ -519,12 +760,14 @@
     "name": "Uvicorn",
     "repos": [
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
      "OCR-LLM-DIST",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 5
+    "n": 7
    },
    {
     "name": "Gunicorn",
@@ -560,9 +803,10 @@
     "name": "WebSockets",
     "repos": [
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS"
     ],
-    "n": 2
+    "n": 3
    },
    {
     "name": "SignalR",
@@ -576,9 +820,17 @@
     "repos": [
      "AURIXA",
      "JobSlave",
-     "OCR-LLM-DIST"
+     "OCR-LLM-DIST",
+     "rebo"
     ],
-    "n": 3
+    "n": 4
+   },
+   {
+    "name": "AG-UI event stream",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "OpenAPI / Swagger",
@@ -604,9 +856,10 @@
      "AURIXA",
      "GHDA-SaaS",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 4
+    "n": 5
    },
    {
     "name": "class-validator",
@@ -632,16 +885,18 @@
      "RestroScraper-PY",
      "Vigilix",
      "ai-automation-main",
+     "rebo",
      "shelf"
     ],
-    "n": 7
+    "n": 8
    },
    {
     "name": "OpenID Connect",
     "repos": [
+     "rebo",
      "shelf"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "ASP.NET Identity",
@@ -710,6 +965,13 @@
     "n": 1
    },
    {
+    "name": "Lease-based job queue",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
     "name": "node-cron",
     "repos": [
      "ai-automation-main"
@@ -742,11 +1004,13 @@
     "name": "Axios / httpx",
     "repos": [
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
      "Vigilix",
-     "ai-automation-main"
+     "ai-automation-main",
+     "rebo"
     ],
-    "n": 4
+    "n": 6
    },
    {
     "name": "aiohttp",
@@ -766,21 +1030,45 @@
    {
     "name": "reqwest",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "KeepMeAwake"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "tokio",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "KeepMeAwake"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "serde",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "KeepMeAwake"
+    ],
+    "n": 2
+   },
+   {
+    "name": "thiserror",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "parking_lot",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "chrono",
+    "repos": [
+     "KeepMeAwake"
     ],
     "n": 1
    }
@@ -794,23 +1082,28 @@
     "repos": [
      "AIDA",
      "AURIXA",
-     "ai-automation-main"
+     "KeepMeAwake",
+     "ai-automation-main",
+     "rebo"
     ],
-    "n": 3
+    "n": 5
    },
    {
     "name": "Anthropic Claude",
     "repos": [
-     "AURIXA"
+     "AURIXA",
+     "KeepMeAwake",
+     "rebo"
     ],
-    "n": 1
+    "n": 3
    },
    {
     "name": "Google Gemini",
     "repos": [
-     "AURIXA"
+     "AURIXA",
+     "rebo"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "Ollama",
@@ -829,9 +1122,24 @@
      "GHDA-SaaS",
      "JobSlave",
      "OCR-LLM-DIST",
-     "OCR-LocalLLM"
+     "OCR-LocalLLM",
+     "rebo"
     ],
-    "n": 6
+    "n": 7
+   },
+   {
+    "name": "Pydantic AI",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "OpenRouter",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "LangChain",
@@ -851,28 +1159,81 @@
     "n": 4
    },
    {
+    "name": "Text-to-SQL agents",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "MCP servers",
+    "repos": [
+     "rebo",
+     "shelf"
+    ],
+    "n": 2
+   },
+   {
     "name": "LLM guardrails",
     "repos": [
      "AURIXA",
      "DADM-Aiximius",
-     "GHDA-SaaS"
+     "GHDA-SaaS",
+     "KeepMeAwake",
+     "rebo"
     ],
-    "n": 3
+    "n": 5
    },
    {
     "name": "Prompt & schema contracts",
     "repos": [
+     "AIDA",
      "AURIXA",
      "GHDA-SaaS",
-     "AIDA",
-     "MirrorState"
+     "MirrorState",
+     "rebo"
     ],
-    "n": 4
+    "n": 5
+   },
+   {
+    "name": "Model cascades",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Prompt caching",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "pydantic-evals",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Arize Phoenix",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "sentence-transformers",
     "repos": [
      "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "fastembed",
+    "repos": [
+     "rebo"
     ],
     "n": 1
    },
@@ -886,7 +1247,15 @@
    {
     "name": "BM25",
     "repos": [
-     "AURIXA"
+     "AURIXA",
+     "rebo"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Reciprocal rank fusion",
+    "repos": [
+     "rebo"
     ],
     "n": 1
    },
@@ -914,9 +1283,10 @@
    {
     "name": "fuzzy matching",
     "repos": [
-     "ai-automation-main"
+     "ai-automation-main",
+     "rebo"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "faster-whisper",
@@ -1039,9 +1409,10 @@
      "RNN_TheSocialDilemma",
      "RestroScraper-PY",
      "Stock-Market-Prediction-GRU",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 12
+    "n": 13
    },
    {
     "name": "pandas",
@@ -1106,9 +1477,10 @@
    {
     "name": "ONNX Runtime",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "FlowState"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "Jupyter",
@@ -1172,9 +1544,10 @@
    {
     "name": "Anomaly detection",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "FlowState"
     ],
-    "n": 1
+    "n": 2
    }
   ]
  },
@@ -1214,6 +1587,34 @@
    },
    {
     "name": "supervision",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Pose & posture estimation",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "PPE detection",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "ANPR (number plates)",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Multi-signal threat scoring",
     "repos": [
      "FlowState"
     ],
@@ -1410,9 +1811,17 @@
      "GHDA-SaaS",
      "MirrorState",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 6
+    "n": 7
+   },
+   {
+    "name": "MySQL / MariaDB",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "Redis",
@@ -1429,10 +1838,19 @@
     "name": "SQLite",
     "repos": [
      "DADM-Aiximius",
+     "FlowState",
      "JobSlave",
+     "rebo",
      "shelf"
     ],
-    "n": 3
+    "n": 5
+   },
+   {
+    "name": "SQLite FTS5",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "Neo4j",
@@ -1459,6 +1877,13 @@
     "name": "FAISS (vector)",
     "repos": [
      "AURIXA"
+    ],
+    "n": 1
+   },
+   {
+    "name": "pgvector",
+    "repos": [
+     "rebo"
     ],
     "n": 1
    },
@@ -1490,18 +1915,20 @@
      "AURIXA",
      "GHDA-SaaS",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 4
+    "n": 5
    },
    {
     "name": "Alembic",
     "repos": [
      "AURIXA",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 3
+    "n": 4
    },
    {
     "name": "asyncpg",
@@ -1517,9 +1944,17 @@
     "repos": [
      "AURIXA",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 3
+    "n": 4
+   },
+   {
+    "name": "sqlglot (SQL ASTs)",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "Entity Framework Core",
@@ -1535,6 +1970,13 @@
      "ai-automation-main"
     ],
     "n": 2
+   },
+   {
+    "name": "PostgreSQL row-level security",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    },
    {
     "name": "JSONB storage",
@@ -1576,9 +2018,10 @@
      "RestroScraper-PY",
      "Vigilix",
      "ai-automation-main",
+     "rebo",
      "shelf"
     ],
-    "n": 11
+    "n": 12
    },
    {
     "name": "Docker Compose",
@@ -1591,9 +2034,10 @@
      "OCR-LLM-DIST",
      "RestroScraper-PY",
      "Vigilix",
-     "ai-automation-main"
+     "ai-automation-main",
+     "rebo"
     ],
-    "n": 9
+    "n": 10
    },
    {
     "name": "Kubernetes",
@@ -1689,14 +2133,27 @@
      "AURIXA",
      "DADM-Aiximius",
      "FlowState",
+     "KeepMeAwake",
      "OCR-LLM-DIST",
      "TracePulse",
      "Vigilix",
      "akshaybajpai.com",
      "medhathapliyal.site",
+     "rebo",
      "shelf"
     ],
-    "n": 9
+    "n": 11
+   },
+   {
+    "name": "Dependabot",
+    "repos": [
+     "DADM-Aiximius",
+     "FlowState",
+     "KeepMeAwake",
+     "Vigilix",
+     "rebo"
+    ],
+    "n": 5
    },
    {
     "name": "GitHub Pages",
@@ -1707,6 +2164,35 @@
      "medhathapliyal.site"
     ],
     "n": 4
+   },
+   {
+    "name": "GitHub Releases",
+    "repos": [
+     "FlowState",
+     "KeepMeAwake"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Signed auto-updates",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "NSIS & DMG installers",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Relocatable Python runtime",
+    "repos": [
+     "FlowState"
+    ],
+    "n": 1
    },
    {
     "name": "Docker Buildx",
@@ -1757,24 +2243,27 @@
    {
     "name": "uv",
     "repos": [
-     "AURIXA"
+     "AURIXA",
+     "rebo"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "Make",
     "repos": [
      "DADM-Aiximius",
+     "FlowState",
      "Vigilix"
     ],
-    "n": 2
+    "n": 3
    },
    {
     "name": "Air-gapped, zero-trust deploys",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "FlowState"
     ],
-    "n": 1
+    "n": 2
    }
   ]
  },
@@ -1808,7 +2297,15 @@
    {
     "name": "OpenTelemetry",
     "repos": [
-     "AURIXA"
+     "AURIXA",
+     "rebo"
+    ],
+    "n": 2
+   },
+   {
+    "name": "Arize Phoenix tracing",
+    "repos": [
+     "rebo"
     ],
     "n": 1
    },
@@ -1870,6 +2367,34 @@
     "n": 1
    },
    {
+    "name": "oauth2-proxy",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "OS credential store (keyring)",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Content Security Policy",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Secret & PII detection",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
     "name": "CodeQL / SARIF",
     "repos": [
      "AURIXA"
@@ -1907,9 +2432,10 @@
    {
     "name": "pre-commit",
     "repos": [
-     "OCR-LLM-DIST"
+     "OCR-LLM-DIST",
+     "rebo"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "AES-GCM / ring",
@@ -1919,12 +2445,20 @@
     "n": 1
    },
    {
+    "name": "rustls",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
     "name": "cryptography (py)",
     "repos": [
      "DADM-Aiximius",
+     "FlowState",
      "Vigilix"
     ],
-    "n": 2
+    "n": 3
    },
    {
     "name": "SHA-2 / HMAC",
@@ -1949,11 +2483,13 @@
     "name": "Vitest",
     "repos": [
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
+     "KeepMeAwake",
      "MirrorState",
      "Vigilix"
     ],
-    "n": 4
+    "n": 6
    },
    {
     "name": "Jest",
@@ -1970,17 +2506,19 @@
      "FlowState",
      "OCR-LLM-DIST",
      "RestroScraper-PY",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 6
+    "n": 7
    },
    {
     "name": "pytest-asyncio",
     "repos": [
      "AURIXA",
-     "RestroScraper-PY"
+     "RestroScraper-PY",
+     "rebo"
     ],
-    "n": 2
+    "n": 3
    },
    {
     "name": "Playwright",
@@ -1988,9 +2526,10 @@
      "AURIXA",
      "JobSlave",
      "RestroScraper-PY",
-     "id1sas-surveycto"
+     "id1sas-surveycto",
+     "rebo"
     ],
-    "n": 4
+    "n": 5
    },
    {
     "name": "Selenium",
@@ -2002,10 +2541,18 @@
    {
     "name": "Testing Library",
     "repos": [
+     "KeepMeAwake",
      "ai-automation-main",
      "ew-dashboard"
     ],
-    "n": 2
+    "n": 3
+   },
+   {
+    "name": "jsdom",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
    },
    {
     "name": "Supertest",
@@ -2043,6 +2590,48 @@
     "n": 1
    },
    {
+    "name": "cargo test",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Clippy (pedantic)",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "rustfmt",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "svelte-check",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Golden-set evals",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Metamorphic SQL probes",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
     "name": "Karma",
     "repos": [
      "shelf"
@@ -2053,43 +2642,50 @@
     "name": "ESLint",
     "repos": [
      "AURIXA",
+     "FlowState",
      "GHDA-SaaS",
+     "KeepMeAwake",
      "MirrorState",
      "Vigilix",
      "ai-automation-main",
      "shelf"
     ],
-    "n": 6
+    "n": 8
    },
    {
     "name": "typescript-eslint",
     "repos": [
      "AURIXA",
+     "FlowState",
+     "KeepMeAwake",
      "MirrorState",
      "Vigilix",
      "ai-automation-main",
      "shelf"
     ],
-    "n": 5
+    "n": 7
    },
    {
     "name": "Prettier",
     "repos": [
      "AURIXA",
+     "FlowState",
+     "KeepMeAwake",
      "MirrorState",
      "Vigilix",
      "ai-automation-main"
     ],
-    "n": 4
+    "n": 6
    },
    {
     "name": "Ruff",
     "repos": [
      "DADM-Aiximius",
      "FlowState",
-     "Vigilix"
+     "Vigilix",
+     "rebo"
     ],
-    "n": 3
+    "n": 4
    },
    {
     "name": "Black",
@@ -2140,11 +2736,19 @@
   "category": "Desktop, edge & automation",
   "items": [
    {
-    "name": "Electron",
+    "name": "Tauri 2",
     "repos": [
-     "JobSlave"
+     "KeepMeAwake"
     ],
     "n": 1
+   },
+   {
+    "name": "Electron",
+    "repos": [
+     "FlowState",
+     "JobSlave"
+    ],
+    "n": 2
    },
    {
     "name": "electron-vite",
@@ -2156,7 +2760,36 @@
    {
     "name": "electron-builder",
     "repos": [
+     "FlowState",
      "JobSlave"
+    ],
+    "n": 2
+   },
+   {
+    "name": "System tray & menu bar apps",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Win32 power requests",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "IOKit / Core Foundation",
+    "repos": [
+     "KeepMeAwake"
+    ],
+    "n": 1
+   },
+   {
+    "name": "Global hotkeys",
+    "repos": [
+     "KeepMeAwake"
     ],
     "n": 1
    },
@@ -2183,6 +2816,13 @@
     "n": 2
    },
    {
+    "name": "NiceGUI",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
+   },
+   {
     "name": "Rust edge agent",
     "repos": [
      "DADM-Aiximius"
@@ -2199,9 +2839,10 @@
    {
     "name": "Windows API (Rust)",
     "repos": [
-     "DADM-Aiximius"
+     "DADM-Aiximius",
+     "KeepMeAwake"
     ],
-    "n": 1
+    "n": 2
    },
    {
     "name": "Playwright automation",
@@ -2321,9 +2962,17 @@
      "Merakiel.in",
      "aiximius.com",
      "akshaybajpai.com",
-     "medhathapliyal.site"
+     "medhathapliyal.site",
+     "rebo"
     ],
-    "n": 4
+    "n": 5
+   },
+   {
+    "name": "Webhooks",
+    "repos": [
+     "rebo"
+    ],
+    "n": 1
    }
   ]
  }

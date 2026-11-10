@@ -193,15 +193,15 @@ def plate_hero(t, stats, updated, rev) -> str:
     o.append(text(56, 170, "Akshay Bajpai", "serif", 78, t["ink"]))
     o.append(text(58, 222, "In thrust we trust.", "serif-i", 36, t["accent"]))
     o.append(rule(58, 250, 178, 250, t["rule_strong"], 0.8))
-    o.append(text(58, 284, "I build reliable, robust software systems,", "mono", 13, t["ink2"]))
-    o.append(text(58, 304, "AI or otherwise. The kind that holds under", "mono", 13, t["ink2"]))
-    o.append(text(58, 324, "load, states its own assumptions, and fails", "mono", 13, t["ink2"]))
-    o.append(text(58, 344, "loud instead of silent.", "mono", 13, t["ink2"]))
-    o.append(label(58, 386, "AI architect  ·  forward-deployed AI engineer", t, t["ink3"]))
-    o.append(label(58, 406, "Systems that behave: LLM, vision, edge, data", t, t["ink4"]))
+    o.append(text(58, 284, "I take software from a blank page to the", "mono", 13, t["ink2"]))
+    o.append(text(58, 304, "thing people run, AI or otherwise: built to", "mono", 13, t["ink2"]))
+    o.append(text(58, 324, "hold under load, state its own assumptions,", "mono", 13, t["ink2"]))
+    o.append(text(58, 344, "and fail loud instead of silent.", "mono", 13, t["ink2"]))
+    o.append(label(58, 386, "Architect of systems  ·  builder of products", t, t["ink3"]))
+    o.append(label(58, 406, "AI · data · vision · desktop · edge · cloud", t, t["ink4"]))
 
     # ---- right field: the engine, in section
-    o.append(engine_section(t, cx=586, top=50))
+    o.append(engine_section(t, cx=574, top=50))
 
     # ---- title block
     o.append(rule(30, TB, W - 30, TB, t["rule_strong"], 1))
@@ -353,6 +353,10 @@ def plate_keyplan(t, zones) -> str:
         widths.append(max(longest + 2 * PAD + 10, mono_w(z["title"], 9.5, 0.16) + 2 * PAD + 40))
     scale = (W - WALL) / sum(widths)
     widths = [w * scale for w in widths]
+    # rooms share the sheet by content; when the content is wider than the
+    # sheet, the lettering shrinks with the rooms instead of running into walls
+    fs = min(1.0, scale)
+    NAME, SUB, TITLE = 13 * fs, 10 * fs, 9.5 * fs
     o = [f'<defs>{grid_defs(t, "k")}{grain_defs(t, "kg")}</defs>',
          f'<rect width="{W}" height="{H}" fill="{t["sheet"]}"/>',
          f'<rect x="0" y="0" width="{W}" height="{H}" fill="url(#kM)"/>']
@@ -361,12 +365,12 @@ def plate_keyplan(t, zones) -> str:
         o.append(f'<rect x="{x+WALL}" y="{WALL}" width="{w-WALL}" height="{H-2*WALL-26}" fill="{t["raised"]}" fill-opacity="0.35"/>')
         o.append(f'<circle cx="{x+WALL+PAD+9}" cy="{WALL+PAD+4}" r="10" fill="none" stroke="{t["accent"]}" stroke-width="1"/>')
         o.append(text(x + WALL + PAD + 9, WALL + PAD + 8, z["code"], "mono-m", 11, t["accent"], "middle"))
-        o.append(label(x + WALL + PAD + 28, WALL + PAD + 8, z["title"], t, t["ink3"]))
+        o.append(label(x + WALL + PAD + 28, WALL + PAD + 8, z["title"], t, t["ink3"], round(TITLE, 2)))
         o.append(rule(x + WALL + PAD, TOP, x + w - PAD, TOP, t["rule"], 0.6))
         for i, p in enumerate(z["projects"]):
             y = TOP + PAD + i * ROW_H
-            o.append(text(x + WALL + PAD, y + 12, p["name"], "mono-m", 13, t["ink"]))
-            o.append(text(x + WALL + PAD, y + 26, p["sub"], "mono", 10, t["ink4"]))
+            o.append(text(x + WALL + PAD, y + 12, p["name"], "mono-m", round(NAME, 2), t["ink"]))
+            o.append(text(x + WALL + PAD, y + 26, p["sub"], "mono", round(SUB, 2), t["ink4"]))
         n = len(z["projects"])
         o.append(text(x + w - PAD, H - 26 - WALL - 12, f"{n} sheet{'s' if n != 1 else ''}", "mono", 9.5, t["ink4"], "end"))
         x += w
@@ -454,7 +458,7 @@ def plate_schedule(t, stack) -> str:
     o.append(f'<rect x="{LAB_W+262}" y="{ly}" width="16" height="12" rx="2" fill="none" stroke="{t["rule"]}" stroke-width="0.8"/>')
     o.append(text(LAB_W + 286, ly + 10, "in one or two", "mono", 10.5, t["ink3"]))
     total = sum(len(c["items"]) for c in stack)
-    o.append(text(W - 14, ly + 10, f"{total} items, from every manifest I have pushed", "mono", 10.5, t["ink4"], "end"))
+    o.append(text(W - 14, ly + 10, f"{total} items, from every repo I have pushed", "mono", 10.5, t["ink4"], "end"))
     o.append(grain(1, 1, W - 2, H - 2, "sg"))
     return svg(W, H, "\n".join(o), ("serif", "mono", "mono-m"),
                "Schedule of materials: every technology across my repositories, grouped by discipline.")
@@ -629,11 +633,12 @@ def main():
     updated = stats.get("generated") or dt.date.today().isoformat()
     rev = revision() + 1  # this render lands in the next commit
     headers = [
-        ("notes", "GN", "General notes", "read before the drawings", "01 / 05"),
-        ("keyplan", "KP", "Key plan", "sheets filed by domain", "02 / 05"),
-        ("index", "SI", "Sheet index", "numbered like the site", "03 / 05"),
-        ("schedule", "SM", "Schedule of materials", "every tool, from every repo", "04 / 05"),
-        ("numbers", "BN", "By the numbers", "no grades, no ranks", "05 / 05"),
+        ("notes", "GN", "General notes", "read before the drawings", "01 / 06"),
+        ("details", "DT", "Detail sheets", "the newest work, drawn larger", "02 / 06"),
+        ("keyplan", "KP", "Key plan", "sheets filed by domain", "03 / 06"),
+        ("index", "SI", "Sheet index", "numbered like the site", "04 / 06"),
+        ("schedule", "SM", "Schedule of materials", "every tool, from every repo", "05 / 06"),
+        ("numbers", "BN", "By the numbers", "no grades, no ranks", "06 / 06"),
     ]
     for theme, t in THEMES.items():
         out = ASSETS / theme

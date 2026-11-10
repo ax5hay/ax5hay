@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/hero.svg">
-  <img src="assets/light/hero.svg" width="100%" alt="Akshay Bajpai. In thrust we trust. Sheet GH-01 of a drawing set: a rocket engine drawn in section, with callouts for the schema that refuses bad data, orchestration, safety and guardrails, and observability. Controlled, thrust is trust.">
+  <img src="assets/light/hero.svg" width="100%" alt="Akshay Bajpai. In thrust we trust. Architect of systems, builder of products, across AI, data, vision, desktop, edge and cloud. Sheet GH-01 of a drawing set: a rocket engine drawn in section, with callouts for the schema that refuses bad data, orchestration, safety and guardrails, and observability. Controlled, thrust is trust.">
 </picture>
 
 <p align="center">
@@ -11,7 +11,7 @@
   <a href="mailto:contact@akshaybajpai.com"><b>contact@akshaybajpai.com</b></a>
 </p>
 
-<p align="center"><sub>Last updated <!-- updated:start -->10 October 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
+<p align="center"><sub>Last updated <!-- updated:start -->10 November 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
 
 <br>
 
@@ -21,9 +21,73 @@
 </picture>
 
 1. **Thrust is cheap. Controlled thrust is the whole job.** I design systems the way you would design a propulsion stack. Shipping a demo is thrust. Keeping it upright in production is trust.
-2. **Most of what I build sits in the unglamorous middle.** The orchestration, the safety layer, the schema that refuses bad data, the job queue that survives a restart.
-3. **I gravitate toward AI systems that have to behave.** LLM assistance that stays inside guardrails, pipelines that turn mess into structured truth, and vision and edge workloads that run where the data actually lives.
-4. **Everything here fails loud.** A system that states its own assumptions can be trusted with the ones it does not state.
+2. **I take the whole thing, end to end.** The architecture and the product, the safety layer and the interface copy, CI, signed releases, and the runbook after. In one recent month that meant Win32 and IOKit power APIs in Rust, a Pydantic AI agent behind a SQL syntax-tree guard, and an Electron console over an offline FastAPI vision engine.
+3. **Most of what I build sits in the unglamorous middle.** The orchestration, the safety layer, the schema that refuses bad data, the job queue that survives a restart.
+4. **I write the decisions down.** The serious repositories here carry decision records, design docs, specs, runbooks, security policies and handoff notes, so the next person, or the next team, starts where I stopped rather than where I started.
+5. **I measure before I claim.** Accuracy against a gold set, cost per question, memory held in the tray, an inference budget per camera. When a number appears in one of my READMEs, a results file sits behind it.
+6. **AI where it earns its place.** LLM assistance that stays inside guardrails, pipelines that turn mess into structured truth, vision and edge workloads that run where the data lives. When a saved answer or a plain rule will do, no model is called.
+7. **Everything here fails loud.** A system that states its own assumptions can be trusted with the ones it does not state.
+
+<br>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/h-details.svg">
+  <img src="assets/light/h-details.svg" width="100%" alt="Detail sheets">
+</picture>
+
+<a name="dt-1"></a>
+
+### DT&#8209;1 &nbsp;·&nbsp; [Keep me awake](https://github.com/ax5hay/KeepMeAwake) <sub>Rust · Tauri 2 · Svelte 5 · Windows and macOS</sub>
+
+*A tiny tray app that keeps the laptop awake by asking the operating system nicely.*
+
+It holds a Windows **power request** (an IOKit **power assertion** on a Mac), the mechanism a video player uses, instead of faking keystrokes. The request shows up by name in `powercfg /requests` or `pmset -g assertions` and is released the instant the sun is clicked off or the app exits. Nothing is typed, nothing moves, nothing fights you when you actually want to sleep.
+
+<table>
+<tr>
+<td width="33%" align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/ax5hay/KeepMeAwake/raw/main/docs/assets/resting-dark.png"><img src="https://github.com/ax5hay/KeepMeAwake/raw/main/docs/assets/resting-light.png" width="100%" alt="Keep me awake at rest: a horizon with the sun down."></picture><br><sub>Resting</sub></td>
+<td width="33%" align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/ax5hay/KeepMeAwake/raw/main/docs/assets/home-dark.png"><img src="https://github.com/ax5hay/KeepMeAwake/raw/main/docs/assets/home-light.png" width="100%" alt="Keep me awake holding the machine up: the sun is risen, with timer stops and battery rules below."></picture><br><sub>Awake, with the battery rules</sub></td>
+<td width="33%" align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="https://github.com/ax5hay/KeepMeAwake/raw/main/docs/assets/almanac-dark.png"><img src="https://github.com/ax5hay/KeepMeAwake/raw/main/docs/assets/almanac-light.png" width="100%" alt="The almanac: today's hours at the machine and a week drawn as strips."></picture><br><sub>The almanac of a week</sub></td>
+</tr>
+</table>
+
+| | |
+|---|---|
+| **What it does** | One sun to click, a global hotkey, timers or "until a time", a weekly schedule you can skip a day of, battery rules (pause below 20% or when unplugged), keep-the-screen-on, an overnight guard that asks before it holds an untouched machine all night, and an almanac of hours at the machine, leave and overtime, exportable as CSV. |
+| **How it is built** | A Rust core in strict layers: `app → engine → core → platform`. `core` is pure and does no I/O; the OS sits behind five traits (power, battery, idle, clock, taskbar theme), each with a fake for tests. One engine thread waits on a condvar, so nothing polls while it rests. The Svelte UI exists only while the window is open; about 5 MB in the tray. |
+| **What holds it upright** | `unsafe` lives in two files, one per OS, and Clippy denies any block without a `SAFETY:` note. Updates come from GitHub Releases, verified against a public key built into the app. CSP is `default-src 'self'`. Optional AI (Claude, OpenAI or any endpoint) sits behind three locks: off by default, a per-feature switch, and a key kept in the OS credential store that never reaches the webview. |
+| **How it shipped** | 170 commits and four tagged releases in its first week, Windows and macOS from one matrix build, with five decision records, a dozen implementation specs, a field guide and a resource budget. |
+
+<a name="dt-2"></a>
+
+### DT&#8209;2 &nbsp;·&nbsp; ReBo <sub>private · Python 3.13 · Pydantic AI · sqlglot · React 19</sub>
+
+*A self-learning reports bot for any SQL database. Ask in plain words; get one read-only query, the rows, and how the question was read.*
+
+Point it at a database and `rebo bootstrap` reads the structure, statistics, stored values and inferred joins. Nothing else about the domain is configured: no semantic layer, no glossary, no per-customer prompt. Every answer is executed before it is shown and explains itself in plain steps, so people can check it without reading SQL.
+
+| | |
+|---|---|
+| **How it learns** | Confirm an answer or correct it in words and it is remembered **for you** at once. It reaches everyone only when three people independently agree and an admin approves. Nothing is ever deleted: every piece of knowledge has a history and an undo, and saved queries are re-checked and paused when the schema under them changes. |
+| **Five walls against a write** | A SELECT-only database user, a read-only session, a statement timeout, a sqlglot syntax-tree guard (one SELECT, no locks, no `INTO`, no server functions, no unknown tables or columns), and rollback with a fetch cap. Each alone stops a write. Secrets, ciphertext, hashes and bank or identity numbers are detected at bootstrap and never reach the model. With Postgres, each person's queries run as their own role under row-level security. |
+| **What it costs** | The cheapest route that can answer wins: saved reports and repeat questions rerun on today's data with **zero model calls**. Prompt caching cut one benchmark from $2.68 to $1.22 with the same answers; a Haiku-to-Sonnet cascade runs 5.7× cheaper. |
+| **Measured** | 44 of 48 matching numbers on a made-up enterprise-sized company at about two cents a question. On 18 product-owner prompts over a production-shaped schema: 13 reports, 5 justified clarifying questions, 0 errors. Every claim cites a results file in the repo. |
+| **How it is built** | One container: FastAPI with an AG-UI event stream and an MCP server, SQLite FTS5 or Postgres full text plus fastembed and pgvector, fused by reciprocal rank. Claude, Gemini, OpenAI or LM Studio behind Pydantic AI. A React 19 app with Liquid Glass navigation. Arize Phoenix traces every answer with people's feedback attached. 179 tests, 27 design documents. |
+
+<a name="dt-3"></a>
+
+### DT&#8209;3 &nbsp;·&nbsp; FlowState <sub>private · a product of AIXIMIUS · Python · FastAPI · Electron · React</sub>
+
+*Offline video analytics and an operator console, for machines that are not allowed to call home.*
+
+Rebuilt this autumn from a Qt desktop app into a Python analysis engine (FastAPI on loopback, detectors in worker threads) supervised by an Electron and React shell. Open files, webcams or RTSP cameras, switch on the detectors each camera needs, and read one fused **0 to 100 threat index** instead of a wall of boxes.
+
+| | |
+|---|---|
+| **What it watches** | Fifteen detectors: weapons, fire, harmful objects, banners, crowd size and behaviour, head count, masks, face covering, age and gender, audio noise, general objects, plus pose and posture, PPE and number plates. Up to six cameras at once, one inference worker per detector serving all of them, and a saved roster that reopens after a restart. |
+| **How it decides** | Per-channel weights the operator tunes, bands for each level, and a ten-minute trace of what contributed. Alerts keep an evidence frame, are acknowledged from a queue, journaled to SQLite and restored after a restart. |
+| **How it fails** | Each detector loads lazily in its own thread and fails alone: a missing model, package or camera greys out one detector with the reason named, never the console. |
+| **How it ships** | Air-gapped by design: a relocatable CPython runtime, bundled weights with recorded provenance, no telemetry, no runtime downloads, per-OS installers from one release workflow. Thirteen documents from the engine API and threat formula to an operator guide and a runbook. |
 
 <br>
 
@@ -34,7 +98,7 @@
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/keyplan.svg">
-  <img src="assets/light/keyplan.svg" width="100%" alt="Key plan: five domains drawn as rooms. AI and LLM systems, vision and edge, data and platforms, web and product, research notebooks. Each room lists the projects filed under it.">
+  <img src="assets/light/keyplan.svg" width="100%" alt="Key plan: five domains drawn as rooms. AI and LLM systems, vision, edge and desktop, data and platforms, web and product, research notebooks. Each room lists the projects filed under it.">
 </picture>
 
 <br>
@@ -50,14 +114,16 @@
 </thead>
 <tbody>
 <tr><td><code>A&#8209;01</code></td><td><a href="https://github.com/ax5hay/AURIXA"><b>AURIXA</b></a></td><td>Multi-tenant conversational care operations. Patients get calm self-service, staff get a shared workspace, platform teams get governed LLM assistance, all over one orchestration and safety layer.</td><td>TypeScript, Python, Next.js, Fastify, FastAPI, Postgres, Redis, Terraform, EKS</td></tr>
-<tr><td><code>A&#8209;02</code></td><td><a href="https://github.com/ax5hay/GHDA-SaaS"><b>GHDA-SaaS</b></a></td><td>Government health-data automation. Turns messy, multilingual survey reports into structured JSON, gap analysis, and compliance insight.</td><td>Fastify gateway, FastAPI services, OCR, Postgres, MinIO, Prometheus</td></tr>
-<tr><td><code>A&#8209;03</code></td><td><a href="https://github.com/ax5hay/OCR-LLM-DIST"><b>OCR-LLM-DIST</b></a></td><td>Document chat that never leaves the machine. OCR ingestion feeds local LLMs for streaming, grounded answers; swap Ollama and LM Studio freely.</td><td>FastAPI, Next.js, PyMuPDF, Streamlit, Docker</td></tr>
-<tr><td><code>A&#8209;04</code></td><td><a href="https://github.com/ax5hay/ai-automation-main"><b>ai-automation</b></a></td><td>Support automation for a publisher. Classifies intent, runs hybrid semantic-plus-keyword RAG, and unifies identity across WhatsApp, Instagram, email, web, and SMS.</td><td>Node.js, Express, LangChain, Weaviate, Supabase, Twilio</td></tr>
-<tr><td><code>A&#8209;05</code></td><td><a href="https://github.com/ax5hay/JobSlave"><b>JobSlave</b></a></td><td>Queue roles once; a local LLM answers screening questions while Playwright applies end to end. No cloud LLMs, no form grinding.</td><td>TypeScript, Electron, Playwright, Drizzle, LM Studio</td></tr>
-<tr><td><code>A&#8209;06</code></td><td><a href="https://github.com/ax5hay/OCR-LocalLLM"><b>OCR-LocalLLM</b></a></td><td>The single-file version: read a PDF, ask a local model questions grounded in it.</td><td>Python, Streamlit, PyMuPDF</td></tr>
+<tr><td><code>A&#8209;02</code></td><td><b>ReBo</b> <sub>private · <a href="#dt-2">DT&#8209;2</a></sub></td><td>A self-learning reports bot for any SQL database. Plain-language questions, one guarded read-only query, answers that say how they were read, and knowledge that spreads only by evidence.</td><td>Python 3.13, Pydantic AI, sqlglot, SQLAlchemy, FastAPI, pgvector, React 19, Phoenix</td></tr>
+<tr><td><code>A&#8209;03</code></td><td><a href="https://github.com/ax5hay/GHDA-SaaS"><b>GHDA-SaaS</b></a></td><td>Government health-data automation. Turns messy, multilingual survey reports into structured JSON, gap analysis, and compliance insight.</td><td>Fastify gateway, FastAPI services, OCR, Postgres, MinIO, Prometheus</td></tr>
+<tr><td><code>A&#8209;04</code></td><td><a href="https://github.com/ax5hay/OCR-LLM-DIST"><b>OCR-LLM-DIST</b></a></td><td>Document chat that never leaves the machine. OCR ingestion feeds local LLMs for streaming, grounded answers; swap Ollama and LM Studio freely.</td><td>FastAPI, Next.js, PyMuPDF, Streamlit, Docker</td></tr>
+<tr><td><code>A&#8209;05</code></td><td><a href="https://github.com/ax5hay/ai-automation-main"><b>ai-automation</b></a></td><td>Support automation for a publisher. Classifies intent, runs hybrid semantic-plus-keyword RAG, and unifies identity across WhatsApp, Instagram, email, web, and SMS.</td><td>Node.js, Express, LangChain, Weaviate, Supabase, Twilio</td></tr>
+<tr><td><code>A&#8209;06</code></td><td><a href="https://github.com/ax5hay/JobSlave"><b>JobSlave</b></a></td><td>Queue roles once; a local LLM answers screening questions while Playwright applies end to end. No cloud LLMs, no form grinding.</td><td>TypeScript, Electron, Playwright, Drizzle, LM Studio</td></tr>
+<tr><td><code>A&#8209;07</code></td><td><a href="https://github.com/ax5hay/OCR-LocalLLM"><b>OCR-LocalLLM</b></a></td><td>The single-file version: read a PDF, ask a local model questions grounded in it.</td><td>Python, Streamlit, PyMuPDF</td></tr>
 <tr><td><code>V&#8209;01</code></td><td><a href="https://github.com/ax5hay/Vigilix"><b>Vigilix</b></a></td><td>Live, AI-annotated multi-camera wall for security teams. RTSP ingest, YOLO overlays, incident alerts, patrol view, multi-tenant licensing.</td><td>React, Vite, FastAPI, Python vision worker, Postgres</td></tr>
 <tr><td><code>V&#8209;02</code></td><td><a href="https://github.com/ax5hay/DADM-Aiximius"><b>DADM</b></a></td><td>Distributed AI defense mesh. On-device anomaly detection, encrypted federated updates, and a defense-ontology graph. Offline-first, zero-trust, air-gap capable.</td><td>Rust agent, Python, ONNX, Neo4j, Ansible</td></tr>
-<tr><td><code>V&#8209;03</code></td><td><b>FlowState</b> <sub>private</sub></td><td>Desktop video analytics and operator console with spoken alerts.</td><td>PySide6, OpenCV, YOLO, MediaPipe, PyTorch</td></tr>
+<tr><td><code>V&#8209;03</code></td><td><b>FlowState</b> <sub>private · <a href="#dt-3">DT&#8209;3</a></sub></td><td>Offline, on-premises video analytics: a FastAPI engine running fifteen detectors across up to six cameras, fused into one 0 to 100 threat index under an Electron and React console.</td><td>Python, FastAPI, Electron, React, YOLO, ONNX Runtime, OpenCV, PyTorch, SQLite</td></tr>
+<tr><td><code>V&#8209;04</code></td><td><a href="https://github.com/ax5hay/KeepMeAwake"><b>KeepMeAwake</b></a> <sub><a href="#dt-1">DT&#8209;1</a></sub></td><td>A tray and menu-bar app that keeps the laptop awake through the OS power API, never fake input. Timers, schedules, battery rules, an overnight guard, an almanac, signed auto-updates.</td><td>Rust, Tauri 2, Svelte 5, Win32 power requests, IOKit</td></tr>
 <tr><td><code>D&#8209;01</code></td><td><a href="https://github.com/ax5hay/AIDA"><b>AIDA</b></a></td><td>Health-facility programme intelligence. Postgres to Prisma to NestJS to Next.js, with an LLM layer that only narrates numbers the API already computed.</td><td>TypeScript, NestJS, Prisma, Next.js, Recharts</td></tr>
 <tr><td><code>D&#8209;02</code></td><td><a href="https://github.com/ax5hay/RestroScraper-PY"><b>RestroScraper</b></a></td><td>Lead-generation CRM. Scrapes business profiles, enriches and dedupes, tracks every lead through a pipeline with analytics and automation.</td><td>FastAPI, Next.js, Playwright, Selenium, SQLAlchemy, JSONB</td></tr>
 <tr><td><code>D&#8209;03</code></td><td><a href="https://github.com/ax5hay/TracePulse"><b>TracePulse</b></a></td><td>One decorator for execution tracing in sync and async Python: timings, exceptions, structured logs, minimal overhead.</td><td>Python, Loguru</td></tr>
@@ -67,6 +133,7 @@
 <tr><td><code>W&#8209;03</code></td><td><a href="https://github.com/ax5hay/medhathapliyal.site"><b>medhathapliyal.site</b></a></td><td>Notebook-style portfolio with page-turn transitions and full structured data.</td><td>Astro 5, View Transitions API, GitHub Pages</td></tr>
 <tr><td><code>W&#8209;04</code></td><td><a href="https://github.com/ax5hay/aiximius.com"><b>aiximius.com</b></a></td><td>Company site written by hand. No framework, no build step.</td><td>HTML, CSS, GitHub Pages</td></tr>
 <tr><td><code>W&#8209;05</code></td><td><a href="https://github.com/ax5hay/ew-dashboard"><b>ew-dashboard</b></a></td><td>React analytics dashboard with a Testing Library setup.</td><td>React, Recharts, Tailwind CSS</td></tr>
+<tr><td><code>W&#8209;06</code></td><td><a href="https://github.com/ax5hay/Merakiel.in"><b>Merakiel.in</b></a></td><td>A doorplate for private client work. The root page publishes nothing; each engagement gets its own surface elsewhere, on schedule.</td><td>HTML, CSS, GitHub Pages</td></tr>
 </tbody>
 </table>
 
@@ -103,19 +170,20 @@
 <br>
 
 <!-- schedule:start -->
+- **Practice & delivery.** System architecture, Design docs & specs, Architecture decision records, Runbooks & operations, Security policy & threat modelling, Multi-tenant SaaS design, Air-gapped delivery, LLM evals & cost engineering, Resource & inference budgets, Cross-platform release pipelines, Changelogs & semver, Conventional commits, Handoff notes, Agentic dev workflows, UX writing in plain words, Brand & visual design
 - **Languages.** TypeScript, Python, JavaScript, C#, Rust, SQL, Bash, HTML & CSS, SCSS, Cypher, HCL, Google Apps Script
-- **Frontend & UI.** React, Next.js, Angular, Astro, Vite, Create React App, Tailwind CSS, Sass, Bootstrap, Radix UI, shadcn/ui, Framer Motion, TanStack Query, Zustand, React Router, RxJS, Storybook, Lucide, Quill, Swiper, remark / rehype, Transloco i18n, View Transitions API, JSON-LD / schema.org, Satori, resvg
-- **Charts & dataviz.** Recharts, Apache ECharts, Charts.css, Matplotlib, Seaborn, Plotly
-- **Backend & APIs.** Node.js, Fastify, NestJS, Express, FastAPI, Starlette, Flask, Uvicorn, Gunicorn, ASP.NET Core, .NET 8 / 10, Socket.IO, WebSockets, SignalR, Server-sent events, OpenAPI / Swagger, Zod, Pydantic, class-validator, Joi, JWT, OpenID Connect, ASP.NET Identity, Argon2, bcrypt, Helmet, Rate limiting, BullMQ, Hangfire, APScheduler, node-cron, Polly, AutoMapper, Multer, Axios / httpx, aiohttp, Flurl, reqwest, tokio, serde
-- **AI & LLM systems.** OpenAI API, Anthropic Claude, Google Gemini, Ollama, LM Studio, LangChain, RAG pipelines, LLM guardrails, Prompt & schema contracts, sentence-transformers, FAISS, BM25, Weaviate, tiktoken, natural / compromise NLP, fuzzy matching, faster-whisper, Vosk, SpeechBrain, Piper TTS, edge-tts, pyttsx3
+- **Frontend & UI.** React, Next.js, Angular, Astro, Svelte 5, Vite, Create React App, Tailwind CSS, Sass, Bootstrap, Radix UI, shadcn/ui, React Aria, Framer Motion, TanStack Query, Zustand, React Router, RxJS, Storybook, Lucide, Quill, Swiper, remark / rehype, Transloco i18n, View Transitions API, JSON-LD / schema.org, Satori, resvg, cmdk, CodeMirror, Sonner, Liquid Glass (SVG lensing)
+- **Charts & dataviz.** Recharts, Observable Plot, uPlot, Apache ECharts, Charts.css, Matplotlib, Seaborn, Plotly
+- **Backend & APIs.** Node.js, Fastify, NestJS, Express, FastAPI, Starlette, Flask, Uvicorn, Gunicorn, ASP.NET Core, .NET 8 / 10, Socket.IO, WebSockets, SignalR, Server-sent events, AG-UI event stream, OpenAPI / Swagger, Zod, Pydantic, class-validator, Joi, JWT, OpenID Connect, ASP.NET Identity, Argon2, bcrypt, Helmet, Rate limiting, BullMQ, Hangfire, APScheduler, Lease-based job queue, node-cron, Polly, AutoMapper, Multer, Axios / httpx, aiohttp, Flurl, reqwest, tokio, serde, thiserror, parking_lot, chrono
+- **AI & LLM systems.** OpenAI API, Anthropic Claude, Google Gemini, Ollama, LM Studio, Pydantic AI, OpenRouter, LangChain, RAG pipelines, Text-to-SQL agents, MCP servers, LLM guardrails, Prompt & schema contracts, Model cascades, Prompt caching, pydantic-evals, Arize Phoenix, sentence-transformers, fastembed, FAISS, BM25, Reciprocal rank fusion, Weaviate, tiktoken, natural / compromise NLP, fuzzy matching, faster-whisper, Vosk, SpeechBrain, Piper TTS, edge-tts, pyttsx3
 - **Machine learning & data science.** PyTorch, torchvision, TensorFlow, Keras, scikit-learn, imbalanced-learn, SHAP, NumPy, pandas, SciPy, scikit-image, joblib, h5py, ndarray (Rust), ONNX, ONNX Runtime, Jupyter, yfinance, jStat, Federated learning, CNNs, RNNs & GRUs, GANs, Anomaly detection
-- **Vision, audio & documents.** OpenCV, YOLO / Ultralytics, MediaPipe, dlib, supervision, Pillow, imutils, RTSP ingest, FFmpeg, PyAV, MoviePy, sounddevice / pydub, EasyOCR, Tesseract, PyMuPDF, pdfplumber, PyPDF2, pdf-parse / pdf.js, Docnet, ReportLab, python-docx, EPUB (VersOne), NetVips, sharp, node-canvas, QR codes, ExcelJS / xlsx, openpyxl, CsvHelper
-- **Data stores & ORMs.** PostgreSQL, Redis, SQLite, Neo4j, MinIO / S3, Weaviate (vector), FAISS (vector), Supabase, Prisma, Drizzle ORM, SQLAlchemy, Alembic, asyncpg, psycopg, Entity Framework Core, PL/pgSQL, JSONB storage, cache-manager / EasyCaching, Google Sheets as a store
-- **Infrastructure & delivery.** Docker, Docker Compose, Kubernetes, Helm, Terraform, Ansible, AWS, Amazon EKS, Amazon RDS, ElastiCache, Amazon ECR, VPC networking, vSphere, Nginx, GitHub Actions, GitHub Pages, Docker Buildx, crane, Turborepo, pnpm workspaces, npm workspaces, uv, Make, Air-gapped, zero-trust deploys
-- **Observability & security.** Prometheus, Grafana, Loki & Promtail, OpenTelemetry, Pino, Winston, Loguru, Serilog, tracing (Rust), TracePulse (my own), Trivy, CodeQL / SARIF, SonarAnalyzer, Codecov, Husky & lint-staged, commitlint, pre-commit, AES-GCM / ring, cryptography (py), SHA-2 / HMAC, Data Protection API
-- **Testing & code quality.** Vitest, Jest, pytest, pytest-asyncio, Playwright, Selenium, Testing Library, Supertest, xUnit, NSubstitute, BenchmarkDotNet, criterion (Rust), Karma, ESLint, typescript-eslint, Prettier, Ruff, Black, mypy, Pylint, flake8, markdownlint, Storybook a11y
-- **Desktop, edge & automation.** Electron, electron-vite, electron-builder, PySide6 / Qt, Tkinter, Streamlit, Rust edge agent, sysinfo, Windows API (Rust), Playwright automation, Selenium scraping, BeautifulSoup / lxml, Cheerio, HtmlAgilityPack, SurveyCTO, ngrok
-- **Integrations & services.** Twilio, WhatsApp & Instagram channels, Nodemailer, MailKit, Google Sheets API, Google Calendar, Apps Script / clasp, Naukri.com automation, OpenGraph & sitemaps
+- **Vision, audio & documents.** OpenCV, YOLO / Ultralytics, MediaPipe, dlib, supervision, Pose & posture estimation, PPE detection, ANPR (number plates), Multi-signal threat scoring, Pillow, imutils, RTSP ingest, FFmpeg, PyAV, MoviePy, sounddevice / pydub, EasyOCR, Tesseract, PyMuPDF, pdfplumber, PyPDF2, pdf-parse / pdf.js, Docnet, ReportLab, python-docx, EPUB (VersOne), NetVips, sharp, node-canvas, QR codes, ExcelJS / xlsx, openpyxl, CsvHelper
+- **Data stores & ORMs.** PostgreSQL, MySQL / MariaDB, Redis, SQLite, SQLite FTS5, Neo4j, MinIO / S3, Weaviate (vector), FAISS (vector), pgvector, Supabase, Prisma, Drizzle ORM, SQLAlchemy, Alembic, asyncpg, psycopg, sqlglot (SQL ASTs), Entity Framework Core, PL/pgSQL, PostgreSQL row-level security, JSONB storage, cache-manager / EasyCaching, Google Sheets as a store
+- **Infrastructure & delivery.** Docker, Docker Compose, Kubernetes, Helm, Terraform, Ansible, AWS, Amazon EKS, Amazon RDS, ElastiCache, Amazon ECR, VPC networking, vSphere, Nginx, GitHub Actions, Dependabot, GitHub Pages, GitHub Releases, Signed auto-updates, NSIS & DMG installers, Relocatable Python runtime, Docker Buildx, crane, Turborepo, pnpm workspaces, npm workspaces, uv, Make, Air-gapped, zero-trust deploys
+- **Observability & security.** Prometheus, Grafana, Loki & Promtail, OpenTelemetry, Arize Phoenix tracing, Pino, Winston, Loguru, Serilog, tracing (Rust), TracePulse (my own), Trivy, oauth2-proxy, OS credential store (keyring), Content Security Policy, Secret & PII detection, CodeQL / SARIF, SonarAnalyzer, Codecov, Husky & lint-staged, commitlint, pre-commit, AES-GCM / ring, rustls, cryptography (py), SHA-2 / HMAC, Data Protection API
+- **Testing & code quality.** Vitest, Jest, pytest, pytest-asyncio, Playwright, Selenium, Testing Library, jsdom, Supertest, xUnit, NSubstitute, BenchmarkDotNet, criterion (Rust), cargo test, Clippy (pedantic), rustfmt, svelte-check, Golden-set evals, Metamorphic SQL probes, Karma, ESLint, typescript-eslint, Prettier, Ruff, Black, mypy, Pylint, flake8, markdownlint, Storybook a11y
+- **Desktop, edge & automation.** Tauri 2, Electron, electron-vite, electron-builder, System tray & menu bar apps, Win32 power requests, IOKit / Core Foundation, Global hotkeys, PySide6 / Qt, Tkinter, Streamlit, NiceGUI, Rust edge agent, sysinfo, Windows API (Rust), Playwright automation, Selenium scraping, BeautifulSoup / lxml, Cheerio, HtmlAgilityPack, SurveyCTO, ngrok
+- **Integrations & services.** Twilio, WhatsApp & Instagram channels, Nodemailer, MailKit, Google Sheets API, Google Calendar, Apps Script / clasp, Naukri.com automation, OpenGraph & sitemaps, Webhooks
 <!-- schedule:end -->
 
 </details>
