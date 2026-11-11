@@ -1795,6 +1795,33 @@ def plate_telemetry(t, s, updated) -> str:
         def Y(c):
             return base - (base - top) * math.log1p(c) / math.log1p(mx)
         pts = [(px0 + i * step, Y(d["c"])) for i, d in enumerate(days)]
+        # a log axis that can be read: 1, 10, 100, ...
+        v = 1
+        while v <= mx:
+            yy = Y(v)
+            o.append(rule(px0 - 6, yy, px1, yy, t["rule"], 0.6, "1 3"))
+            o.append(text(px0 - 9, yy + 4, str(v), "mono", 10, t["ink4"], "end"))
+            v *= 10
+        # scanlines, as on a tube (night issue)
+        if t["glow_op"] > .5:
+            o.append(f'<defs><pattern id="scanl" width="4" height="3" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#ffffff" fill-opacity=".035"/></pattern></defs>'
+                     f'<rect x="{sx0+2}" y="{sy0+2}" width="{sx1-sx0-4}" height="{sy1-sy0-4}" rx="9" fill="url(#scanl)"/>')
+        # the sweep: a vertical beam with afterglow, in step with the trace
+        o.append(f'<defs><linearGradient id="sweepG" x1="0" x2="1"><stop offset="0" stop-color="{t["phosphor"]}" stop-opacity="0"/>'
+                 f'<stop offset="1" stop-color="{t["phosphor"]}" stop-opacity="{0.18 if t["glow_op"] > .5 else 0.1}"/></linearGradient>'
+                 f'<clipPath id="scopeC"><rect x="{px0}" y="{sy0+8}" width="{px1-px0}" height="{sy1-sy0-16}"/></clipPath></defs>')
+        # keyed to path length, the way the beam and the trace travel, so all three stay together
+        acc_l = [0.0]
+        for (xa, ya), (xb, yb) in zip(pts, pts[1:]):
+            acc_l.append(acc_l[-1] + math.hypot(xb - xa, yb - ya))
+        idx = list(range(0, len(pts), 8)) + [len(pts) - 1]
+        kt_s = [0.6 * acc_l[i] / acc_l[-1] for i in idx] + [0.64, 1.0]
+        vals = [f"{pts[i][0]-px0:.1f},0" for i in idx] + [f"{px1-px0:.1f},0"] * 2
+        op_anim = (f'<animate attributeName="opacity" dur="12s" repeatCount="indefinite" keyTimes="0;0.6;0.64;1" values="1;1;0;0"/>')
+        o.append(f'<g clip-path="url(#scopeC)"><g><animateTransform attributeName="transform" type="translate" dur="12s" repeatCount="indefinite" '
+                 f'calcMode="linear" keyTimes="{";".join(f"{v:.4f}" for v in kt_s)}" values="{";".join(vals)}"/>{op_anim}'
+                 f'<rect x="{px0-90}" y="{sy0+8}" width="90" height="{base-sy0-8}" fill="url(#sweepG)"/>'
+                 f'<path d="M{px0},{sy0+8} V{base}" stroke="{t["phosphor"]}" stroke-width="1" stroke-opacity=".6"/></g></g>')
         dpath = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
         area = dpath + f" L{px1:.1f},{base} L{px0:.1f},{base} Z"
         o.append(f'<path d="{area}" fill="url(#burnA)" class="areaFade"/>')
@@ -1823,6 +1850,21 @@ def plate_telemetry(t, s, updated) -> str:
         o.append(f'<g class="fi"{d_(7.5)}>' + rule(pxp, pyp - 6, pxp, sy0 + 46, t["accent_line"], 0.8, "2 3") +
                  text(tx, sy0 + 56, lab.upper(), "mono-m", 11, t["accent"], "end" if pxp > W / 2 else "start", tracking=0.12) + "</g>")
         _ = first
+        # the next two brightest days, at least a week from each other and the peak
+        order = sorted(range(len(days)), key=lambda i: -days[i]["c"])
+        picked = [peak_i]
+        for i in order:
+            if len(picked) == 3:
+                break
+            if days[i]["c"] and all(abs(i - j) >= 7 for j in picked):
+                picked.append(i)
+        for rank, i in enumerate(picked[1:], start=2):
+            xq, yq = pts[i]
+            dlq = 7.4 + rank * 0.15
+            o.append(f'<g class="fi"{d_(dlq)}><circle cx="{xq:.1f}" cy="{yq:.1f}" r="4.5" fill="none" stroke="{t["accent"]}" stroke-width="1.2"/>'
+                     f'<rect x="{xq-26:.1f}" y="{yq-26:.1f}" width="15" height="15" rx="2" fill="{t["accent"]}"/>'
+                     + text(xq - 18.5, yq - 14.5, str(rank), "mono-m", 10.5, t["sheet"], "middle")
+                     + text(xq - 30, yq - 14.5, str(days[i]["c"]), "mono", 10.5, t["ink3"], "end") + "</g>")
 
     # ---- thermal map and firing pattern
     ry0 = 596
@@ -1901,6 +1943,7 @@ def plate_telemetry(t, s, updated) -> str:
            ".trace{stroke-dasharray:1 1;animation:trace 12s linear infinite}"
            "@keyframes trace{0%{stroke-dashoffset:1;opacity:1}60%{stroke-dashoffset:0;opacity:1}92%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}"
            ".areaFade{animation:areaF 12s linear infinite}"
+
            "@keyframes areaF{0%,30%{opacity:0}60%,92%{opacity:1}100%{opacity:0}}"
            ".wave{animation:wave 2.6s linear infinite}"
            f"@keyframes wave{{to{{transform:translateX({TW}px)}}}}")
