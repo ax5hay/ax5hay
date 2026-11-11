@@ -605,8 +605,26 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
              f'<mask id="lensM" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">'
              f'<g transform="{loc}"><circle r="44" fill="#fff"><animateMotion dur="19s" begin="{ign+0.8}s" repeatCount="indefinite" path="{LENS_PATH}"/></circle></g>'
              f'</mask></defs>')
-    o.append(f'<g clip-path="url(#plume)"><g transform="{loc}">{engine_fire(t, ign)}</g></g>')
-    o.append(f'<g transform="{loc}">{engine_glow(t, ign)}{engine_lines(t)}</g>')
+    # thrust vectoring: the engine swings a degree or so about its gimbal, plume and all
+    pvx, pvy = cx, top + 16 * s
+    gimbal = (f'<animateTransform attributeName="transform" type="rotate" dur="9s" begin="{ign+1.2}s" repeatCount="indefinite" '
+              f'calcMode="spline" keyTimes="0;0.3;0.65;1" keySplines=".45 0 .55 1;.45 0 .55 1;.45 0 .55 1" '
+              f'values="0 {pvx} {pvy:.1f};1.3 {pvx} {pvy:.1f};-1.1 {pvx} {pvy:.1f};0 {pvx} {pvy:.1f}"/>')
+    # actuators: the bodies hang from the mount, the rods ride on the chamber
+    act_body, act_rod = [], []
+    for sgn in (-1, 1):
+        ax_, ay_ = cx + sgn * 58 * s, top + 16 * s
+        bx_, by_ = cx + sgn * 40 * s, top + 96 * s
+        mxp, myp = ax_ + (bx_ - ax_) * 0.55, ay_ + (by_ - ay_) * 0.55
+        act_body.append(f'<path d="M{ax_:.1f},{ay_:.1f} L{mxp:.1f},{myp:.1f}" stroke="{t["rule_ink"]}" stroke-width="5.5" stroke-linecap="round" class="fi"{d_(1.6)}/>'
+                        f'<path d="M{ax_:.1f},{ay_:.1f} L{mxp:.1f},{myp:.1f}" stroke="{t["sheet"]}" stroke-width="3" stroke-linecap="round" class="fi"{d_(1.6)}/>'
+                        f'<circle cx="{ax_:.1f}" cy="{ay_:.1f}" r="3" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1" class="fi"{d_(1.6)}/>')
+        rx2, ry2 = ax_ + (bx_ - ax_) * 0.35, ay_ + (by_ - ay_) * 0.35
+        act_rod.append(f'<path d="M{bx_:.1f},{by_:.1f} L{rx2:.1f},{ry2:.1f}" stroke="{t["rule_strong"]}" stroke-width="1.6" class="fi"{d_(1.6)}/>'
+                       f'<circle cx="{bx_:.1f}" cy="{by_:.1f}" r="2.6" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1" class="fi"{d_(1.6)}/>')
+    o.append(f'<g clip-path="url(#plume)"><g>{gimbal}<g transform="{loc}">{engine_fire(t, ign)}</g></g></g>')
+    o.append(f'<g>{gimbal}{"".join(act_rod)}<g transform="{loc}">{engine_glow(t, ign)}{engine_lines(t)}</g></g>')
+    o.append("".join(act_body))
     # the lens: what the engine is really made of
     o.append(f'<g mask="url(#lensM)"><g class="fi"{d_(ign+0.8)}><g transform="{loc}">'
              f'<rect x="-120" y="0" width="240" height="320" fill="{t["lens_fill"]}" fill-opacity=".94"/>'
