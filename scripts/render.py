@@ -1197,6 +1197,10 @@ def plate_keyplan(t, zones) -> str:
     o = sheet_frame(t, H, TBY)
     o.append(f'<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'
              f'<rect width="7" height="7" fill="{t["raised"]}"/><path d="M0,0 V7" stroke="{t["rule_strong"]}" stroke-width="1.1"/></pattern>'
+             f'<linearGradient id="spill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="{0.32 if t["glow_op"] > .5 else 0.2}"/>'
+             f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="0"/></linearGradient>'
+             f'<linearGradient id="rscanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="0"/>'
+             f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="{0.22 if t["glow_op"] > .5 else 0.14}"/></linearGradient>'
              f'<radialGradient id="lamp"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="{0.38 if t["glow_op"] > .5 else 0.22}"/>'
              f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="0"/></radialGradient></defs>')
 
@@ -1227,7 +1231,13 @@ def plate_keyplan(t, zones) -> str:
         o.append(f'<clipPath id="rm{i}"><rect x="{rx:.1f}" y="{RY0}" width="{w:.1f}" height="{RY1-RY0}"/></clipPath>')
         o.append(f'<g class="lit" clip-path="url(#rm{i})" style="animation-delay:{LOOP0+i*STOP:.2f}s">'
                  f'<rect x="{rx:.1f}" y="{RY0}" width="{w:.1f}" height="{RY1-RY0}" fill="{t["accent_soft"]}"/>'
-                 f'<ellipse cx="{lx:.1f}" cy="{ly}" rx="{w*0.75:.1f}" ry="{(RY1-RY0)*0.62:.1f}" fill="url(#lamp)"/></g>')
+                 f'<ellipse cx="{lx:.1f}" cy="{ly}" rx="{w*0.75:.1f}" ry="{(RY1-RY0)*0.62:.1f}" fill="url(#lamp)"/>'
+                 # the camera reads the room top to bottom while it is there
+                 f'<g class="rscan"><rect x="{rx:.1f}" y="{RY0-40}" width="{w:.1f}" height="40" fill="url(#rscanG)"/>'
+                 f'<path d="M{rx:.1f},{RY0} H{rx+w:.1f}" stroke="{t["accent"]}" stroke-width="1.2" stroke-opacity=".8"/></g></g>')
+        # and its light spills out of the door into the corridor
+        d = doors[i]
+        o.append(f'<path d="M{d},{RY1+3} H{d+DW} L{d+DW+30},{CY1} H{d-30} Z" fill="url(#spill)" class="lit" style="animation-delay:{LOOP0+i*STOP:.2f}s"/>')
 
     # ---- walls: drawn by the plotter, then filled with poché
     def wall(x, y, w, h, dl):
@@ -1354,7 +1364,8 @@ def plate_keyplan(t, zones) -> str:
                               ("sheets", str(total), 120), ("scale", "NTS", 110),
                               ("note", "the corridor is where the ideas walk in", W - 2 * M - 680)])
 
-    css = (".lit{opacity:0;animation:lit 20s ease-in-out infinite both}"
+    css = (f".rscan{{animation:rscan 3.2s cubic-bezier(.45,0,.55,1) infinite}}@keyframes rscan{{to{{transform:translateY({RY1-RY0}px)}}}}"
+           ".lit{opacity:0;animation:lit 20s ease-in-out infinite both}"
            "@keyframes lit{0%{opacity:0}4.5%{opacity:1}19%{opacity:1}23%{opacity:0}100%{opacity:0}}"
            ".lamp{animation:lamp 20s ease-in-out infinite both}"
            "@keyframes lamp{0%{opacity:.25}4.5%{opacity:1}19%{opacity:1}23%{opacity:.25}100%{opacity:.25}}"
