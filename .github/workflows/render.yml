@@ -27,6 +27,9 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Install the font subsetter
+        run: pip install "fonttools[woff]==4.55.3"
+
       - name: Render SVG plates
         env:
           # A classic PAT with read:user (and repo, for private counts) in

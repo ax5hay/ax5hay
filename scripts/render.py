@@ -10,7 +10,9 @@ in its final state, so `prefers-reduced-motion` shows a finished drawing.
     python scripts/render.py                    # re-issue every plate
     GITHUB_TOKEN=... python scripts/render.py   # also refresh data/stats.json
 
-Standard library only.
+Standard library only, plus fontTools when installed: it cuts each embedded
+font down to the glyphs that plate draws. Without it the full latin subsets
+are embedded and everything still renders.
 """
 from __future__ import annotations
 
@@ -101,14 +103,53 @@ BASE_CSS = (
 REDUCED = "@media (prefers-reduced-motion:reduce){*{animation:none!important}}"
 
 
-def font_faces(*keys: str) -> str:
+_SUBSET_CACHE: dict = {}
+
+
+def _font_b64(key: str, chars: str | None) -> str:
+    """The font as base64 woff2, cut down to `chars` when fontTools is around.
+
+    Subsetting keeps each plate to the glyphs it draws (a card drops from about
+    80 kB to about 25 kB). Without fontTools the whole latin subset is embedded,
+    which still renders the same.
+    """
+    name, _ = FONT_FILES[key]
+    raw = (ASSETS / "fonts" / name).read_bytes()
+    if chars is None:
+        return base64.b64encode(raw).decode()
+    ck = (key, chars)
+    if ck in _SUBSET_CACHE:
+        return _SUBSET_CACHE[ck]
+    try:
+        import io
+        from fontTools import subset
+        from fontTools.ttLib import TTFont
+        f = TTFont(io.BytesIO(raw))
+        opts = subset.Options()
+        opts.flavor = "woff2"
+        opts.layout_features = ["kern", "liga", "tnum", "lnum"]
+        opts.name_IDs = []
+        opts.notdef_outline = True
+        sub = subset.Subsetter(opts)
+        sub.populate(text=chars)
+        sub.subset(f)
+        buf = io.BytesIO()
+        f.flavor = "woff2"
+        f.save(buf)
+        out = base64.b64encode(buf.getvalue()).decode()
+    except Exception:
+        out = base64.b64encode(raw).decode()
+    _SUBSET_CACHE[ck] = out
+    return out
+
+
+def font_faces(*keys: str, chars: str | None = None) -> str:
     out = []
     for k in keys:
-        name, style = FONT_FILES[k]
-        b64 = base64.b64encode((ASSETS / "fonts" / name).read_bytes()).decode()
+        _, style = FONT_FILES[k]
         out.append(
             f'@font-face{{font-family:"ax-{k}";font-style:{style};font-weight:400;'
-            f'src:url(data:font/woff2;base64,{b64}) format("woff2");}}'
+            f'src:url(data:font/woff2;base64,{_font_b64(k, chars)}) format("woff2");}}'
         )
     return "".join(out)
 
@@ -117,12 +158,20 @@ def mono_w(s: str, size: float, tracking: float = 0.0) -> float:
     return len(s) * size * (MONO_ADVANCE + tracking)
 
 
+def _used_chars(body: str) -> str:
+    """Every character the plate draws as text, plus digits and spacing."""
+    import html
+    import re
+    drawn = "".join(re.findall(r"<text[^>]*>([^<]*)</text>", body))
+    return "".join(sorted(set(html.unescape(drawn)) | set("0123456789 .,:+-%")))
+
+
 def svg(width, height, body, fonts, title, css="") -> str:
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" '
         f'viewBox="0 0 {width} {height}" role="img" aria-labelledby="t">\n'
         f'<title id="t">{escape(title)}</title>\n'
-        f"<style>{font_faces(*fonts)}{BASE_CSS}{css}{REDUCED}</style>\n"
+        f"<style>{font_faces(*fonts, chars=_used_chars(body))}{BASE_CSS}{css}{REDUCED}</style>\n"
         f"{body}\n</svg>\n"
     )
 
@@ -1184,6 +1233,233 @@ def plate_schedule(t, stack, zones) -> str:
 
 
 # --------------------------------------------------------------------------
+# Plate 4b: the sheet index, one card per sheet. Each card is its own image so
+# the README can link it to its repository; each domain has its own live
+# figure, varied per sheet.
+# --------------------------------------------------------------------------
+CARD_W, CARD_H = 600, 410
+
+
+def motif(t, code, seed, x0, y0, w, h):
+    """A small working drawing for the card's domain, in a box at (x0, y0)."""
+    rnd = random.Random(seed)
+    acc, ink, faint, strong = t["accent"], t["rule_ink"], t["rule"], t["rule_strong"]
+    o = [f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="4" fill="{t["deep"]}" stroke="{strong}" stroke-width="0.9"/>',
+         f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="4" fill="url(#cg)"/>']
+    cx = lambda f: x0 + w * f  # noqa: E731
+    cy = lambda f: y0 + h * f  # noqa: E731
+    if code == "A":
+        # a small network; signals run along its edges
+        layers = [[cy(0.5)], sorted(rnd.uniform(0.18, 0.82) for _ in range(rnd.choice((3, 4)))), [cy(0.32), cy(0.68)], [cy(0.5)]]
+        layers[1] = [cy(v) for v in layers[1]]
+        xs = [cx(0.12), cx(0.4), cx(0.68), cx(0.9)]
+        k = 0
+        for li in range(3):
+            for ya in layers[li]:
+                for yb in layers[li + 1]:
+                    d = f"M{xs[li]:.1f},{ya:.1f} L{xs[li+1]:.1f},{yb:.1f}"
+                    o.append(f'<path d="{d}" stroke="{faint}" stroke-width="0.8"/>')
+                    if rnd.random() < 0.6:
+                        o.append(f'<path d="{d}" pathLength="1" stroke="{acc}" stroke-width="1.8" stroke-linecap="round" '
+                                 f'class="sig" style="animation-delay:{-rnd.uniform(0, 2.4):.2f}s;animation-duration:{rnd.uniform(1.6, 2.6):.2f}s"/>')
+                    k += 1
+        for li, col in enumerate(layers):
+            for ya in col:
+                o.append(f'<circle cx="{xs[li]:.1f}" cy="{ya:.1f}" r="5" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.1"/>')
+                o.append(f'<circle cx="{xs[li]:.1f}" cy="{ya:.1f}" r="2.4" fill="{acc}" class="node" style="animation-delay:{-rnd.uniform(0, 2):.2f}s"/>')
+    elif code == "V":
+        # a viewfinder: a scan line, two subjects, a box that finds each in turn
+        a = (cx(rnd.uniform(0.18, 0.32)), cy(0.38), 26, 46)
+        b = (cx(rnd.uniform(0.56, 0.68)), cy(0.52), 40, 26)
+        o.append(f'<rect x="{a[0]:.1f}" y="{a[1]:.1f}" width="{a[2]}" height="{a[3]}" rx="12" fill="none" stroke="{strong}" stroke-width="1"/>')
+        o.append(f'<circle cx="{a[0]+13:.1f}" cy="{a[1]-8:.1f}" r="7" fill="none" stroke="{strong}" stroke-width="1"/>')
+        o.append(f'<rect x="{b[0]:.1f}" y="{b[1]:.1f}" width="{b[2]}" height="{b[3]}" rx="5" fill="none" stroke="{strong}" stroke-width="1"/>')
+        o.append(f'<circle cx="{b[0]+9:.1f}" cy="{b[1]+b[3]:.1f}" r="4" fill="none" stroke="{strong}" stroke-width="1"/>'
+                 f'<circle cx="{b[0]+31:.1f}" cy="{b[1]+b[3]:.1f}" r="4" fill="none" stroke="{strong}" stroke-width="1"/>')
+        for (bx, by, bw, bh), cls, sc in (((a[0] - 5, a[1] - 20, a[2] + 10, a[3] + 26), "boxa", "0.97"), ((b[0] - 5, b[1] - 6, b[2] + 10, b[3] + 16), "boxb", "0.91")):
+            o.append(f'<g class="{cls}"><rect x="{bx:.1f}" y="{by:.1f}" width="{bw}" height="{bh}" fill="{t["accent_soft"]}" stroke="{acc}" stroke-width="1.5"/>'
+                     f'<rect x="{bx:.1f}" y="{by-12:.1f}" width="30" height="12" fill="{acc}"/>'
+                     + text(bx + 3, by - 3, sc, "mono-m", 8.5, t["sheet"]) + "</g>")
+        o.append(f'<g class="scanv"><path d="M{x0+4},{y0+6} H{x0+w-4}" stroke="{acc}" stroke-width="1" stroke-opacity=".7"/></g>')
+        for (px, py, sx, sy) in ((x0 + 8, y0 + 8, 1, 1), (x0 + w - 8, y0 + 8, -1, 1), (x0 + 8, y0 + h - 8, 1, -1), (x0 + w - 8, y0 + h - 8, -1, -1)):
+            o.append(f'<path d="M{px},{py+sy*12} V{py} H{px+sx*12}" fill="none" stroke="{ink}" stroke-width="1.3"/>')
+        o.append(f'<circle cx="{x0+w-16}" cy="{y0+18}" r="3.5" fill="#e5484d" class="blink"/>')
+        o.append(text(x0 + w - 24, y0 + 21, "REC", "mono-m", 8, t["ink3"], "end"))
+    elif code == "D":
+        # records stream into a store; the store's level breathes
+        sx, sy, rw, rh = cx(0.7), cy(0.3), 26, 54
+        o.append(f'<path d="M{sx-rw},{sy} V{sy+rh} A{rw},8 0 0 0 {sx+rw},{sy+rh} V{sy}" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.2"/>')
+        o.append(f'<g class="level"><path d="M{sx-rw+2},{sy+rh*0.45} A{rw-2},7 0 0 0 {sx+rw-2},{sy+rh*0.45} V{sy+rh} A{rw-2},7 0 0 1 {sx-rw+2},{sy+rh} Z" '
+                 f'fill="{acc}" fill-opacity=".35"/></g>')
+        o.append(f'<ellipse cx="{sx}" cy="{sy}" rx="{rw}" ry="8" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.2"/>')
+        for k in (0.33, 0.66):
+            o.append(f'<path d="M{sx-rw},{sy+rh*k} A{rw},8 0 0 0 {sx+rw},{sy+rh*k}" fill="none" stroke="{faint}" stroke-width="0.8"/>')
+        for r in range(4):
+            yy = cy(0.25) + r * 16
+            o.append(f'<rect x="{cx(0.08):.1f}" y="{yy:.1f}" width="{w*0.26:.1f}" height="10" fill="none" stroke="{faint}" stroke-width="0.8"/>')
+        for k in range(5):
+            yy = cy(0.25) + rnd.randrange(4) * 16
+            o.append(f'<rect x="{cx(0.08):.1f}" y="{yy:.1f}" width="12" height="10" rx="2" fill="{acc}" class="rec" '
+                     f'style="--dx:{sx-rw-cx(0.08)-6:.1f}px;--dy:{sy+rh*0.5-yy-5:.1f}px;animation-delay:{-k*0.55:.2f}s"/>')
+    elif code == "W":
+        # a browser; pages turn over in it, a cursor clicks through
+        bx, by, bw, bh = x0 + 10, y0 + 12, w - 20, h - 24
+        o.append(f'<rect x="{bx}" y="{by}" width="{bw}" height="{bh}" rx="4" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.1"/>')
+        o.append(f'<path d="M{bx},{by+13} H{bx+bw}" stroke="{faint}" stroke-width="0.8"/>')
+        for i in range(3):
+            o.append(f'<circle cx="{bx+8+i*7}" cy="{by+6.5}" r="2.2" fill="{acc if i == 0 else faint}"/>')
+        o.append(f'<clipPath id="pg{seed}"><rect x="{bx+1}" y="{by+14}" width="{bw-2}" height="{bh-15}"/></clipPath>')
+        pages = []
+        for pi in range(2):
+            r2 = random.Random(seed * 7 + pi)
+            g = [f'<rect x="{bx+8}" y="{by+22}" width="{bw*r2.uniform(0.4,0.6):.1f}" height="9" fill="{t["ink2"]}" fill-opacity=".6"/>',
+                 f'<rect x="{bx+8}" y="{by+36}" width="{bw*0.8:.1f}" height="4" fill="{faint}"/>',
+                 f'<rect x="{bx+8}" y="{by+44}" width="{bw*0.62:.1f}" height="4" fill="{faint}"/>']
+            for c in range(3):
+                g.append(f'<rect x="{bx+8+c*(bw-16)/3:.1f}" y="{by+56}" width="{(bw-16)/3-5:.1f}" height="{bh-64:.1f}" rx="2" fill="none" '
+                         f'stroke="{acc if (c == r2.randrange(3)) else faint}" stroke-width="0.9"/>')
+            pages.append(f'<g class="page{pi}">' + "".join(g) + "</g>")
+        o.append(f'<g clip-path="url(#pg{seed})">' + "".join(pages) + "</g>")
+        o.append(f'<g class="cursor"><path d="M0,0 V13 L3.5,10 L6,15 L8,14 L5.5,9 H10 Z" fill="{t["ink"]}" stroke="{t["sheet"]}" stroke-width="0.8"/>'
+                 f'<circle r="7" fill="none" stroke="{acc}" stroke-width="1.2" class="click"/></g>')
+    else:
+        # a training run: loss falls, points settle
+        ax0, ay0, ax1, ay1 = x0 + 16, y0 + h - 16, x0 + w - 10, y0 + 12
+        o.append(f'<path d="M{ax0},{ay1} V{ay0} H{ax1}" fill="none" stroke="{ink}" stroke-width="1"/>')
+        for k in range(1, 4):
+            yy = ay0 - (ay0 - ay1) * k / 4
+            o.append(f'<path d="M{ax0},{yy:.1f} H{ax1}" stroke="{faint}" stroke-width="0.6" stroke-dasharray="2 3"/>')
+        a_ = rnd.uniform(3.5, 5.5)
+        pts = []
+        for i in range(31):
+            f = i / 30
+            v = math.exp(-a_ * f) * 0.85 + 0.08 + rnd.uniform(-0.03, 0.03)
+            pts.append((ax0 + (ax1 - ax0) * f, ay0 - (ay0 - ay1) * v))
+        d = "M" + " L".join(f"{x:.1f},{y:.1f}" for x, y in pts)
+        o.append(f'<path d="{d}" pathLength="1" fill="none" stroke="{acc}" stroke-width="1.6" class="loss"/>')
+        val = [(x, y + (ay0 - ay1) * rnd.uniform(0.04, 0.1)) for x, y in pts[::5]]
+        for i, (x, y) in enumerate(val):
+            o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="2.3" fill="none" stroke="{t["ink2"]}" stroke-width="1" class="pt" style="animation-delay:{i*0.35:.2f}s"/>')
+        o.append(text(ax1, ay1 + 8, "loss", "mono", 8.5, t["ink4"], "end"))
+    return "".join(o)
+
+
+MOTIF_CSS = (
+    ".sig{stroke-dasharray:.12 .88;animation:sig 2s linear infinite}@keyframes sig{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}"
+    ".node{animation:node 2.2s ease-in-out infinite alternate}@keyframes node{from{opacity:.25}to{opacity:1}}"
+    ".boxa{animation:boxa 5s steps(1) infinite}@keyframes boxa{0%{opacity:1}50%{opacity:0}}"
+    ".boxb{opacity:0;animation:boxb 5s steps(1) infinite}@keyframes boxb{0%{opacity:0}50%{opacity:1}}"
+    ".scanv{animation:scanv 2.5s ease-in-out infinite alternate}@keyframes scanv{to{transform:translateY(104px)}}"
+    ".blink{animation:blink 1.2s steps(2) infinite}@keyframes blink{50%{opacity:0}}"
+    ".rec{opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation:rec 2.75s cubic-bezier(.5,0,.5,1) infinite}"
+    "@keyframes rec{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.4)}}"
+    ".level{animation:level 3s ease-in-out infinite alternate}@keyframes level{to{transform:translateY(-10px)}}"
+    ".page0{animation:pg0 7s cubic-bezier(.6,0,.2,1) infinite}.page1{animation:pg1 7s cubic-bezier(.6,0,.2,1) infinite}"
+    "@keyframes pg0{0%,40%{transform:translateX(0);opacity:1}50%,90%{transform:translateX(-40px);opacity:0}100%{transform:translateX(0);opacity:1}}"
+    "@keyframes pg1{0%,40%{transform:translateX(40px);opacity:0}50%,90%{transform:translateX(0);opacity:1}100%{transform:translateX(-40px);opacity:0}}"
+    ".cursor{animation:cur 7s ease-in-out infinite}"
+    "@keyframes cur{0%{transform:translate(500px,90px)}30%,38%{transform:translate(520px,108px)}70%,78%{transform:translate(470px,100px)}100%{transform:translate(500px,90px)}}"
+    ".click{opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation:click 3.5s ease-out 1.2s infinite}"
+    "@keyframes click{0%{opacity:1;transform:scale(.3)}25%{opacity:0;transform:scale(1.8)}100%{opacity:0}}"
+    ".loss{stroke-dasharray:1 1;animation:loss 6s cubic-bezier(.3,0,.3,1) infinite}"
+    "@keyframes loss{0%{stroke-dashoffset:1}55%,90%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}"
+    ".pt{opacity:0;animation:pt 6s ease-out infinite}@keyframes pt{0%{opacity:0}10%,88%{opacity:1}100%{opacity:0}}"
+    "@media (prefers-reduced-motion:reduce){.rec,.click{display:none}.boxb,.pt{opacity:1}}"
+)
+
+
+def card(t, zone, i, p, seed) -> str:
+    W_, H_ = CARD_W, CARD_H
+    code = f"{zone['code']}-{i+1:02d}"
+    o = [f'<defs><radialGradient id="cg" cx="50%" cy="40%" r="70%"><stop offset="0" stop-color="{t["accent"]}" '
+         f'stop-opacity="{0.10 if t["glow_op"] > .5 else 0.06}"/><stop offset="1" stop-color="{t["accent"]}" stop-opacity="0"/></radialGradient>'
+         f'{grid_defs(t, "cgr", 12, 60)}</defs>',
+         f'<rect x="1" y="1" width="{W_-2}" height="{H_-2}" rx="10" fill="{t["sheet"]}" stroke="{t["rule_strong"]}" stroke-width="1.2"/>',
+         f'<rect x="1" y="1" width="{W_-2}" height="{H_-2}" rx="10" fill="url(#cgrM)" opacity=".7"/>',
+         pen(f"M11,11 H{W_-11} V{H_-11} H11 Z", t["rule"], 0.8, 0.05, 1.4)]
+    for (px, py, sx, sy) in ((5, 5, 1, 1), (W_ - 5, 5, -1, 1), (5, H_ - 5, 1, -1), (W_ - 5, H_ - 5, -1, -1)):
+        o.append(f'<path d="M{px},{py+sy*10} V{py} H{px+sx*10}" fill="none" stroke="{t["accent_line"]}" stroke-width="1.2"/>')
+    # number and domain
+    o.append(f'<rect x="26" y="26" width="58" height="24" rx="3" fill="{t["accent"]}"/>')
+    o.append(text(55, 43, code, "mono-m", 13, t["sheet"], "middle"))
+    o.append(label(96, 43, zone["title"], t, t["ink4"], 11.5))
+    o.append(f'<g class="up"{d_(0.15)}>' + text(24, 102, p["name"], "serif", 46 if len(p["name"]) < 15 else 38, t["ink"]) + "</g>")
+    o.append(text(26, 130, p["sub"], "mono", 14, t["ink3"], extra=f' class="mono fi"{d_(0.3)}'))
+    o.append(motif(t, zone["code"], seed, 432, 22, 144, 116))
+    o.append(line_pen(26, 150, W_ - 26, 150, t["rule"], 0.8, 0.3, 1.0))
+    # the description: as large as it can be and still fit
+    for size, lh in ((18, 25.5), (17, 24), (16, 22.5), (15, 21)):
+        lines = wrap(p["desc"], size, W_ - 54, 0.535)
+        if 180 + (len(lines) - 1) * lh <= H_ - 92:
+            break
+    for k, ln in enumerate(lines):
+        o.append(text(26, 180 + k * lh, ln, "sans", size, t["ink2"], extra=f' class="sans fi"{d_(0.35+k*0.06)}'))
+    # stack, as chips, as many as the row holds
+    x, ty = 26, H_ - 76
+    shown = 0
+    for s in p.get("stack", []):
+        cw = mono_w(s, 12) + 16
+        if x + cw > W_ - 64:
+            break
+        o.append(f'<rect x="{x:.1f}" y="{ty}" width="{cw:.1f}" height="24" rx="3" fill="none" stroke="{t["rule"]}" stroke-width="0.9"/>')
+        o.append(text(x + 8, ty + 16.5, s, "mono", 12, t["ink2"]))
+        x += cw + 6
+        shown += 1
+    rest = len(p.get("stack", [])) - shown
+    if rest > 0:
+        o.append(text(x + 2, ty + 16.5, f"+{rest}", "mono-m", 12, t["ink4"]))
+    # foot: where it lives
+    fy = H_ - 30
+    o.append(rule(26, fy - 12, W_ - 26, fy - 12, t["rule_faint"], 0.8))
+    if p.get("href"):
+        o.append(text(26, fy + 6, p["href"].replace("https://", ""), "mono", 12.5, t["ink4"]))
+        o.append(label(W_ - 48, fy + 6, "open", t, t["accent"], 12.5, "end"))
+        o.append(f'<path d="M{W_-40},{fy+6} L{W_-28},{fy-6} M{W_-38},{fy-6} H{W_-28} V{fy+4}" fill="none" stroke="{t["accent"]}" stroke-width="1.5"/>')
+    else:
+        o.append(text(26, fy + 6, "private · described here, not linked", "mono", 12.5, t["ink4"]))
+        o.append(f'<rect x="{W_-118}" y="{fy-10}" width="92" height="22" rx="3" fill="none" stroke="{t["accent"]}" stroke-width="1.2"/>')
+        o.append(label(W_ - 72, fy + 5.5, "private", t, t["accent"], 12, "middle"))
+    alt = f"{code} · {p['name']}: {p['desc']}" + (f" Stack: {', '.join(p['stack'])}." if p.get("stack") else "")
+    return svg(W_, H_, "\n".join(o), ("serif", "mono", "mono-m", "sans"), alt, MOTIF_CSS)
+
+
+def zone_band(t, zone) -> str:
+    H_ = 74
+    n = len(zone["projects"])
+    o = [f'<g class="tag" transform="translate(22,40)"><circle r="17" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="1.6"/>'
+         + text(0, 5.5, zone["code"], "mono-m", 16, t["accent"], "middle") + "</g>",
+         f'<g class="lt"{d_(0.15)}>' + text(54, 52, zone["title"], "serif", 38, t["ink"]) + "</g>",
+         line_pen(54, 66, W, 66, t["rule"], 0.9, 0.2, 1.4),
+         label(W, 50, f"{zone['code']}-01 to {zone['code']}-{n:02d}  ·  {n} sheet{'s' if n != 1 else ''}", t, t["ink4"], 12, "end")]
+    css = ".tag{animation:tag .7s cubic-bezier(.3,1.6,.5,1) both}@keyframes tag{from{opacity:0;transform:translate(22px,40px) scale(0)}}"
+    return svg(W, H_, "\n".join(o), ("serif", "mono-m"), f"{zone['code']} · {zone['title']}, {n} sheets", css)
+
+
+def index_markdown(zones) -> str:
+    """The README's sheet index: a band per domain, then its cards two to a row."""
+    def pic(path, alt, width=None):
+        w = f' width="{width}"' if width else ' width="100%"'
+        return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="assets/dark/{path}">'
+                f'<img src="assets/light/{path}"{w} alt="{escape(alt, {chr(34): "&quot;"})}"></picture>')
+
+    out = []
+    for z in zones:
+        block = [pic(f"cards/zone-{z['code'].lower()}.svg", f"{z['code']} · {z['title']}"), "", '<p align="center">']
+        for i, p in enumerate(z["projects"]):
+            code = f"{z['code']}-{i+1:02d}"
+            alt = f"{code} · {p['name']}: {p['desc']}"
+            img = pic(f"cards/{code.lower()}.svg", alt, "49%")
+            block.append(f'<a href="{p["href"]}">{img}</a>' if p.get("href") else img)
+        block.append("</p>")
+        if z["code"] == "R":
+            out += ["<details>", f"<summary><b>R-01 to R-{len(z['projects']):02d}</b> · research notebooks from earlier flight tests</summary>",
+                    "<br>", ""] + block + ["", "</details>"]
+        else:
+            out += block + [""]
+    return "\n" + "\n".join(out).rstrip() + "\n"
+
+
+# --------------------------------------------------------------------------
 # Plate 5: telemetry. Counts only; no grades, no ranks.
 # --------------------------------------------------------------------------
 def day_stats(days):
@@ -1501,7 +1777,7 @@ def refresh_stats(login="ax5hay"):
     return s
 
 
-def sync_readme(stack, updated) -> None:
+def sync_readme(stack, updated, zones) -> None:
     """Keep the plain-text schedule and the dateline inside README.md in step."""
     readme = ROOT / "README.md"
     if not readme.exists():
@@ -1517,6 +1793,7 @@ def sync_readme(stack, updated) -> None:
 
     lines = [f"- **{cat['category']}.** " + ", ".join(i["name"] for i in cat["items"]) for cat in stack]
     body = replace_block(body, "<!-- schedule:start -->", "<!-- schedule:end -->", "\n" + "\n".join(lines) + "\n")
+    body = replace_block(body, "<!-- index:start -->", "<!-- index:end -->", index_markdown(zones))
     pretty = dt.date.fromisoformat(updated).strftime("%-d %B %Y")
     body = replace_block(body, "<!-- updated:start -->", "<!-- updated:end -->", pretty)
     readme.write_text(body)
@@ -1552,11 +1829,18 @@ def main():
         (out / "keyplan.svg").write_text(plate_keyplan(t, zones))
         (out / "schedule.svg").write_text(plate_schedule(t, stack, zones))
         (out / "numbers.svg").write_text(plate_telemetry(t, stats, updated))
+        cards = out / "cards"
+        cards.mkdir(exist_ok=True)
+        for z in zones:
+            (cards / f"zone-{z['code'].lower()}.svg").write_text(zone_band(t, z))
+            for i, p in enumerate(z["projects"]):
+                seed = sum(map(ord, p["name"]))
+                (cards / f"{z['code'].lower()}-{i+1:02d}.svg").write_text(card(t, z, i, p, seed))
         (out / "closing.svg").write_text(plate_closing(t, updated, rev))
         for key, code, title, note, seq in headers:
             (out / f"h-{key}.svg").write_text(plate_header(t, code, title, note, seq))
-    sync_readme(stack, updated)
-    print(f"updated {updated} rev {rev}: {len(list(ASSETS.glob('*/*.svg')))} plates")
+    sync_readme(stack, updated, zones)
+    print(f"updated {updated} rev {rev}: {len(list(ASSETS.glob('*/**/*.svg')))} plates")
 
 
 if __name__ == "__main__":

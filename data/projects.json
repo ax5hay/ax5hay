@@ -4,58 +4,58 @@
       "code": "A",
       "title": "AI & LLM systems",
       "projects": [
-        {"name": "AURIXA", "sub": "governed care-ops platform"},
-        {"name": "ReBo", "sub": "self-learning SQL reports"},
-        {"name": "GHDA-SaaS", "sub": "gov health-data automation"},
-        {"name": "OCR-LLM-DIST", "sub": "local document chat"},
-        {"name": "ai-automation", "sub": "support triage, multichannel"},
-        {"name": "JobSlave", "sub": "LLM-driven job applications"},
-        {"name": "OCR-LocalLLM", "sub": "single-file PDF chat"}
+        {"name": "AURIXA", "sub": "governed care-ops platform", "href": "https://github.com/ax5hay/AURIXA", "private": false, "desc": "Multi-tenant conversational care operations. Patients get calm self-service, staff get a shared workspace, platform teams get governed LLM assistance, all over one orchestration and safety layer.", "stack": ["TypeScript", "Python", "Next.js", "Fastify", "FastAPI", "Postgres", "Redis", "Terraform", "EKS"]},
+        {"name": "ReBo", "sub": "self-learning SQL reports", "href": null, "private": true, "desc": "A reports bot for any SQL database that learns from the people who use it. Ask in plain words; it writes one read-only query, runs it, and says how it read the question. Five independent walls stand between a question and a write, from a SELECT-only user to a syntax-tree guard. Repeat questions rerun with no model call; 44 of 48 matching numbers on a test company, at about two cents a question.", "stack": ["Python 3.13", "Pydantic AI", "sqlglot", "SQLAlchemy", "FastAPI", "MCP", "pgvector", "React 19", "Phoenix"]},
+        {"name": "GHDA-SaaS", "sub": "gov health-data automation", "href": "https://github.com/ax5hay/GHDA-SaaS", "private": false, "desc": "Government health-data automation. Turns messy, multilingual survey reports into structured JSON, gap analysis and compliance insight.", "stack": ["Fastify gateway", "FastAPI services", "OCR", "Postgres", "MinIO", "Prometheus"]},
+        {"name": "OCR-LLM-DIST", "sub": "local document chat", "href": "https://github.com/ax5hay/OCR-LLM-DIST", "private": false, "desc": "Document chat that never leaves the machine. OCR ingestion feeds local LLMs for streaming, grounded answers; Ollama and LM Studio swap freely.", "stack": ["FastAPI", "Next.js", "PyMuPDF", "Streamlit", "Docker"]},
+        {"name": "ai-automation", "sub": "support triage, multichannel", "href": "https://github.com/ax5hay/ai-automation-main", "private": false, "desc": "Support automation for a publisher. Classifies intent, runs hybrid semantic and keyword retrieval, and unifies one person's identity across WhatsApp, Instagram, email, web and SMS.", "stack": ["Node.js", "Express", "LangChain", "Weaviate", "Supabase", "Twilio"]},
+        {"name": "JobSlave", "sub": "LLM-driven job applications", "href": "https://github.com/ax5hay/JobSlave", "private": false, "desc": "Queue roles once; a local LLM answers screening questions while Playwright applies end to end. No cloud LLMs, no form grinding.", "stack": ["TypeScript", "Electron", "Playwright", "Drizzle", "LM Studio"]},
+        {"name": "OCR-LocalLLM", "sub": "single-file PDF chat", "href": "https://github.com/ax5hay/OCR-LocalLLM", "private": false, "desc": "The single-file version: read a PDF, ask a local model questions grounded in it.", "stack": ["Python", "Streamlit", "PyMuPDF"]}
       ]
     },
     {
       "code": "V",
       "title": "Vision, edge & desktop",
       "projects": [
-        {"name": "Vigilix", "sub": "AI video wall"},
-        {"name": "DADM", "sub": "defensive AI mesh"},
-        {"name": "FlowState", "sub": "offline threat console"},
-        {"name": "KeepMeAwake", "sub": "native tray app, Rust"}
+        {"name": "Vigilix", "sub": "AI video wall", "href": "https://github.com/ax5hay/Vigilix", "private": false, "desc": "A live, AI-annotated video wall for security teams. RTSP ingest, YOLO overlays, incident alerts, patrol view and multi-tenant licensing.", "stack": ["React", "Vite", "FastAPI", "Python vision worker", "Postgres"]},
+        {"name": "DADM", "sub": "defensive AI mesh", "href": "https://github.com/ax5hay/DADM-Aiximius", "private": false, "desc": "A distributed defensive-AI mesh. On-device anomaly detection, encrypted federated updates and a defense-ontology graph. Offline-first, zero-trust, air-gap capable.", "stack": ["Rust agent", "Python", "ONNX", "Neo4j", "Ansible"]},
+        {"name": "FlowState", "sub": "offline threat console", "href": null, "private": true, "desc": "Video analytics for machines that may not call home. A FastAPI engine runs fifteen detectors across up to six cameras and fuses them into one 0 to 100 threat index, under an Electron and React console. A missing model greys out one detector with the reason named, never the console. Ships air-gapped, with its own Python runtime and bundled weights.", "stack": ["Python", "FastAPI", "Electron", "React", "YOLO", "ONNX Runtime", "OpenCV", "PyTorch", "SQLite"]},
+        {"name": "KeepMeAwake", "sub": "native tray app, Rust", "href": "https://github.com/ax5hay/KeepMeAwake", "private": false, "desc": "Keeps a laptop awake by asking the operating system nicely: a Windows power request or a macOS power assertion, never a fake keypress. Timers, schedules, battery rules, an overnight guard and an almanac of hours, in about 5 MB. A pure Rust core with every OS call behind a trait, signed auto-updates, and five decision records.", "stack": ["Rust", "Tauri 2", "Svelte 5", "Win32 power requests", "IOKit", "Windows and macOS"]}
       ]
     },
     {
       "code": "D",
       "title": "Data & platforms",
       "projects": [
-        {"name": "AIDA", "sub": "health intelligence"},
-        {"name": "RestroScraper", "sub": "lead-gen CRM"},
-        {"name": "TracePulse", "sub": "Python tracing library"},
-        {"name": "shelf", "sub": "family reading server"}
+        {"name": "AIDA", "sub": "health intelligence", "href": "https://github.com/ax5hay/AIDA", "private": false, "desc": "Health-facility programme intelligence. Postgres to Prisma to NestJS to Next.js, with an LLM layer that only narrates numbers the API already computed.", "stack": ["TypeScript", "NestJS", "Prisma", "Next.js", "Recharts"]},
+        {"name": "RestroScraper", "sub": "lead-gen CRM", "href": "https://github.com/ax5hay/RestroScraper-PY", "private": false, "desc": "A lead-generation CRM. Scrapes business profiles, enriches and dedupes them, and tracks every lead through a pipeline.", "stack": ["FastAPI", "Next.js", "Playwright", "Selenium", "SQLAlchemy", "JSONB"]},
+        {"name": "TracePulse", "sub": "Python tracing library", "href": "https://github.com/ax5hay/TracePulse", "private": false, "desc": "One decorator for execution tracing in sync and async Python: timings, exceptions and structured logs, at minimal overhead.", "stack": ["Python", "Loguru"]},
+        {"name": "shelf", "sub": "family reading server", "href": null, "private": true, "desc": "An offline-first family reading server, forked and reshaped, with its own decision records and runbook.", "stack": ["C#", "ASP.NET Core", "EF Core", "Angular", "SQLite"]}
       ]
     },
     {
       "code": "W",
       "title": "Web & product",
       "projects": [
-        {"name": "MirrorState", "sub": "behavioral evidence OS"},
-        {"name": "akshaybajpai.com", "sub": "a site as a drawing set"},
-        {"name": "medhathapliyal.site", "sub": "notebook portfolio"},
-        {"name": "aiximius.com", "sub": "company site, no build"},
-        {"name": "ew-dashboard", "sub": "React analytics"},
-        {"name": "Merakiel.in", "sub": "a doorplate, client work"}
+        {"name": "MirrorState", "sub": "behavioral evidence OS", "href": "https://github.com/ax5hay/MirrorState", "private": false, "desc": "A behavioural enforcement system built on operational evidence instead of self-report.", "stack": ["Next.js 15", "React 19", "Fastify", "Prisma", "BullMQ", "Socket.IO", "Turborepo"]},
+        {"name": "akshaybajpai.com", "sub": "a site as a drawing set", "href": "https://github.com/ax5hay/akshaybajpai.com", "private": false, "desc": "A personal site issued as numbered architectural sheets, re-issuable in three CSS-only states, with an x-ray lens over any part. 100 on accessibility and SEO, 60 fps on a throttled CPU, no animation or 3D libraries.", "stack": ["Next.js 15", "static export", "View Transitions API", "GitHub Pages"]},
+        {"name": "medhathapliyal.site", "sub": "notebook portfolio", "href": "https://github.com/ax5hay/medhathapliyal.site", "private": false, "desc": "A notebook-style portfolio with page-turn transitions and full structured data.", "stack": ["Astro 5", "View Transitions API", "GitHub Pages"]},
+        {"name": "aiximius.com", "sub": "company site, no build", "href": "https://github.com/ax5hay/aiximius.com", "private": false, "desc": "A company site written by hand. No framework, no build step.", "stack": ["HTML", "CSS", "GitHub Pages"]},
+        {"name": "ew-dashboard", "sub": "React analytics", "href": "https://github.com/ax5hay/ew-dashboard", "private": false, "desc": "A React analytics dashboard with a Testing Library setup.", "stack": ["React", "Recharts", "Tailwind CSS"]},
+        {"name": "Merakiel.in", "sub": "a doorplate, client work", "href": "https://github.com/ax5hay/Merakiel.in", "private": false, "desc": "A doorplate for private client work. The root page publishes nothing; each engagement gets its own surface elsewhere.", "stack": ["HTML", "CSS", "GitHub Pages"]}
       ]
     },
     {
       "code": "R",
       "title": "Research notebooks",
       "projects": [
-        {"name": "Alzheimer's thesis", "sub": "nine models, OASIS"},
-        {"name": "Anime-face GAN", "sub": "TensorFlow"},
-        {"name": "Chinese MNIST CNN", "sub": "15 classes"},
-        {"name": "Tweet sentiment RNN", "sub": "Keras"},
-        {"name": "Stock-price GRU", "sub": "time series"},
-        {"name": "Cervical risk classifier", "sub": "scikit-learn"},
-        {"name": "Hangman solver", "sub": "n-gram back-off"}
+        {"name": "Alzheimer's thesis", "sub": "nine models, OASIS", "href": "https://github.com/ax5hay/AlzheimersDiagnosis", "private": false, "desc": "Master's research: nine models benchmarked on OASIS clinical and neuroimaging biomarkers to classify dementia.", "stack": []},
+        {"name": "Anime-face GAN", "sub": "TensorFlow", "href": "https://github.com/ax5hay/GAN-Anime-Faces", "private": false, "desc": "A generator and discriminator trained against each other until the faces convince.", "stack": []},
+        {"name": "Chinese MNIST CNN", "sub": "15 classes", "href": "https://github.com/ax5hay/CNN-Chinese-MNIST", "private": false, "desc": "Fifteen handwritten numeral classes across fifteen thousand images.", "stack": []},
+        {"name": "Tweet sentiment RNN", "sub": "Keras", "href": "https://github.com/ax5hay/RNN_TheSocialDilemma", "private": false, "desc": "Recurrent models compared side by side on documentary reactions.", "stack": []},
+        {"name": "Stock-price GRU", "sub": "time series", "href": "https://github.com/ax5hay/Stock-Market-Prediction-GRU", "private": false, "desc": "Stacked GRUs over windowed price history. Not financial advice.", "stack": []},
+        {"name": "Cervical risk classifier", "sub": "scikit-learn", "href": "https://github.com/ax5hay/Cervical-Cancer-Classification", "private": false, "desc": "Imbalanced clinical data, judged on precision, recall, and ROC-AUC rather than accuracy.", "stack": []},
+        {"name": "Hangman solver", "sub": "n-gram back-off", "href": "https://github.com/ax5hay/Hangman_API_Optimisation_Problem", "private": false, "desc": "Pattern filtering over a 250k-word dictionary with n-gram back-off for words out of distribution.", "stack": []}
       ]
     }
   ]
