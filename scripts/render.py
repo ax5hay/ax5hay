@@ -728,7 +728,9 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
            ".flow{animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-11}}")
     alt = ("Akshay Bajpai. In thrust we trust. I lead technology from the first client conversation to the release: "
            "the architecture, the team, the code, and the runbook after. Boardroom to bare metal. "
-           "A rocket engine is drawn by a plotter and lit; an x-ray lens drifts over it and shows the software inside.")
+           "The name is inked, outlines first. A rocket engine is drawn by a plotter, dimensioned and cut at section A-A, then lit; "
+           "it vectors on its gimbal while an x-ray lens drifts over it and shows the software inside. "
+           "A strip lists the sheets in the set.")
     return svg(W, H, "\n".join(o), ("serif", "serif-i", "mono", "mono-m", "sans"), alt, css)
 
 
