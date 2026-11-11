@@ -1,6 +1,6 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/hero.svg">
-  <img src="assets/light/hero.svg" width="100%" alt="Akshay Bajpai. In thrust we trust. I lead technology from the first client conversation to the release: the architecture, the team, the code, and the runbook after. Boardroom to bare metal: clients, teams, architecture, AI, code. Sheet GH-01 of a drawing set: a rocket engine drawn in section, with callouts for the schema that refuses bad data, orchestration, safety and guardrails, and observability. Controlled, thrust is trust.">
+  <img src="assets/light/hero.svg" width="100%" alt="Akshay Bajpai. In thrust we trust. I lead technology from the first client conversation to the release: the architecture, the team, the code, and the runbook after. Built to hold under load and fail loud. Boardroom to bare metal: clients, teams, architecture, AI, code. Sheet GH-01 of a drawing set: a plotter draws a rocket engine in section, then it lights. An x-ray lens drifts over it and shows the software inside: orchestrator, queue, schema, contracts, guard, evals, retry, trace, audit, cost, runbook. Callouts mark orchestration, the schema that refuses bad data, safety and guardrails, and observability. Controlled, it is trust.">
 </picture>
 
 <p align="center">
@@ -13,7 +13,7 @@
   <a href="mailto:contact@akshaybajpai.com"><b>contact@akshaybajpai.com</b></a>
 </p>
 
-<p align="center"><sub>Last updated <!-- updated:start -->10 November 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
+<p align="center"><sub>Last updated <!-- updated:start -->12 November 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
 
 <br>
 
@@ -38,6 +38,15 @@
 </picture>
 
 What the work was and what it changed, without letterheads or dates. Two of these I ran as CTO, where the architecture, the people and the delivery were one job; the rest I led from the code outward. In most of them I was also the client's main technical voice, from the first scoping call to acceptance.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/teststand.svg">
+  <img src="assets/light/teststand.svg" width="100%" alt="Test stand. Eight gauges, one per kind of work, each needle stopping at a number from the record. Defence video intelligence: 70% less analyst intervention, under 200 ms from ingestion to decision. Multi-tenant health AI: 8,000+ approved columns made reportable across 193 tables, 100+ prompts retired. Restaurant operations: 32% less food waste across 200+ restaurants. Event pipelines: 2M+ events a day, each under 100 ms. Agentic finance: 60% fewer manual touchpoints. Fine-tuned health models: 80% lower inference cost at 94% precision, p95 under 800 ms. Insurance documents: 95%+ extraction accuracy, underwriting efficiency up 78%. Clinical NLP: 91.5% accuracy on 47+ variables, 5K+ health records a day.">
+</picture>
+
+<details>
+<summary><b>The record, engagement by engagement</b> · what each one was, and every number behind the gauges</summary>
+<br>
 
 <table>
 <tbody>
@@ -75,6 +84,8 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 </tr>
 </tbody>
 </table>
+
+</details>
 
 <br>
 
@@ -180,20 +191,20 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/h-numbers.svg">
-  <img src="assets/light/h-numbers.svg" width="100%" alt="By the numbers">
+  <img src="assets/light/h-numbers.svg" width="100%" alt="Telemetry">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/numbers.svg">
-  <img src="assets/light/numbers.svg" width="100%" alt="By the numbers: repositories, contributions over the last twelve months, years on GitHub, and languages ranked by how many repositories use them.">
+  <img src="assets/light/numbers.svg" width="100%" alt="Telemetry, read from GitHub: contributions over the last year, the last 30 days, the busiest day, repositories, and years on GitHub, rolled up on odometer drums. A year of daily contributions drawn as an oscilloscope burn trace, and languages drawn as propellant tanks filled by how many repositories use them.">
 </picture>
 
-<sub>Every plate on this page is drawn by <a href="scripts/render.py">one script</a> from the data in this repository, in the same type and ink as <a href="https://www.akshaybajpai.com">the site</a>, and re-issued daily by a GitHub Action. No third-party stat cards, no grades, no ranks.</sub>
+<sub>Every plate on this page is drawn by <a href="scripts/render.py">one script</a> from the data in this repository, in the same type and ink as <a href="https://www.akshaybajpai.com">the site</a>, and re-issued daily by a GitHub Action. The motion is CSS and SMIL inside each SVG: no scripts, no GIFs, no third-party cards, no grades. With reduced motion on, every plate rests as a finished drawing. Switch your theme to see the other issue: paper by day, blueprint by night.</sub>
 
 <br>
 <br>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/closing.svg">
-  <img src="assets/light/closing.svg" width="100%" alt="End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet.">
+  <img src="assets/light/closing.svg" width="100%" alt="End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet. A launch vehicle vents on the pad, lights, and lifts off; the tower arm swings clear and the smoke rolls out along the ground.">
 </picture>
