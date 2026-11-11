@@ -950,6 +950,7 @@ def plate_teststand(t) -> str:
     rig, taps = test_rig(t, EY, GY)
     o += rig
     A0, SWEEP = 135, 270
+    RT, RT0 = 24, 3.0           # re-test period, and when the first one is due
     css = []
     # the harness: a line from each tap down to its gauge, with data running along it
     for i, (tx_, ty_) in enumerate(taps):
@@ -996,6 +997,8 @@ def plate_teststand(t) -> str:
         o.append(f'<circle cx="{lx_:.1f}" cy="{ly_}" r="3.4" fill="{t["deep"]}" stroke="{t["rule_strong"]}" stroke-width="0.7"/>')
         o.append(f'<circle cx="{lx_:.1f}" cy="{ly_}" r="7" fill="{t["ok"]}" fill-opacity=".25" class="lamp" style="animation-delay:{dl+3:.2f}s"/>'
                  f'<circle cx="{lx_:.1f}" cy="{ly_}" r="2.6" fill="{t["ok"]}" class="lamp" style="animation-delay:{dl+3:.2f}s"/>')
+        o.append(f'<circle cx="{lx_:.1f}" cy="{ly_}" r="3.2" fill="{t["accent"]}" class="lampr" style="animation-delay:{dl+RT0:.2f}s"/>')
+        o.append(f'<g class="lampr" style="animation-delay:{dl+RT0:.2f}s">' + text(gx, gy - 60, "RE-TEST", "mono-m", 9, t["accent"], "middle", tracking=0.14) + "</g>")
         # graduations: 50 minor, 10 major
         for k in range(51):
             a = A0 + SWEEP * k / 50
@@ -1013,10 +1016,12 @@ def plate_teststand(t) -> str:
         o.append(f'<path d="M{sx:.1f},{sy:.1f} A{ar},{ar} 0 1 1 {P(A0+SWEEP, ar)[0]:.1f},{P(A0+SWEEP, ar)[1]:.1f}" fill="none" '
                  f'stroke="{t["rule_faint"]}" stroke-width="7"/>')
         band_d = f"M{sx:.1f},{sy:.1f} A{ar},{ar} 0 {large} 1 {exx:.1f},{eyy:.1f}"
+        band_anim = (f'animation:dr 2.2s cubic-bezier(.3,.1,.3,1) {dl+0.6:.2f}s both,'
+                     f'rb {RT}s ease-in-out {dl+RT0:.2f}s infinite')
         o.append(f'<path d="{band_d}" pathLength="1" fill="none" stroke="{t["accent"]}" stroke-width="16" stroke-opacity="{0.16 if t["glow_op"] > .5 else 0.08}" '
-                 f'stroke-linecap="round" class="band" style="animation-delay:{dl+0.6:.2f}s"/>')
+                 f'stroke-linecap="round" class="band" style="{band_anim}"/>')
         o.append(f'<path d="{band_d}" pathLength="1" fill="none" '
-                 f'stroke="{t["accent"]}" stroke-width="7" class="band" style="animation-delay:{dl+0.6:.2f}s"/>')
+                 f'stroke="{t["accent"]}" stroke-width="7" class="band" style="{band_anim}"/>')
         # dial ends
         lx_, ly_ = P(A0 + 4, R + 30)
         o.append(text(lx_, ly_ + 4, ends[0], "mono", 12, t["ink4"], "middle"))
@@ -1029,10 +1034,14 @@ def plate_teststand(t) -> str:
                    f"78%{{transform:rotate(-2.5deg)}}90%{{transform:rotate(1deg)}}100%{{transform:rotate(0)}}}}")
         o.append(f'<g transform="translate({gx:.1f},{gy}) rotate({fin:.1f})">'
                  f'<g style="animation:{kname} 2.4s cubic-bezier(.3,.1,.3,1) {dl+0.6:.2f}s both">'
+                 f'<g style="animation:rt{i} {RT}s ease-in-out {dl+RT0:.2f}s infinite">'
                  f'<g class="tremor" style="animation-delay:{-i*0.37:.2f}s">'
                  f'<path d="M-16,-3.2 L{R-10},-0.9 L{R-4},0 L{R-10},0.9 L-16,3.2 Z" fill="{t["accent"]}"/>'
                  f'<path d="M-16,0 H{R-6}" stroke="{t["sheet"]}" stroke-width="0.6" stroke-opacity=".6"/>'
-                 '</g></g></g>')
+                 '</g></g></g></g>')
+        # every so often the channel is re-run: needle to zero and back, band with it
+        css.append(f"@keyframes rt{i}{{0%,88%{{transform:rotate(0)}}91%{{transform:rotate({-SWEEP*f:.1f}deg)}}"
+                   f"96%{{transform:rotate(4deg)}}98%{{transform:rotate(-1.5deg)}}100%{{transform:rotate(0)}}}}")
         o.append(f'<circle cx="{gx:.1f}" cy="{gy}" r="9" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="2"/>')
         o.append(f'<circle cx="{gx:.1f}" cy="{gy}" r="2.6" fill="{t["accent"]}"/>')
         # glass: one soft glint across the upper left
@@ -1065,6 +1074,8 @@ def plate_teststand(t) -> str:
                ".hfl1,.hfl2{transform-origin:0 50%}.hfl1{animation:hfl .27s ease-in-out infinite alternate}.hfl2{animation:hfl .19s ease-in-out infinite alternate-reverse}"
                "@keyframes hfl{from{transform:scale(1,1)}to{transform:scale(1.06,.95)}}"
                ".hdia{transform-origin:50% 50%;animation:hdia .5s ease-in-out infinite alternate}@keyframes hdia{to{opacity:.5;transform:scale(1.1,.88)}}"
+               "@keyframes rb{0%,88%{stroke-dashoffset:0}91%{stroke-dashoffset:1}96%,100%{stroke-dashoffset:0}}"
+               ".lampr{opacity:0;animation:lampr 24s steps(1) infinite}@keyframes lampr{0%{opacity:0}87%{opacity:1}97%,100%{opacity:0}}"
                ".lamp{opacity:0;animation:lamp 3.4s ease-in-out infinite both}@keyframes lamp{0%{opacity:0}10%,100%{opacity:1}55%{opacity:.55}}"
                "@media (prefers-reduced-motion:reduce){.lamp{opacity:1}}"
                "@keyframes tremor{0%{transform:rotate(-.5deg)}40%{transform:rotate(.35deg)}70%{transform:rotate(-.15deg)}100%{transform:rotate(.6deg)}}")
