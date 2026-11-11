@@ -162,7 +162,7 @@ def _used_chars(body: str) -> str:
     """Every character the plate draws as text, plus digits and spacing."""
     import html
     import re
-    drawn = "".join(re.findall(r"<text[^>]*>([^<]*)</text>", body))
+    drawn = "".join(re.sub(r"<[^>]+>", "", m) for m in re.findall(r"<text[^>]*>(.*?)</text>", body, re.S))
     return "".join(sorted(set(html.unescape(drawn)) | set("0123456789 .,:+-%")))
 
 
@@ -182,6 +182,12 @@ def d_(delay: float, dur: float | None = None) -> str:
     if dur is not None:
         s += f";animation-duration:{dur:.2f}s"
     return f' style="{s}"'
+
+
+def drum(x, y0, step, glyphs, cls, size, fill):
+    """A column of glyphs as one text element: one paint item instead of one per glyph."""
+    spans = "".join(f'<tspan x="{x:.1f}" y="{y0 + i * step:.1f}">{escape(g)}</tspan>' for i, g in enumerate(glyphs))
+    return f'<text class="{cls}" font-size="{size}" fill="{fill}" text-anchor="middle">{spans}</text>'
 
 
 def text(x, y, s, cls, size, fill, anchor="start", tracking=None, extra=""):
@@ -338,8 +344,7 @@ class Odo:
                 spins = 10 + d   # one full turn, then the digit
                 k = f"od{int(L*10)}_{spins}"
                 self.frames[k] = f"@keyframes {k}{{from{{transform:translateY({spins*L:.1f}px)}}}}"
-                stack = "".join(text(cx + w / 2, y + i * L, str(i % 10), cls, size, fill, "middle")
-                                for i in range(spins + 1))
+                stack = drum(cx + w / 2, y, L, [str(i % 10) for i in range(spins + 1)], cls, size, fill)
                 o.append(f'<g transform="translate(0,{-spins*L:.1f})"><g style="animation:{k} {dur+digit_i*0.25:.2f}s '
                          f'cubic-bezier(.2,.75,.25,1) {delay:.2f}s backwards">{stack}</g></g>')
                 digit_i += 1
@@ -368,7 +373,7 @@ class Odo:
                 n, period = roll
                 k = f"tick{n}_{int(L*10)}"
                 self.frames[k] = f"@keyframes {k}{{to{{transform:translateY({-n*L:.1f}px)}}}}"
-                stack = "".join(text(cx + cw / 2, y + i * L, str(i), cls, size, fill, "middle") for i in range(n))
+                stack = drum(cx + cw / 2, y, L, [str(i) for i in range(n)], cls, size, fill)
                 o.append(f'<g style="animation:{k} {period}s steps({n}) {delay:.2f}s infinite">{stack}</g>')
             cx += cw
         o.append("</g>")
