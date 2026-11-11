@@ -1079,8 +1079,9 @@ def plate_teststand(t) -> str:
                ".lamp{opacity:0;animation:lamp 3.4s ease-in-out infinite both}@keyframes lamp{0%{opacity:0}10%,100%{opacity:1}55%{opacity:.55}}"
                "@media (prefers-reduced-motion:reduce){.lamp{opacity:1}}"
                "@keyframes tremor{0%{transform:rotate(-.5deg)}40%{transform:rotate(.35deg)}70%{transform:rotate(-.15deg)}100%{transform:rotate(.6deg)}}")
-    alt = "Test stand. Eight gauges, one per kind of work: " + "; ".join(
-        f"{k}: {v} {r} ({c})" for k, v, _, _, r, c in GAUGES) + "."
+    alt = ("Test stand. An engine fires on a thrust stand into a deflector; eight taps along it are wired to eight gauges, "
+           "one per kind of work, and each channel is re-run every so often: " + "; ".join(
+        f"{k}: {v} {r} ({c})" for k, v, _, _, r, c in GAUGES) + ".")
     return svg(W, H, defs + "\n".join(o), ("serif", "serif-i", "mono", "mono-m", "sans"), alt, css_all)
 
 
