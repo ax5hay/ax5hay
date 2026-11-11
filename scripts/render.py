@@ -48,7 +48,7 @@ THEMES = {
         accent="#983729", accent_soft="rgba(152,55,41,0.12)",
         accent_line="rgba(152,55,41,0.55)", accent2="#2f5d8c", accent2_soft="rgba(47,93,140,0.12)",
         fire_outer="#c4532f", fire_mid="#e0873a", fire_core="#f6cf73", diamond="#2f5d8c",
-        glow_op=0.35, smoke="#c9bfa9", phosphor="#983729", scope="#f1ece0",
+        glow_op=0.35, smoke="#c9bfa9", ok="#2f7d4a", phosphor="#983729", scope="#f1ece0",
         vignette="rgba(120,96,60,0.10)", lens_fill="#fcfaf4",
     ),
     "dark": dict(
@@ -60,7 +60,7 @@ THEMES = {
         accent="#ffc75a", accent_soft="rgba(255,199,90,0.14)",
         accent_line="rgba(255,199,90,0.7)", accent2="#6fe3a0", accent2_soft="rgba(111,227,160,0.14)",
         fire_outer="#ff6a2b", fire_mid="#ffb347", fire_core="#fff4d8", diamond="#bdf0ff",
-        glow_op=1.0, smoke="#9dbdd9", phosphor="#ffc75a", scope="#020c17",
+        glow_op=1.0, smoke="#9dbdd9", ok="#4fd68a", phosphor="#ffc75a", scope="#020c17",
         vignette="rgba(0,6,14,0.55)", lens_fill="#061a2e",
     ),
 }
@@ -911,6 +911,19 @@ def plate_teststand(t) -> str:
 
         def P(a, r):
             return gx + r * math.cos(math.radians(a)), gy + r * math.sin(math.radians(a))
+        # bezel screws, slots set at random the way they are in life
+        rnd_s = random.Random(i)
+        for a in (45, 135, 225, 315):
+            sx_, sy_ = P(a, R + 9)
+            sa = rnd_s.uniform(0, 180)
+            o.append(f'<g transform="translate({sx_:.1f},{sy_:.1f}) rotate({sa:.0f})"><circle r="3" fill="{t["raised"]}" stroke="{t["rule_strong"]}" stroke-width="0.7"/>'
+                     f'<path d="M-2.2,0 H2.2" stroke="{t["rule_ink"]}" stroke-width="0.9"/></g>')
+        # channel and status lamp: the lamp comes on once the needle settles
+        o.append(text(gx - 6, gy - 44, f"CH-{i+1:02d}", "mono-m", 10, t["ink4"], "middle"))
+        lx_, ly_ = gx + 22, gy - 47.5
+        o.append(f'<circle cx="{lx_:.1f}" cy="{ly_}" r="3.4" fill="{t["deep"]}" stroke="{t["rule_strong"]}" stroke-width="0.7"/>')
+        o.append(f'<circle cx="{lx_:.1f}" cy="{ly_}" r="7" fill="{t["ok"]}" fill-opacity=".25" class="lamp" style="animation-delay:{dl+3:.2f}s"/>'
+                 f'<circle cx="{lx_:.1f}" cy="{ly_}" r="2.6" fill="{t["ok"]}" class="lamp" style="animation-delay:{dl+3:.2f}s"/>')
         # graduations: 50 minor, 10 major
         for k in range(51):
             a = A0 + SWEEP * k / 50
@@ -927,7 +940,10 @@ def plate_teststand(t) -> str:
         large = 1 if SWEEP * f > 180 else 0
         o.append(f'<path d="M{sx:.1f},{sy:.1f} A{ar},{ar} 0 1 1 {P(A0+SWEEP, ar)[0]:.1f},{P(A0+SWEEP, ar)[1]:.1f}" fill="none" '
                  f'stroke="{t["rule_faint"]}" stroke-width="7"/>')
-        o.append(f'<path d="M{sx:.1f},{sy:.1f} A{ar},{ar} 0 {large} 1 {exx:.1f},{eyy:.1f}" pathLength="1" fill="none" '
+        band_d = f"M{sx:.1f},{sy:.1f} A{ar},{ar} 0 {large} 1 {exx:.1f},{eyy:.1f}"
+        o.append(f'<path d="{band_d}" pathLength="1" fill="none" stroke="{t["accent"]}" stroke-width="16" stroke-opacity="{0.16 if t["glow_op"] > .5 else 0.08}" '
+                 f'stroke-linecap="round" class="band" style="animation-delay:{dl+0.6:.2f}s"/>')
+        o.append(f'<path d="{band_d}" pathLength="1" fill="none" '
                  f'stroke="{t["accent"]}" stroke-width="7" class="band" style="animation-delay:{dl+0.6:.2f}s"/>')
         # dial ends
         lx_, ly_ = P(A0 + 4, R + 30)
@@ -947,6 +963,10 @@ def plate_teststand(t) -> str:
                  '</g></g></g>')
         o.append(f'<circle cx="{gx:.1f}" cy="{gy}" r="9" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="2"/>')
         o.append(f'<circle cx="{gx:.1f}" cy="{gy}" r="2.6" fill="{t["accent"]}"/>')
+        # glass: one soft glint across the upper left
+        g0, g1 = P(198, R - 6), P(250, R - 6)
+        o.append(f'<path d="M{g0[0]:.1f},{g0[1]:.1f} A{R-6},{R-6} 0 0 1 {g1[0]:.1f},{g1[1]:.1f}" fill="none" stroke="#ffffff" '
+                 f'stroke-opacity="{0.10 if t["glow_op"] > .5 else 0.55}" stroke-width="7" stroke-linecap="round"/>')
         # the reading itself, on drums
         s, _ = odo.number(gx, gy + 70, val, 38, t["ink"], "serif", dl + 0.6, 2.2, "middle")
         o.append(s)
@@ -963,6 +983,8 @@ def plate_teststand(t) -> str:
     css_all = (odo.css() + "".join(css) +
                ".band{stroke-dasharray:1 1;animation:dr 2.2s cubic-bezier(.3,.1,.3,1) both}"
                ".tremor{animation:tremor 2.9s ease-in-out infinite alternate}"
+               ".lamp{opacity:0;animation:lamp 3.4s ease-in-out infinite both}@keyframes lamp{0%{opacity:0}10%,100%{opacity:1}55%{opacity:.55}}"
+               "@media (prefers-reduced-motion:reduce){.lamp{opacity:1}}"
                "@keyframes tremor{0%{transform:rotate(-.5deg)}40%{transform:rotate(.35deg)}70%{transform:rotate(-.15deg)}100%{transform:rotate(.6deg)}}")
     alt = "Test stand. Eight gauges, one per kind of work: " + "; ".join(
         f"{k}: {v} {r} ({c})" for k, v, _, _, r, c in GAUGES) + "."
