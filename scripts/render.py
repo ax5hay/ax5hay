@@ -1073,13 +1073,16 @@ def plate_teststand(t) -> str:
         o.append(f'<circle cx="{lx_:.1f}" cy="{ly_}" r="3.2" fill="{t["accent"]}" class="lampr" style="animation-delay:{dl+RT0:.2f}s"/>')
         o.append(f'<g class="lampr" style="animation-delay:{dl+RT0:.2f}s">' + text(gx, gy - 60, "RE-TEST", "mono-m", 9, t["accent"], "middle", tracking=0.14) + "</g>")
         # graduations: 50 minor, 10 major
-        for k in range(51):
-            a = A0 + SWEEP * k / 50
-            major = k % 5 == 0
-            x1, y1 = P(a, R - (14 if major else 8))
-            x2, y2 = P(a, R)
-            o.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y2:.1f}" stroke="{t["rule_ink"] if major else t["rule"]}" '
-                     f'stroke-width="{1.3 if major else 0.7}" class="fi"{d_(dl+0.2+k*0.012)}/>')
+        for c in range(5):
+            dmaj, dmin = [], []
+            for k in range(c * 10, c * 10 + (11 if c == 4 else 10)):
+                a = A0 + SWEEP * k / 50
+                major = k % 5 == 0
+                x1, y1 = P(a, R - (14 if major else 8))
+                x2, y2 = P(a, R)
+                (dmaj if major else dmin).append(f"M{x1:.1f},{y1:.1f} L{x2:.1f},{y2:.1f}")
+            o.append(f'<g class="fi"{d_(dl+0.2+c*0.12)}><path d="{" ".join(dmin)}" stroke="{t["rule"]}" stroke-width="0.7"/>'
+                     f'<path d="{" ".join(dmaj)}" stroke="{t["rule_ink"]}" stroke-width="1.3"/></g>')
         # the reading band, swept in with the needle
         ar = R - 22
         sx, sy = P(A0, ar)
