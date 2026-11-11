@@ -1654,8 +1654,97 @@ def day_stats(days):
     return active, best, peak_i
 
 
+def thermal_map(t, days, x0, y0):
+    """Every day of the year as a cell on a heat plate, the calendar drawn as a thermal map."""
+    o, css = [], []
+    if not days:
+        return "", "", 0
+    C, G = 13, 2.6
+    first = dt.date.fromisoformat(days[0]["d"])
+    off = (first.weekday() + 1) % 7            # Sunday at the top, as GitHub draws it
+    mx = max(d["c"] for d in days) or 1
+    ops = [0.22, 0.42, 0.68, 1.0]
+    ncol = (off + len(days) - 1) // 7 + 1
+    gx0 = x0 + 26
+    for i, d in enumerate(days):
+        col, row = (off + i) // 7, (off + i) % 7
+        x, y = gx0 + col * (C + G), y0 + 22 + row * (C + G)
+        c = d["c"]
+        if c:
+            lvl = min(3, int(4 * math.log1p(c) / math.log1p(mx) - 1e-9))
+            o.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{C}" height="{C}" rx="2.5" fill="{t["accent"]}" fill-opacity="{ops[lvl]}" '
+                     f'class="hc fb" style="animation-delay:{0.4+col*0.03:.2f}s"/>')
+            if lvl == 3:
+                o.append(f'<rect x="{x-2:.1f}" y="{y-2:.1f}" width="{C+4}" height="{C+4}" rx="4" fill="none" stroke="{t["accent"]}" '
+                         f'stroke-opacity=".45" class="hot"/>')
+        else:
+            o.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{C}" height="{C}" rx="2.5" fill="{t["deep"]}" stroke="{t["rule_faint"]}" stroke-width="0.8"/>')
+        if d["d"][8:] == "01":
+            o.append(text(x, y0 + 12, dt.date.fromisoformat(d["d"]).strftime("%b").upper(), "mono", 10.5, t["ink4"]))
+    for row, lab in ((1, "MON"), (3, "WED"), (5, "FRI")):
+        o.append(text(x0 + 20, y0 + 22 + row * (C + G) + 10, lab, "mono", 9, t["ink4"], "end"))
+    w = ncol * (C + G)
+    gh = 7 * (C + G)
+    # the scanner: a warm band that passes over the plate every so often
+    o.append(f'<defs><clipPath id="thc"><rect x="{gx0-2}" y="{y0+20}" width="{w+2:.1f}" height="{gh+2:.1f}"/></clipPath>'
+             f'<linearGradient id="thg" x1="0" x2="1"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="0"/>'
+             f'<stop offset=".8" stop-color="{t["accent"]}" stop-opacity="{0.22 if t["glow_op"] > .5 else 0.14}"/>'
+             f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity=".9"/></linearGradient></defs>')
+    o.append(f'<g clip-path="url(#thc)"><g class="thscan"><rect x="{gx0-60}" y="{y0+20}" width="60" height="{gh+2:.1f}" fill="url(#thg)"/></g></g>')
+    css.append(f".thscan{{animation:thscan 9s cubic-bezier(.45,0,.55,1) 2.5s infinite both}}"
+               f"@keyframes thscan{{0%{{transform:translateX(0);opacity:0}}5%{{opacity:1}}55%{{transform:translateX({w+60:.0f}px);opacity:1}}56%,100%{{opacity:0;transform:translateX({w+60:.0f}px)}}}}"
+               ".hc{transform-origin:50% 50%;animation:hc .5s cubic-bezier(.3,1.5,.5,1) both}@keyframes hc{from{opacity:0;transform:scale(.2)}}"
+               ".hot{animation:hot 2.4s ease-in-out infinite alternate}@keyframes hot{from{stroke-opacity:.6}to{stroke-opacity:.05}}")
+    ly = y0 + 22 + gh + 18
+    o.append(text(gx0, ly, "less", "mono", 10.5, t["ink4"]))
+    for k, op in enumerate([0] + ops):
+        fill = f'fill="{t["accent"]}" fill-opacity="{op}"' if op else f'fill="{t["deep"]}" stroke="{t["rule_faint"]}"'
+        o.append(f'<rect x="{gx0+38+k*17}" y="{ly-10}" width="{C}" height="{C}" rx="2.5" {fill}/>')
+    o.append(text(gx0 + 38 + 5 * 17 + 4, ly, "more", "mono", 10.5, t["ink4"]))
+    o.append(text(gx0 + w, ly, "one cell per day, oldest on the left", "mono", 10.5, t["ink4"], "end"))
+    return "".join(o), "".join(css), w + 26
+
+
+def weekday_rose(t, days, cx, cy):
+    """Contributions by weekday, drawn as the spray from an injector plate."""
+    tot = [0] * 7
+    for d in days:
+        tot[dt.date.fromisoformat(d["d"]).weekday()] += d["c"]
+    mx = max(tot) or 1
+    best = tot.index(mx)
+    names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    R0, R1 = 16, 74
+    o = [f'<circle cx="{cx}" cy="{cy}" r="{R1+8}" fill="{t["deep"]}" stroke="{t["rule_strong"]}" stroke-width="1"/>']
+    for k in range(24):
+        a = math.radians(k * 15)
+        o.append(f'<circle cx="{cx+(R1+2)*math.cos(a):.1f}" cy="{cy+(R1+2)*math.sin(a):.1f}" r="1.3" fill="none" stroke="{t["rule"]}" stroke-width="0.7"/>')
+    for r_ in (R1 * 0.5, R1):
+        o.append(f'<circle cx="{cx}" cy="{cy}" r="{r_:.1f}" fill="none" stroke="{t["rule_faint"]}" stroke-width="0.7" stroke-dasharray="2 3"/>')
+    o.append(f'<g transform="translate({cx},{cy})">')
+    span = 360 / 7
+    for k, v in enumerate(tot):
+        a0, a1 = math.radians(-90 + k * span + 3), math.radians(-90 + (k + 1) * span - 3)
+        r = R0 + (R1 - R0) * math.sqrt(v / mx)
+        d = (f"M{R0*math.cos(a0):.1f},{R0*math.sin(a0):.1f} L{r*math.cos(a0):.1f},{r*math.sin(a0):.1f} "
+             f"A{r:.1f},{r:.1f} 0 0 1 {r*math.cos(a1):.1f},{r*math.sin(a1):.1f} L{R0*math.cos(a1):.1f},{R0*math.sin(a1):.1f} "
+             f"A{R0},{R0} 0 0 0 {R0*math.cos(a0):.1f},{R0*math.sin(a0):.1f} Z")
+        o.append(f'<path d="{d}" fill="{t["accent"]}" fill-opacity="{0.85 if k == best else 0.4}" stroke="{t["accent"]}" stroke-width="1" '
+                 f'class="petal{" best" if k == best else ""}" style="animation-delay:{0.6+k*0.1:.2f}s"/>')
+        am = math.radians(-90 + (k + 0.5) * span)
+        lx, ly = (R1 + 22) * math.cos(am), (R1 + 22) * math.sin(am)
+        anc = "middle" if abs(lx) < 20 else ("start" if lx > 0 else "end")
+        o.append(text(lx, ly - 1, names[k].upper(), "mono-m", 10, t["accent"] if k == best else t["ink3"], anc))
+        o.append(text(lx, ly + 12, str(v), "mono", 10, t["ink4"], anc))
+    o.append(f'<circle r="{R0-4}" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/><circle r="3" fill="{t["accent"]}"/>')
+    o.append("</g>")
+    css = (".petal{transform-origin:0 0;animation:petal .9s cubic-bezier(.3,1.5,.5,1) both}@keyframes petal{from{transform:scale(0)}}"
+           ".best{animation:petal .9s cubic-bezier(.3,1.5,.5,1) both,bestp 2.2s ease-in-out 1.6s infinite alternate}"
+           "@keyframes bestp{to{fill-opacity:.5}}")
+    return "".join(o), css, names[best]
+
+
 def plate_telemetry(t, s, updated) -> str:
-    H = 860
+    H = 1150
     odo = Odo()
     o = sheet_frame(t, H, H - M, cols="ABCDEFGH", grid=False)
     days = s.get("days") or []
@@ -1735,10 +1824,20 @@ def plate_telemetry(t, s, updated) -> str:
                  text(tx, sy0 + 56, lab.upper(), "mono-m", 11, t["accent"], "end" if pxp > W / 2 else "start", tracking=0.12) + "</g>")
         _ = first
 
+    # ---- thermal map and firing pattern
+    ry0 = 596
+    o.append(label(M + 22, ry0, "thermal map  ·  every day of the last year", t, t["ink3"], 11))
+    th_svg, th_css, th_w = thermal_map(t, days, M + 22, ry0 + 18)
+    o.append(th_svg)
+    rcx, rcy = W - M - 132, ry0 + 112
+    o.append(label(W - M - 22, ry0, "firing pattern  ·  by weekday", t, t["ink3"], 11, "end"))
+    rose_svg, rose_css, best_day = weekday_rose(t, days, rcx, rcy) if days else ("", "", "")
+    o.append(rose_svg)
+
     # ---- propellant: languages, by repositories that use them
     langs = [l for l in s["languages_by_repos"] if l["name"] != "Jupyter Notebook"][:8]
     mxr = max(l["repos"] for l in langs) if langs else 1
-    ty0 = 600
+    ty0 = 870
     o.append(label(M + 22, ty0, "propellant  ·  languages, by repositories that use them", t, t["ink3"], 11))
     TW, TH = 54, 128
     gap = (W - 2 * M - 44) / len(langs)
@@ -1772,7 +1871,7 @@ def plate_telemetry(t, s, updated) -> str:
             f'<radialGradient id="beamG"><stop offset="0" stop-color="{t["phosphor"]}" stop-opacity=".9"/><stop offset="1" stop-color="{t["phosphor"]}" stop-opacity="0"/></radialGradient>'
             '<filter id="blur3" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>'
             '</defs>')
-    css = (odo.css() + "".join(tanks_css) +
+    css = (odo.css() + "".join(tanks_css) + th_css + rose_css +
            ".trace{stroke-dasharray:1 1;animation:trace 12s linear infinite}"
            "@keyframes trace{0%{stroke-dashoffset:1;opacity:1}60%{stroke-dashoffset:0;opacity:1}92%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}"
            ".areaFade{animation:areaF 12s linear infinite}"
