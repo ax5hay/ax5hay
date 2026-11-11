@@ -234,5 +234,5 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/closing.svg">
-  <img src="assets/light/closing.svg" width="100%" alt="End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet. A launch vehicle vents on the pad, lights, and lifts off; the tower arm swings clear and the smoke rolls out along the ground.">
+  <img src="assets/light/closing.svg" width="100%" alt="End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet. A launch drawn as an engagement: a countdown, then liftoff at the first client call, max-Q at scope and sign-off, staging at the build, where the spent stage falls away and the upper stage relights, fairing separation at the release, and orbit with the runbook after. The title block keeps a mission clock and the flight's status.">
 </picture>

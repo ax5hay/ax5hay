@@ -1786,113 +1786,240 @@ def plate_telemetry(t, s, updated) -> str:
 
 
 # --------------------------------------------------------------------------
-# Plate 6: the closing sheet. The same engine, on a vehicle, leaving.
+# Plate 6: the closing sheet. The same engine, on a vehicle, flying the work.
 # --------------------------------------------------------------------------
-def rocket(t):
-    """A launch vehicle in elevation, local units, engine bell at y=0."""
-    ink, strong, faint = t["rule_ink"], t["rule_strong"], t["rule"]
-    o = [
-        # body
-        f'<path d="M-17,-18 V-196 C-17,-232 -8,-258 0,-272 C8,-258 17,-232 17,-196 V-18 Z" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.4"/>',
-        f'<path d="M-17,-120 H17 M-17,-196 H17 M-17,-60 H17" stroke="{strong}" stroke-width="0.8"/>',
-        f'<path d="M-6,-196 V-120" stroke="{faint}" stroke-width="0.6"/>',
-        f'<circle cx="0" cy="-214" r="5" fill="none" stroke="{strong}" stroke-width="0.9"/>',
-        # fins
-        f'<path d="M-17,-56 L-34,-14 V-4 L-17,-18 Z M17,-56 L34,-14 V-4 L17,-18 Z" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.2"/>',
-        # bell
-        f'<path d="M-9,-18 L-14,0 H14 L9,-18 Z" fill="{t["sunk"]}" stroke="{ink}" stroke-width="1.2"/>',
-        text(0, -150, "GH-01", "mono-m", 8, t["accent"], "middle", extra=' transform="rotate(-90 0 -150)"'),
-    ]
-    return "".join(o)
+def _bez(p0, p1, p2, p3, u):
+    a = (1 - u) ** 3
+    b = 3 * (1 - u) ** 2 * u
+    c = 3 * (1 - u) * u ** 2
+    d = u ** 3
+    return (a * p0[0] + b * p1[0] + c * p2[0] + d * p3[0], a * p0[1] + b * p1[1] + c * p2[1] + d * p3[1])
+
+
+def _arc_samples(segs, n=400):
+    """Points along a chain of cubics, with the arc length fraction at each."""
+    pts = []
+    for s in segs:
+        for i in range(n + 1):
+            if pts and i == 0:
+                continue
+            pts.append(_bez(*s, i / n))
+    acc = [0.0]
+    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+        acc.append(acc[-1] + math.hypot(x1 - x0, y1 - y0))
+    return pts, [a / acc[-1] for a in acc]
+
+
+def _at(pts, fr, s):
+    for i, f in enumerate(fr):
+        if f >= s:
+            return pts[i]
+    return pts[-1]
+
+
+def stage_art(t, upper: bool):
+    """A stage in elevation, lying along +x (the direction of flight)."""
+    ink, strong = t["rule_ink"], t["rule_strong"]
+    if upper:
+        return (f'<path d="M0,-9 H54 C66,-9 76,-4 82,0 C76,4 66,9 54,9 H0 Z" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.3"/>'
+                f'<path d="M30,-9 V9 M54,-9 V9" stroke="{strong}" stroke-width="0.8"/>'
+                f'<path d="M0,-5 L-7,-7 V7 L0,5 Z" fill="{t["sunk"]}" stroke="{ink}" stroke-width="1"/>'
+                + text(18, 3, "GH-01", "mono-m", 6.5, t["accent"], "middle"))
+    return (f'<path d="M-62,-9 H0 V9 H-62 Z" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.3"/>'
+            f'<path d="M-40,-9 V9 M-20,-9 V9" stroke="{strong}" stroke-width="0.8"/>'
+            f'<path d="M-50,-9 L-66,-21 H-72 L-62,-9 Z M-50,9 L-66,21 H-72 L-62,9 Z" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.1"/>'
+            f'<path d="M-62,-6 L-71,-8 V8 L-62,6 Z" fill="{t["sunk"]}" stroke="{ink}" stroke-width="1"/>')
+
+
+def plume_art(t, x, length, width):
+    return (f'<g transform="translate({x},0)"><path d="M0,{-width} C{-length*0.3},{-width*1.3} {-length*0.7},{-width*0.5} {-length},0 '
+            f'C{-length*0.7},{width*0.5} {-length*0.3},{width*1.3} 0,{width} Z" fill="url(#plh)" class="fb flx"/>'
+            f'<path d="M0,{-width*0.5} C{-length*0.2},{-width*0.6} {-length*0.4},{-width*0.2} {-length*0.5},0 '
+            f'C{-length*0.4},{width*0.2} {-length*0.2},{width*0.6} 0,{width*0.5} Z" fill="{t["fire_core"]}" fill-opacity=".95" class="fb flx2"/></g>')
 
 
 def plate_closing(t, updated, rev) -> str:
-    H = 470
-    TBY = H - M - 50
+    H = 660
+    TBY = H - M - 62
+    GY = TBY - 52          # ground
+    CYC = 16.0
+    T_IGN, T_LIFT, T_END, T_HOLD, T_RESET = 0.18, 0.20, 0.72, 0.86, 0.885
+    odo = Odo()
     o = sheet_frame(t, H, TBY, cols="ABCDEFGHJK")
-    o.append(f'<g class="up"{d_(0.2)}>' + text(70, 172, "In thrust we trust.", "serif-i", 84, t["accent"]) + "</g>")
-    o.append(f'<g class="up"{d_(0.45)}>' + text(72, 222, "Reliability is a feature. So is honesty about", "sans", 22, t["ink2"]) +
-             text(72, 252, "what isn't done yet.", "sans", 22, t["ink2"]) + "</g>")
-    o.append(line_pen(72, 290, 252, 290, t["rule_strong"], 1, 0.7, 0.8))
-    o.append(label(72, 322, "akshaybajpai.com  ·  contact@akshaybajpai.com", t, t["ink3"], 12.5, extra=f' class="mono-m fi"{d_(0.9)}'))
 
-    # ---- the pad, the tower, the vehicle
-    px, py = 930, TBY - 34
-    o.append(f'<defs><clipPath id="sky"><rect x="{M}" y="{M}" width="{W-2*M}" height="{TBY-M}"/></clipPath>'
-             f'<radialGradient id="smk"><stop offset="0" stop-color="{t["smoke"]}" stop-opacity=".55"/>'
-             f'<stop offset=".7" stop-color="{t["smoke"]}" stop-opacity=".22"/><stop offset="1" stop-color="{t["smoke"]}" stop-opacity="0"/></radialGradient>'
-             f'<linearGradient id="pl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["fire_core"]}"/>'
-             f'<stop offset=".35" stop-color="{t["fire_mid"]}" stop-opacity=".9"/><stop offset="1" stop-color="{t["fire_outer"]}" stop-opacity="0"/></linearGradient>'
-             f'<radialGradient id="padG"><stop offset="0" stop-color="{t["fire_mid"]}" stop-opacity="{0.6*t["glow_op"]+0.1:.2f}"/>'
-             f'<stop offset="1" stop-color="{t["fire_mid"]}" stop-opacity="0"/></radialGradient></defs>')
-    o.append(f'<g clip-path="url(#sky)">')
-    # ground and pad
-    o.append(rule(560, py + 26, W - M, py + 26, t["rule_strong"], 1))
-    for k in range(30):
-        xx = 566 + k * 20
-        o.append(rule(xx, py + 26, xx - 8, py + 34, t["rule"], 0.7))
-    o.append(f'<path d="M{px-70},{py+26} V{py+4} H{px-24} L{px-14},{py+18} H{px+14} L{px+24},{py+4} H{px+70} V{py+26}" fill="{t["sunk"]}" stroke="{t["rule_ink"]}" stroke-width="1.2"/>')
-    o.append(f'<ellipse cx="{px}" cy="{py+16}" rx="160" ry="40" fill="url(#padG)" class="padglow"/>')
-    # tower: a lattice, with an arm that swings clear at ignition
-    tx = px - 96
-    o.append(f'<path d="M{tx-14},{py+4} V{py-300} M{tx+14},{py+4} V{py-300}" stroke="{t["rule_ink"]}" stroke-width="1.2"/>')
-    for k in range(15):
-        y1 = py + 4 - k * 20
-        o.append(f'<path d="M{tx-14},{y1} L{tx+14},{y1-20} M{tx+14},{y1} L{tx-14},{y1-20} M{tx-14},{y1-20} H{tx+14}" stroke="{t["rule"]}" stroke-width="0.7"/>')
-    o.append(f'<g transform="translate({tx+14},{py-210})"><g class="arm">'
-             f'<path d="M0,0 H58 V8 H0 Z" fill="{t["raised"]}" stroke="{t["rule_ink"]}" stroke-width="1"/></g></g>')
-    # smoke that billows out along the ground
+    # ---- the flight path: up off the pad, over, and out to orbit
+    # the anchor is the joint between the stages, one stage length above the pad
+    P0, P1, P2, P3 = (760, GY - 84), (760, GY - 210), (820, GY - 320), (960, GY - 372)
+    P4, P5, P6 = (2 * P3[0] - P2[0], 2 * P3[1] - P2[1]), (1160, GY - 440), (1260, GY - 456)
+    segs = [(P0, P1, P2, P3), (P3, P4, P5, P6)]
+    dpath = f"M{P0[0]},{P0[1]} C{P1[0]},{P1[1]} {P2[0]},{P2[1]} {P3[0]},{P3[1]} C{P4[0]},{P4[1]} {P5[0]},{P5[1]} {P6[0]},{P6[1]}"
+    pts, fr = _arc_samples(segs)
+    POW = 1.75                      # thrust accelerates the climb
+
+    def t_at(s):
+        return T_LIFT + (T_END - T_LIFT) * s ** (1 / POW)
+    us = [i / 14 for i in range(15)]
+    kt = [0.0, T_LIFT] + [T_LIFT + (T_END - T_LIFT) * u for u in us[1:]] + [T_RESET - 0.002, T_RESET, 1.0]
+    kp = [0.0, 0.0] + [u ** POW for u in us[1:]] + [1.0, 0.0, 0.0]
+    KT = ";".join(f"{v:.4f}" for v in kt)
+    KP = ";".join(f"{v:.4f}" for v in kp)
+    S_SEP = 0.42
+    t_sep = t_at(S_SEP)
+    kp_low = [min(v, S_SEP) for v in kp]
+
+    defs = (f'<defs><clipPath id="sky"><rect x="{M}" y="{M}" width="{W-2*M}" height="{TBY-M}"/></clipPath>'
+            f'<linearGradient id="plh" x1="1" x2="0"><stop offset="0" stop-color="{t["fire_core"]}"/>'
+            f'<stop offset=".3" stop-color="{t["fire_mid"]}" stop-opacity=".95"/><stop offset="1" stop-color="{t["fire_outer"]}" stop-opacity="0"/></linearGradient>'
+            f'<radialGradient id="smk"><stop offset="0" stop-color="{t["smoke"]}" stop-opacity=".55"/>'
+            f'<stop offset=".7" stop-color="{t["smoke"]}" stop-opacity=".2"/><stop offset="1" stop-color="{t["smoke"]}" stop-opacity="0"/></radialGradient>'
+            f'<radialGradient id="padG"><stop offset="0" stop-color="{t["fire_mid"]}" stop-opacity="{0.6*t["glow_op"]+0.1:.2f}"/>'
+            f'<stop offset="1" stop-color="{t["fire_mid"]}" stop-opacity="0"/></radialGradient>'
+            f'<filter id="tglow" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur stdDeviation="3"/></filter></defs>')
+    o.append(defs)
+
+    # ---- words
+    o.append(label(70, 106, "Sheet GH-01  ·  end of set", t, t["accent"], 12.5, extra=f' class="mono-m lt"{d_(0.1)}'))
+    o.append(f'<g class="up"{d_(0.2)}>' + text(64, 196, "In thrust", "serif-i", 92, t["accent"]) + "</g>")
+    o.append(f'<g class="up"{d_(0.35)}>' + text(64, 286, "we trust.", "serif-i", 92, t["accent"]) + "</g>")
+    o.append(f'<g class="up"{d_(0.5)}>' + text(70, 340, "Reliability is a feature. So is honesty", "sans", 22, t["ink2"])
+             + text(70, 370, "about what isn't done yet.", "sans", 22, t["ink2"]) + "</g>")
+    o.append(line_pen(70, 404, 250, 404, t["rule_strong"], 1, 0.7, 0.8))
+    o.append(label(70, 436, "akshaybajpai.com", t, t["ink2"], 12.5, extra=f' class="mono-m fi"{d_(0.9)}'))
+    o.append(label(70, 460, "contact@akshaybajpai.com", t, t["ink2"], 12.5, extra=f' class="mono-m fi"{d_(1.0)}'))
+
+    o.append('<g clip-path="url(#sky)">')
+    # stars come out as it climbs (night issue only)
+    if t["glow_op"] > .5:
+        rnd = random.Random(5)
+        for _ in range(70):
+            x, y = rnd.uniform(560, W - M), rnd.uniform(M, GY - 120)
+            o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.uniform(.5, 1.3):.1f}" fill="#e6f1fc" class="tw" '
+                     f'style="animation-delay:{-rnd.uniform(0, 4):.2f}s;animation-duration:{rnd.uniform(2.5, 5):.2f}s"/>')
+    # ground, pad, tower
+    o.append(f'<rect x="540" y="{GY}" width="{W-M-540}" height="14" fill="url(#gM)"/>')
+    o.append(rule(540, GY, W - M, GY, t["rule_strong"], 1.2))
+    for k in range(32):
+        xx = 548 + k * 19
+        o.append(rule(xx, GY, xx - 8, GY + 9, t["rule"], 0.7))
+    px = P0[0]
+    o.append(f'<path d="M{px-64},{GY} V{GY-10} H{px-22} L{px-12},{GY-2} H{px+12} L{px+22},{GY-10} H{px+64} V{GY}" fill="{t["sunk"]}" stroke="{t["rule_ink"]}" stroke-width="1.2"/>')
+    tx = px - 52
+    o.append(f'<path d="M{tx-10},{GY-10} V{GY-170} M{tx+10},{GY-10} V{GY-170}" stroke="{t["rule_ink"]}" stroke-width="1.1"/>')
+    for k in range(8):
+        y1 = GY - 10 - k * 20
+        o.append(f'<path d="M{tx-10},{y1} L{tx+10},{y1-20} M{tx+10},{y1} L{tx-10},{y1-20} M{tx-10},{y1-20} H{tx+10}" stroke="{t["rule"]}" stroke-width="0.7"/>')
+    o.append(f'<g transform="translate({tx+10},{GY-120})"><g class="arm"><path d="M0,0 H30 V6 H0 Z" fill="{t["raised"]}" stroke="{t["rule_ink"]}" stroke-width="1"/></g></g>')
+    o.append(f'<ellipse cx="{px}" cy="{GY-6}" rx="150" ry="36" fill="url(#padG)" class="padglow"/>')
+    # the trajectory as planned, and the trail as flown
+    o.append(f'<path d="{dpath}" fill="none" stroke="{t["rule"]}" stroke-width="0.9" stroke-dasharray="3 5"/>')
+    trail_anim = (f'<animate attributeName="stroke-dashoffset" dur="{CYC}s" repeatCount="indefinite" calcMode="linear" '
+                  f'keyTimes="{KT}" values="{";".join(f"{1-v:.4f}" for v in kp)}"/>'
+                  f'<animate attributeName="opacity" dur="{CYC}s" repeatCount="indefinite" keyTimes="0;{T_HOLD};{T_RESET-0.01};1" values="1;1;0;0"/>')
+    if t["glow_op"] > .5:
+        o.append(f'<path d="{dpath}" pathLength="1" fill="none" stroke="{t["fire_mid"]}" stroke-width="6" stroke-opacity=".35" '
+                 f'stroke-dasharray="1 1" stroke-dashoffset="1" filter="url(#tglow)">{trail_anim}</path>')
+    o.append(f'<path d="{dpath}" pathLength="1" fill="none" stroke="{t["accent"]}" stroke-width="2" stroke-dasharray="1 1" stroke-dashoffset="1">{trail_anim}</path>')
+    # smoke rolling out along the ground at ignition
     rnd = random.Random(11)
     for k in range(16):
         side = -1 if k % 2 else 1
-        dx = side * rnd.uniform(60, 260)
-        dy = -rnd.uniform(4, 70)
-        r = rnd.uniform(22, 44)
-        o.append(f'<circle cx="{px + side*rnd.uniform(0, 30):.1f}" cy="{py+10:.1f}" r="{r:.1f}" fill="url(#smk)" class="smoke fb" '
-                 f'style="--dx:{dx:.1f}px;--dy:{dy:.1f}px;animation-delay:{rnd.uniform(0, 0.8):.2f}s"/>')
-    # the vehicle and its plume, which leave together
-    o.append(f'<g transform="translate({px},{py})"><g class="vehicle">'
-             f'<g class="plume"><path d="M-14,0 C-22,60 -12,150 0,230 C12,150 22,60 14,0 Z" fill="url(#pl)" class="fb fl2"/>'
-             f'<path d="M-8,0 C-10,30 -4,70 0,110 C4,70 10,30 8,0 Z" fill="{t["fire_core"]}" fill-opacity=".9" class="fb fl3"/></g>'
-             f'{rocket(t)}</g></g>')
-    # vapour venting from the tank while it waits
+        dx = side * rnd.uniform(50, 230)
+        dy = -rnd.uniform(4, 60)
+        r = rnd.uniform(18, 38)
+        o.append(f'<circle cx="{px + side*rnd.uniform(0, 26):.1f}" cy="{GY-14:.1f}" r="{r:.1f}" fill="url(#smk)" class="smoke fb" '
+                 f'style="--dx:{dx:.1f}px;--dy:{dy:.1f}px;animation-delay:{rnd.uniform(0, 0.6):.2f}s"/>')
+    # the lower stage: flies to staging, then falls away behind
+    low_motion = (f'<animateMotion dur="{CYC}s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyTimes="{KT}" '
+                  f'keyPoints="{";".join(f"{v:.4f}" for v in kp_low)}" path="{dpath}"/>')
+    ts1, ts2 = t_sep, min(t_sep + 0.14, T_RESET - 0.01)
+    o.append(f'<g>{low_motion}<g>'
+             f'<animateTransform attributeName="transform" type="translate" dur="{CYC}s" repeatCount="indefinite" '
+             f'keyTimes="0;{ts1:.4f};{ts2:.4f};{T_RESET:.4f};1" values="0,0;0,0;-150,46;0,0;0,0"/>'
+             f'<animateTransform attributeName="transform" type="rotate" additive="sum" dur="{CYC}s" repeatCount="indefinite" '
+             f'keyTimes="0;{ts1:.4f};{ts2:.4f};{T_RESET:.4f};1" values="0;0;-70;0;0"/>'
+             f'<animate attributeName="opacity" dur="{CYC}s" repeatCount="indefinite" keyTimes="0;{ts1:.4f};{ts2:.4f};{T_RESET:.4f};0.92;1" values="1;1;0;0;0;1"/>'
+             f'<g opacity="0"><animate attributeName="opacity" dur="{CYC}s" repeatCount="indefinite" '
+             f'keyTimes="0;{T_IGN:.4f};{ts1:.4f};1" values="0;1;0;0" calcMode="discrete"/>{plume_art(t, -71, 120, 9)}</g>'
+             f'{stage_art(t, False)}</g></g>')
+    # the upper stage: relights at staging and goes on to orbit
+    up_motion = (f'<animateMotion dur="{CYC}s" repeatCount="indefinite" rotate="auto" calcMode="linear" keyTimes="{KT}" '
+                 f'keyPoints="{KP}" path="{dpath}"/>')
+    o.append(f'<g>{up_motion}<g>'
+             f'<animate attributeName="opacity" dur="{CYC}s" repeatCount="indefinite" keyTimes="0;{T_END+0.01:.4f};{T_END+0.02:.4f};0.92;1" values="1;1;0;0;1"/>'
+             f'<g opacity="0"><animate attributeName="opacity" dur="{CYC}s" repeatCount="indefinite" '
+             f'keyTimes="0;{ts1+0.01:.4f};{T_END:.4f};1" values="0;1;0;0" calcMode="discrete"/>{plume_art(t, -7, 90, 6)}</g>'
+             f'{stage_art(t, True)}</g></g>')
+    # vapour venting while it waits
     for k in range(4):
-        o.append(f'<circle cx="{px+18}" cy="{py-150}" r="7" fill="url(#smk)" class="vent fb" style="animation-delay:{k*0.8:.2f}s"/>')
+        o.append(f'<circle cx="{px+12}" cy="{GY-90}" r="6" fill="url(#smk)" class="vent fb" style="animation-delay:{k*0.7:.2f}s"/>')
+    # countdown, by the tower
+    for k, n_ in enumerate((3, 2, 1)):
+        a = 0.08 + k * 0.033
+        o.append(f'<g class="cd" style="animation-delay:{a*CYC:.2f}s">' + text(tx - 30, GY - 130, f"T-{n_}", "mono-m", 22, t["accent"], "end") + "</g>")
     o.append("</g>")
-    # countdown readout
-    o.append(label(px + 110, py - 200, "launch window", t, t["accent"], 11))
-    o.append(text(px + 110, py - 172, "every 14 s", "mono-m", 17, t["ink"]))
-    o.append(label(px + 110, py - 132, "status", t, t["ink4"], 11))
-    o.append(f'<g class="status">' + text(px + 110, py - 106, "HOLD", "mono-m", 17, t["ink2"]) + "</g>")
-    o.append(f'<g class="status2">' + text(px + 110, py - 106, "LIFTOFF", "mono-m", 17, t["accent"]) + "</g>")
 
-    o.append(rule(M, TBY, W - M, TBY, t["rule_strong"], 1.2))
-    o.append(rule(M, TBY + 3, W - M, TBY + 3, t["rule_faint"], 0.8))
-    o.append(label(M + 16, TBY + 32, f"end of set  ·  sheet GH-01 of 01  ·  rev {rev}", t, t["ink3"], 12))
-    o.append(label(W - M - 16, TBY + 32, f"last updated {updated}", t, t["accent"], 12, "end"))
-    cycle = 14
-    css = (FIRE_CSS +
-           f".vehicle{{animation:lift {cycle}s cubic-bezier(.55,0,.9,.5) infinite}}"
-           "@keyframes lift{0%,34%{transform:translateY(0);opacity:1}70%{transform:translateY(-560px);opacity:1}"
-           "70.5%{transform:translateY(-560px);opacity:0}71%{transform:translateY(0);opacity:0}86%{opacity:0}100%{opacity:1}}"
-           f".plume{{transform-box:fill-box;transform-origin:50% 0;animation:plume {cycle}s ease-out infinite}}"
-           "@keyframes plume{0%,25%{opacity:0;transform:scaleY(.1)}29%{opacity:1;transform:scaleY(.6)}36%{transform:scaleY(1)}60%{transform:scaleY(1.6)}70%{opacity:1}71%,100%{opacity:0}}"
-           ".plume{opacity:0}"
-           f".smoke{{opacity:0;transform-origin:50% 50%;animation:smoke {cycle}s ease-out infinite}}"
-           "@keyframes smoke{0%,26%{opacity:0;transform:translate(0,0) scale(.3)}32%{opacity:1}"
-           "62%{opacity:.85;transform:translate(var(--dx),var(--dy)) scale(1.9)}88%,100%{opacity:0;transform:translate(calc(var(--dx)*1.3),calc(var(--dy) - 30px)) scale(2.4)}}"
-           f".padglow{{opacity:0;animation:padg {cycle}s ease-out infinite}}"
-           "@keyframes padg{0%,26%{opacity:0}31%{opacity:1}44%{opacity:.8}60%,100%{opacity:0}}"
-           f".arm{{animation:arm {cycle}s ease-in-out infinite}}"
-           "@keyframes arm{0%,18%{transform:rotate(0)}26%,86%{transform:rotate(-72deg)}96%,100%{transform:rotate(0)}}"
-           f".vent{{opacity:0;animation:vent {cycle}s ease-out infinite}}"
-           "@keyframes vent{0%{opacity:0;transform:translate(0,0) scale(.5)}2%{opacity:.8}16%{opacity:0;transform:translate(46px,-26px) scale(2.6)}100%{opacity:0}}"
-           f".status{{animation:st1 {cycle}s steps(1) infinite}}@keyframes st1{{0%{{opacity:1}}30%{{opacity:0}}88%{{opacity:1}}}}"
-           f".status2{{opacity:0;animation:st2 {cycle}s steps(1) infinite}}@keyframes st2{{0%{{opacity:0}}30%{{opacity:1}}88%{{opacity:0}}}}")
-    css += "@media (prefers-reduced-motion:reduce){.status2,.plume,.smoke,.padglow{display:none}}"
-    return svg(W, H, "\n".join(o), ("serif-i", "mono", "mono-m", "sans"),
-               f"End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet. "
-               f"A launch vehicle lifts off the pad. Last updated {updated}.", css)
+    # ---- events along the way, each one a stage of the work
+    events = [(0.0, "liftoff", "first client call"), (0.2, "max-q", "scope and sign-off"),
+              (S_SEP, "staging", "the build"), (0.6, "fairing sep", "the release"), (0.77, "orbit", "the runbook after")]
+    css_ev = []
+    for k, (s_, ev, work) in enumerate(events):
+        ex, ey = _at(pts, fr, s_)
+        te = t_at(s_)
+        name = f"ev{k}"
+        css_ev.append(f"@keyframes {name}{{0%,{te*100-0.1:.2f}%{{opacity:0;transform:scale(.4)}}{te*100+1.5:.2f}%{{opacity:1;transform:scale(1.15)}}"
+                      f"{te*100+3:.2f}%,{T_HOLD*100:.2f}%{{opacity:1;transform:scale(1)}}{(T_RESET)*100:.2f}%,100%{{opacity:0;transform:scale(1)}}}}")
+        if ex > 960:
+            lx, ly, anc = ex - 14, ey - 26, "end"
+        else:
+            lx, ly, anc = ex + 18, ey + 5, "start"
+        o.append(f'<g class="ev" style="animation-name:{name}"><g>'
+                 f'<circle cx="{ex:.1f}" cy="{ey:.1f}" r="5" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="1.6"/>'
+                 f'<circle cx="{ex:.1f}" cy="{ey:.1f}" r="2" fill="{t["accent"]}"/>'
+                 + label(lx, ly, ev, t, t["accent"], 11.5, anc)
+                 + text(lx, ly + 17, work, "mono", 12, t["ink2"], anc) + "</g></g>")
+
+    # ---- title block, with a live clock and the flight's status
+    cells = [("end of set", "GH-01 of 01", 190), ("rev", str(rev), 90), ("mission time", "", 200),
+             ("status", "", 220), ("last updated", updated, W - 2 * M - 700)]
+    o += title_block(t, TBY, cells)
+    cx_ = M + 190 + 90
+    o.append(text(cx_ + 14, TBY + 48, "T+", "mono-m", 15, t["ink3"]) + odo.clock(cx_ + 40, TBY + 48, 15, t["ink"], 0.0))
+    sx = cx_ + 200 + 14
+    status = [(0.0, T_IGN, "hold"), (T_IGN, T_LIFT, "ignition")]
+    times = [t_at(s_) for s_, _, _ in events]
+    for k, (s_, ev, _) in enumerate(events):
+        end = times[k + 1] if k + 1 < len(events) else T_RESET
+        status.append((times[k], end, ev))
+    status.append((T_RESET, 1.0, "hold"))
+    for k, (a, b, lab_) in enumerate(status):
+        css_ev.append(f"@keyframes st{k}{{0%{{opacity:0}}{a*100:.2f}%{{opacity:1}}{b*100:.2f}%,100%{{opacity:0}}}}")
+        col = t["accent"] if lab_ not in ("hold",) else t["ink2"]
+        o.append(f'<g class="stt" style="animation-name:st{k}">' + text(sx, TBY + 48, lab_.upper(), "mono-m", 15, col, tracking=0.08) + "</g>")
+
+    css = (FIRE_CSS + odo.css() + "".join(css_ev) +
+           f".ev{{opacity:0;transform-box:fill-box;transform-origin:50% 50%;animation-duration:{CYC}s;animation-iteration-count:infinite;animation-timing-function:ease-out}}"
+           f".stt{{opacity:0;animation-duration:{CYC}s;animation-iteration-count:infinite;animation-timing-function:steps(1,end)}}"
+           ".flx{transform-origin:100% 50%;animation:flx .2s ease-in-out infinite alternate}"
+           ".flx2{transform-origin:100% 50%;animation:flx .14s ease-in-out infinite alternate-reverse}"
+           "@keyframes flx{from{transform:scale(1,1)}to{transform:scale(1.12,.92)}}"
+           ".tw{animation:tw 4s ease-in-out infinite}@keyframes tw{0%,100%{opacity:.9}50%{opacity:.15}}"
+           f".smoke{{opacity:0;transform-origin:50% 50%;animation:smoke {CYC}s ease-out infinite}}"
+           f"@keyframes smoke{{0%,{T_IGN*100-1:.1f}%{{opacity:0;transform:translate(0,0) scale(.3)}}{T_LIFT*100+3:.1f}%{{opacity:1}}"
+           f"{T_LIFT*100+22:.1f}%{{opacity:.8;transform:translate(var(--dx),var(--dy)) scale(1.9)}}"
+           f"{T_HOLD*100:.1f}%,100%{{opacity:0;transform:translate(calc(var(--dx)*1.3),calc(var(--dy) - 30px)) scale(2.5)}}}}"
+           f".padglow{{opacity:0;animation:padg {CYC}s ease-out infinite}}"
+           f"@keyframes padg{{0%,{T_IGN*100-1:.1f}%{{opacity:0}}{T_LIFT*100:.1f}%{{opacity:1}}{T_LIFT*100+10:.1f}%{{opacity:.6}}{T_LIFT*100+22:.1f}%,100%{{opacity:0}}}}"
+           f".arm{{animation:arm {CYC}s ease-in-out infinite}}"
+           f"@keyframes arm{{0%,{T_IGN*100-6:.1f}%{{transform:rotate(0)}}{T_IGN*100:.1f}%,{T_RESET*100:.1f}%{{transform:rotate(-75deg)}}96%,100%{{transform:rotate(0)}}}}"
+           f".vent{{opacity:0;animation:vent {CYC}s ease-out infinite}}"
+           "@keyframes vent{0%{opacity:0;transform:translate(0,0) scale(.5)}2%{opacity:.8}14%{opacity:0;transform:translate(40px,-24px) scale(2.6)}100%{opacity:0}}"
+           f".cd{{opacity:0;animation:cd {CYC}s steps(1) infinite}}@keyframes cd{{0%{{opacity:1}}3%,100%{{opacity:0}}}}"
+           "@media (prefers-reduced-motion:reduce){.smoke,.padglow,.cd{display:none}.ev{opacity:1}.stt{display:none}}")
+    alt = (f"End of set. In thrust we trust. Reliability is a feature. So is honesty about what isn't done yet. "
+           "A launch, drawn as an engagement: a countdown, then liftoff at the first client call, max-Q at scope and sign-off, "
+           "staging at the build, fairing separation at the release, and orbit with the runbook after. "
+           f"Last updated {updated}.")
+    return svg(W, H, "\n".join(o), ("serif-i", "mono", "mono-m", "sans"), alt, css)
 
 
 # --------------------------------------------------------------------------
