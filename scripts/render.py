@@ -558,7 +558,7 @@ LENS_PATH = ("M0,70 C46,82 58,150 34,204 C14,252 64,262 26,282 C-14,300 -60,262 
 
 
 def plate_hero(t, stats, updated, rev, n_materials) -> str:
-    H = 780
+    H = 852
     TBY = H - M - 66
     odo = Odo()
     o = sheet_frame(t, H, TBY)
@@ -695,12 +695,33 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
     o += title_block(t, TBY, [
         ("drawn by", "ax5hay", 150), ("title", "Boardroom to bare metal", 300), ("sheet", "GH-01 of 01", 170),
         ("scale", "NTS", 110), ("first issued", FIRST_ISSUE, 190), ("rev", str(rev), W - 2 * M - 920)])
-    o.append(stamp(W - 170, TBY - 46, "last updated", updated, t, -6, 3.3))
+    o.append(stamp(W - 170, TBY - 118, "last updated", updated, t, -6, 3.3))
+
+    # ---- the set, as a strip of sheet tags: what is below this one
+    sheets = [("GH-01", "this sheet"), ("GN", "General notes"), ("RW", "Record of work"), ("KP", "Key plan"),
+              ("SI", "Sheet index"), ("SM", "Schedule"), ("TM", "Telemetry"), ("END", "End of set")]
+    sy0 = TBY - 54
+    o.append(label(70, sy0 - 14, "in this set", t, t["ink4"], 10.5, extra=f' class="mono-m fi"{d_(3.4)}'))
+    tw_ = (W - 70 - 70 - 7 * 8) / len(sheets)
+    for k, (code, ttl) in enumerate(sheets):
+        x_ = 70 + k * (tw_ + 8)
+        here = k == 0
+        o.append(f'<g transform="translate({x_+tw_/2:.1f},{sy0+17})"><g class="tagin" style="animation-delay:{3.5+k*0.09:.2f}s">'
+                 f'<rect x="{-tw_/2:.1f}" y="-17" width="{tw_:.1f}" height="34" rx="3" fill="{t["accent"] if here else t["sheet"]}" '
+                 f'fill-opacity="{1 if here else 0.85}" stroke="{t["accent"] if here else t["rule_strong"]}" stroke-width="1"/>'
+                 + text(-tw_ / 2 + 10, 4.5, code, "mono-m", 11.5, t["sheet"] if here else t["accent"])
+                 + text(tw_ / 2 - 9, 4.5, ttl, "mono", 9.8, t["sheet"] if here else t["ink2"], "end")
+                 + "</g></g>")
+        if k:
+            o.append(f'<path d="M{x_-7:.1f},{sy0+17} h6" stroke="{t["rule"]}" stroke-width="1" class="fi"{d_(3.6)}/>')
+    o.append(f'<path d="M{70+tw_/2:.1f},{sy0+38} l-5,8 h10 Z" fill="{t["accent"]}" class="here"/>')
 
     css = (odo.css() + FIRE_CSS + STAMP_CSS +
            ".carriage{animation:carriage 2.6s cubic-bezier(.45,0,.35,1) .1s both}"
            f"@keyframes carriage{{0%{{transform:translateX({M}px);opacity:1}}92%{{opacity:1}}100%{{transform:translateX({W-M}px);opacity:0}}}}"
            ".carriage{opacity:0}"
+           ".tagin{animation:tagin .55s cubic-bezier(.3,1.6,.5,1) both}@keyframes tagin{from{opacity:0;transform:scale(.6)}}"
+           ".here{animation:here 1.6s ease-in-out infinite alternate}@keyframes here{to{transform:translateY(3px);opacity:.5}}"
            ".ink{stroke-dasharray:var(--L);animation:ink 2.6s cubic-bezier(.5,0,.3,1) both}"
            "@keyframes ink{0%{stroke-dashoffset:var(--L);fill-opacity:0}62%{stroke-dashoffset:0;fill-opacity:0}100%{stroke-dashoffset:0;fill-opacity:1}}"
            ".spin{animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}"
