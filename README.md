@@ -224,7 +224,7 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/numbers.svg">
-  <img src="assets/light/numbers.svg" width="100%" alt="Telemetry, read from GitHub: contributions over the last year, the last 30 days, the busiest day, repositories, and years on GitHub, rolled up on odometer drums. A year of daily contributions drawn as an oscilloscope burn trace, and languages drawn as propellant tanks filled by how many repositories use them.">
+  <img src="assets/light/numbers.svg" width="100%" alt="Telemetry, read from GitHub. Contributions over the last year, the last 30 days, the busiest day, repositories and years on GitHub, rolled up on odometer drums. A year of daily contributions as an oscilloscope trace on a log axis, with a sweeping beam and the three brightest days marked. Every day of the year as a thermal map, contributions by weekday as an injector-plate rose, and languages as propellant tanks feeding one engine through valves and a manifold.">
 </picture>
 
 <sub>Every plate on this page is drawn by <a href="scripts/render.py">one script</a> from the data in this repository, in the same type and ink as <a href="https://www.akshaybajpai.com">the site</a>, and re-issued daily by a GitHub Action. The motion is CSS and SMIL inside each SVG: no scripts, no GIFs, no third-party cards, no grades. With reduced motion on, every plate rests as a finished drawing. Switch your theme to see the other issue: paper by day, blueprint by night.</sub>
