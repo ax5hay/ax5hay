@@ -1413,7 +1413,9 @@ def plate_keyplan(t, zones) -> str:
            ".needleN{animation:nn 2.6s cubic-bezier(.3,1.6,.4,1) .6s both}@keyframes nn{from{transform:rotate(-200deg)}}")
     alt = (f"Key plan, sheet G-000: a floor plan of the work. {len(zones)} rooms off one corridor, one per domain, "
            + "; ".join(f"{z['title']} ({len(z['projects'])} sheets: " + ", ".join(p["name"] for p in z["projects"]) + ")" for z in zones)
-           + ". A camera visits each room in turn and its light comes on, while someone in the corridor walks to its door.")
+           + ". A camera visits each room in turn: its light comes on, a scan passes down it, and the light spills into the corridor "
+           "where someone stands at its door. Below, section 1-1 draws the building in elevation with one window per sheet, "
+           "lit room by room in step with the camera.")
     return svg(W, H, "\n".join(o), ("serif-i", "mono", "mono-m"), alt, css)
 
 

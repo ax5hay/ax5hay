@@ -109,7 +109,7 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/keyplan.svg">
-  <img src="assets/light/keyplan.svg" width="100%" alt="Key plan, sheet G-000: a floor plan of the work, drawn in by a plotter. Five rooms off one corridor, one per domain, each listing its sheets by number: A, AI and LLM systems, 7 sheets; V, vision, edge and desktop, 4; D, data and platforms, 4; W, web and product, 6; R, research notebooks, 7. A camera visits each room in turn and its light comes on, while someone in the corridor walks to its door.">
+  <img src="assets/light/keyplan.svg" width="100%" alt="Key plan, sheet G-000: a floor plan of the work, drawn in by a plotter. Five rooms off one corridor, one per domain, each listing its sheets by number: A, AI and LLM systems, 7 sheets; V, vision, edge and desktop, 4; D, data and platforms, 4; W, web and product, 6; R, research notebooks, 7. A camera visits each room in turn: its light comes on, a scan passes down it, and the light spills into the corridor where someone stands at its door. Below, section 1-1 draws the building in elevation with one window per sheet, lit room by room in step with the camera.">
 </picture>
 
 <br>
