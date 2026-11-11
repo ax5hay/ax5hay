@@ -1165,7 +1165,7 @@ def plate_keyplan(t, zones) -> str:
     turn, the room's light comes on, and someone in the corridor walks to its
     door. Every project carries the sheet number it has in the index below.
     """
-    H = 780
+    H = 1050
     PX0, PX1 = 84, W - 84           # inside face of the exterior walls
     RY0 = 184                       # inside face of the top wall
     ROW, HEAD, PAD, CODE = 40, 66, 18, 44
@@ -1355,7 +1355,43 @@ def plate_keyplan(t, zones) -> str:
         o.append(f'<path d="M{xx-4},{oy+4} L{xx+4},{oy-4}" stroke="{t["rule_strong"]}" stroke-width="0.9"/>')
     o.append(f'<rect x="{W/2-150}" y="{oy-9}" width="300" height="18" fill="{t["sheet"]}"/>')
     o.append(text(W / 2, oy + 4, f"{len(zones)} domains  ·  {total} sheets  ·  not to scale", "mono", 12, t["ink3"], "middle"))
-    nx, ny = W - M - 19, RY0 + 52
+    # ---- section 1-1: the building cut across its rooms, one window per sheet
+    cy_cut = RY0 + HEAD - 5
+    o.append(f'<path d="M{PX0-22},{cy_cut} H{PX1+22}" stroke="{t["rule_strong"]}" stroke-width="0.9" stroke-dasharray="18 4 3 4" class="fi"{d_(2.4)}/>')
+    for sg, xb in ((-1, PX0 - 36), (1, PX1 + 36)):
+        o.append(f'<g class="fi"{d_(2.5)}><path d="M{xb-sg*14},{cy_cut} h{sg*4}" stroke="{t["rule_ink"]}" stroke-width="2.4"/>'
+                 f'<path d="M{xb-sg*12},{cy_cut} V{cy_cut-16} M{xb-sg*12-4},{cy_cut-11} L{xb-sg*12},{cy_cut-19} L{xb-sg*12+4},{cy_cut-11}" fill="none" stroke="{t["rule_ink"]}" stroke-width="1.2"/>'
+                 f'<circle cx="{xb}" cy="{cy_cut}" r="8" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/>'
+                 + text(xb, cy_cut + 3.6, "1", "mono-m", 10, t["ink"], "middle") + "</g>")
+    sy_lab = oy + 42
+    o.append(label(M + 22, sy_lab, "section 1-1  ·  one window per sheet", t, t["ink3"], 11, extra=f' class="mono-m fi"{d_(1.2)}'))
+    EG = TBY - 30
+    WIN, WG, PER = 24, 14, 3
+    for i, ((rx, w), z) in enumerate(zip(rooms, zones)):
+        n = len(z["projects"])
+        rows = -(-n // PER)
+        bh = 40 + rows * (WIN + 16) + 4
+        by = EG - bh
+        dl = 1.4 + i * 0.15
+        o.append(f'<rect x="{rx:.1f}" y="{by:.1f}" width="{w:.1f}" height="{bh:.1f}" fill="{t["raised"]}" fill-opacity=".5" class="fi"{d_(dl+0.6)}/>')
+        o.append(pen(f"M{rx:.1f},{EG} V{by:.1f} H{rx+w:.1f} V{EG}", t["rule_ink"], 1.3, dl, 1.2))
+        o.append(pen(f"M{rx-3:.1f},{by-6:.1f} H{rx+w+3:.1f}", t["rule_ink"], 2.2, dl + 0.4, 0.6))
+        o.append(text(rx + w / 2, by - 14, f"{z['code']}  ·  {n} sheet{'s' if n != 1 else ''}", "mono-m", 11, t["ink3"], "middle",
+                      extra=f' class="mono-m fi"{d_(dl+0.6)}'))
+        for j in range(n):
+            r_, c_ = j // PER, j % PER
+            in_row = min(PER, n - r_ * PER)
+            row_w = in_row * WIN + (in_row - 1) * WG
+            wx = rx + w / 2 - row_w / 2 + c_ * (WIN + WG)
+            wy = by + 30 + r_ * (WIN + 16)
+            o.append(f'<rect x="{wx:.1f}" y="{wy:.1f}" width="{WIN}" height="{WIN}" fill="{t["deep"]}" stroke="{t["rule_strong"]}" stroke-width="0.9" class="fi"{d_(dl+0.7+j*0.04)}/>')
+            o.append(f'<rect x="{wx+2:.1f}" y="{wy+2:.1f}" width="{WIN-4}" height="{WIN-4}" fill="{t["accent"]}" fill-opacity=".75" class="lit" '
+                     f'style="animation-delay:{LOOP0+i*STOP+0.5+j*0.22:.2f}s"/>')
+            o.append(f'<path d="M{wx+WIN/2:.1f},{wy:.1f} V{wy+WIN:.1f} M{wx:.1f},{wy+WIN/2:.1f} H{wx+WIN:.1f}" stroke="{t["rule_strong"]}" stroke-width="0.7"/>')
+    o.append(f'<rect x="{PX0-EXT}" y="{EG}" width="{PX1-PX0+2*EXT}" height="12" fill="url(#hatch)"/>')
+    o.append(rule(PX0 - 40, EG, PX1 + 40, EG, t["rule_ink"], 1.6))
+
+    nx, ny = W - M - 19, RY0 + 150
     o.append(f'<circle cx="{nx}" cy="{ny}" r="13" fill="{t["sheet"]}" stroke="{t["rule_strong"]}" stroke-width="0.9"/>')
     o.append(f'<path d="M{nx},{ny-18} V{ny+18}" stroke="{t["rule"]}" stroke-width="0.7"/>')
     o.append(f'<g transform="translate({nx},{ny})"><g class="needleN"><path d="M0,-12 L4.6,6 L0,2.4 L-4.6,6 Z" fill="{t["accent"]}"/></g></g>')
