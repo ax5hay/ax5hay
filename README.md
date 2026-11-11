@@ -161,7 +161,7 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/schedule.svg">
-  <img src="assets/light/schedule.svg" width="100%" alt="Schedule of materials: every technology across my repositories, grouped by discipline. The plain-text copy is just below.">
+  <img src="assets/light/schedule.svg" width="100%" alt="Schedule of materials, sheet A-102: 352 items across 14 disciplines, every tool from every repository and engagement, each with how many places use it. A wall section stacks one hatched stratum per discipline. A tracer walks through six projects, AURIXA, ReBo, FlowState, shelf, DADM and KeepMeAwake, lighting every material each one uses and filling each stratum to its share. The plain-text copy is just below.">
 </picture>
 
 <details>

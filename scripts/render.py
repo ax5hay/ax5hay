@@ -959,76 +959,228 @@ def plate_keyplan(t, zones) -> str:
 # --------------------------------------------------------------------------
 # Plate 4: the schedule of materials. Every technology, by discipline.
 # --------------------------------------------------------------------------
-def plate_schedule(t, stack) -> str:
-    LAB_W, CH_H, GAP, PADX, ROW_GAP, SEC_PAD = 236, 30, 8, 11, 8, 20
-    SIZE = 14
+# Projects the tracer walks through, by repository name in stack.json.
+TRACE = ["AURIXA", "rebo", "FlowState", "shelf", "DADM-Aiximius", "KeepMeAwake"]
+REPO_NAMES = {"rebo": "ReBo", "DADM-Aiximius": "DADM", "ai-automation-main": "ai-automation",
+              "RestroScraper-PY": "RestroScraper"}
+
+
+def hatch_pattern(t, i, pid):
+    """Fourteen material hatches, one per discipline, the way a section legend draws them."""
+    s, f = t["rule_strong"], (t["raised"] if i % 2 else t["sunk"])
+    P = lambda w, h, body, rot=0: (  # noqa: E731
+        f'<pattern id="{pid}" width="{w}" height="{h}" patternUnits="userSpaceOnUse"'
+        + (f' patternTransform="rotate({rot})"' if rot else "") + f'><rect width="{w}" height="{h}" fill="{f}"/>{body}</pattern>')
+    L = lambda d, w=0.9: f'<path d="{d}" stroke="{s}" stroke-width="{w}" fill="none"/>'  # noqa: E731
+    k = i % 14
+    if k == 0:
+        return P(8, 8, L("M0,0 V8"), 45)
+    if k == 1:
+        return P(8, 8, L("M0,0 V8 M0,0 H8", 0.7), 45)
+    if k == 2:
+        return P(7, 7, f'<circle cx="3.5" cy="3.5" r="1.1" fill="{s}"/>')
+    if k == 3:
+        return P(6, 6, L("M0,3 H6", 0.8))
+    if k == 4:
+        return P(16, 10, L("M0,0 H16 M0,5 H16 M4,0 V5 M12,5 V10", 0.8))
+    if k == 5:
+        return P(8, 8, L("M0,0 V8"), -45)
+    if k == 6:
+        return P(12, 10, L("M0,8 L3,2 L6,8 L9,2 L12,8", 0.8))
+    if k == 7:
+        return P(6, 6, L("M3,0 V6", 0.8))
+    if k == 8:
+        rnd = random.Random(i)
+        dots = "".join(f'<circle cx="{rnd.uniform(0,14):.1f}" cy="{rnd.uniform(0,14):.1f}" r="{rnd.uniform(.5,1.1):.1f}" fill="{s}"/>' for _ in range(7))
+        return P(14, 14, dots)
+    if k == 9:
+        return P(16, 8, L("M0,4 Q4,0 8,4 T16,4", 0.8))
+    if k == 10:
+        return P(4, 4, L("M0,0 V4", 0.7), 45)
+    if k == 11:
+        return P(12, 12, f'<circle cx="6" cy="6" r="3" fill="none" stroke="{s}" stroke-width="0.8"/>')
+    if k == 12:
+        return P(12, 6, L("M0,3 H6", 0.9))
+    return P(8, 8, L("M0,0 V8 M0,0 H8", 0.7))
+
+
+def plate_schedule(t, stack, zones) -> str:
+    cats = stack
+    total = sum(len(c["items"]) for c in cats)
+    sub_of = {p["name"]: p["sub"] for z in zones for p in z["projects"]}
+    code_of = {p["name"]: f"{z['code']}-{i+1:02d}" for z in zones for i, p in enumerate(z["projects"])}
+    tr = []
+    for repo in TRACE:
+        name = REPO_NAMES.get(repo, repo)
+        used = [{it["name"] for it in c["items"] if repo in it.get("repos", [])} for c in cats]
+        tr.append(dict(repo=repo, name=name, sub=sub_of.get(name, ""), code=code_of.get(name, ""),
+                       used=used, n=sum(len(u) for u in used), d=sum(1 for u in used if u)))
+    NS = len(tr)
+    STOP, LOOP0 = 4.0, 4.6
+    CYCLE = STOP * NS
+
+    # ---- schedule geometry first: it decides the height
+    X0, X1 = 52, W - 52
+    LAB = 214
+    CX0 = X0 + LAB + 14
+    CH, GAP, PADX, RG, SP = 26, 6, 8, 6, 14
+    FS, FC = 12, 9.5
     layout = []
-    for cat in stack:
-        lines, cur, cur_w = [], [], 0.0
-        for it in cat["items"]:
-            w = mono_w(it["name"], SIZE) + 2 * PADX
-            if cur and cur_w + GAP + w > W - (LAB_W + 16) - 16:
+    for c in cats:
+        lines, cur, cw = [], [], 0.0
+        for it in c["items"]:
+            w = mono_w(it["name"], FS) + 6 + mono_w(str(it["n"]), FC) + 2 * PADX
+            if cur and cw + GAP + w > X1 - 14 - CX0:
                 lines.append(cur)
-                cur, cur_w = [], 0.0
+                cur, cw = [], 0.0
             cur.append((it, w))
-            cur_w += (GAP if cur_w else 0) + w
+            cw += (GAP if cw else 0) + w
         if cur:
             lines.append(cur)
-        layout.append((cat, lines))
-    H = 1 + sum(SEC_PAD * 2 + len(l) * (CH_H + ROW_GAP) - ROW_GAP for _, l in layout) + 56
-    o = [f'<rect width="{W}" height="{H}" fill="{t["sheet"]}" stroke="{t["rule_strong"]}" stroke-width="1"/>']
-    y = 1
-    for ci, (cat, lines) in enumerate(layout):
-        sec_h = SEC_PAD * 2 + len(lines) * (CH_H + ROW_GAP) - ROW_GAP
-        dl = 0.1 + ci * 0.12
-        if y > 1:
-            o.append(rule(1, y, W - 1, y, t["rule"], 0.8))
-        o.append(f'<rect x="1" y="{y}" width="{LAB_W-1}" height="{sec_h}" fill="{t["sunk"]}"/>')
-        o.append(rule(LAB_W, y, LAB_W, y + sec_h, t["rule"], 0.8))
-        words, lab_lines, cur = cat["category"].split(" "), [], ""
+        h = max(84, SP * 2 + len(lines) * (CH + RG) - RG)
+        layout.append((c, lines, h))
+
+    EY0 = 128
+    thick = [16 + 20 * len(c["items"]) / max(len(x["items"]) for x in cats) for c in cats]
+    EY1 = EY0 + sum(thick)
+    SY0 = EY1 + 96
+    SY1 = SY0 + 36 + sum(h for _, _, h in layout)
+    H = SY1 + 92
+    o = sheet_frame(t, H, H - M, grid=False)
+    o.append("<defs>" + "".join(hatch_pattern(t, i, f"m{i}") for i in range(len(cats))) +
+             f'<pattern id="earth" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'
+             f'<path d="M0,0 V10" stroke="{t["rule_strong"]}" stroke-width="0.8"/></pattern></defs>')
+
+    # ---- heading
+    o.append(label(M + 22, 74, f"Schedule of materials  ·  A-102  ·  {total} items, {len(cats)} disciplines", t, t["accent"], 12.5,
+                   extra=f' class="mono-m lt"{d_(0.1)}'))
+    o.append(f'<g class="fi"{d_(0.3)}>' + text(W - M - 22, 76, "Trace a project, and the schedule lights up.", "serif-i", 22, t["ink3"], "end") + "</g>")
+    o.append(rule(M + 22, 92, W - M - 22, 92, t["rule"], 0.8))
+
+    # ---- the wall section: one stratum per discipline, laid from the ground up
+    EX0, EX1, LX = 452, 800, 836
+    y = EY0
+    mids = []
+    for i, (c, th) in enumerate(zip(cats, thick)):
+        dl = 0.3 + (len(cats) - 1 - i) * 0.11
+        o.append(f'<g class="lay"{d_(dl)}><rect x="{EX0}" y="{y:.1f}" width="{EX1-EX0}" height="{th:.1f}" fill="url(#m{i})" '
+                 f'stroke="{t["rule_ink"]}" stroke-width="1"/></g>')
+        mids.append(y + th / 2)
+        for k, tk in enumerate(tr):
+            f = len(tk["used"][i]) / len(c["items"])
+            if f:
+                wv = (EX1 - EX0) * f
+                o.append(f'<g class="hl s{k}"><rect x="{EX0}" y="{y:.1f}" width="{wv:.1f}" height="{th:.1f}" fill="{t["accent"]}" fill-opacity=".42"/>'
+                         f'<path d="M{EX0+wv:.1f},{y:.1f} v{th:.1f}" stroke="{t["accent"]}" stroke-width="2"/></g>')
+        y += th
+    # ground and footing
+    o.append(f'<rect x="{EX0-40}" y="{EY1}" width="{EX1-EX0+80}" height="16" fill="url(#earth)" class="fi"{d_(0.2)}/>')
+    o.append(rule(EX0 - 60, EY1, EX1 + 20, EY1, t["rule_ink"], 1.6))
+    o.append(line_pen(EX0 - 18, EY0, EX0 - 18, EY1, t["rule_strong"], 0.8, 1.2, 1.0))
+    for yy in (EY0, EY1):
+        o.append(f'<path d="M{EX0-22},{yy+4} L{EX0-14},{yy-4}" stroke="{t["rule_strong"]}" stroke-width="0.9" class="fi"{d_(1.6)}/>')
+    o.append(f'<g class="fi"{d_(1.8)}>' + text(EX0 - 26, (EY0 + EY1) / 2, f"{total} items", "mono", 12, t["ink3"], "middle",
+                                               extra=f' class="mono" transform="rotate(-90 {EX0-26} {(EY0+EY1)/2:.1f})"') + "</g>")
+    # leaders out to the legend
+    gap = (EY1 - EY0) / len(cats)
+    for i, (c, ym) in enumerate(zip(cats, mids)):
+        ly = EY0 + gap * (i + 0.5)
+        dl = 1.6 + i * 0.05
+        o.append(f'<circle cx="{EX1}" cy="{ym:.1f}" r="2.4" fill="{t["accent"]}" class="fi"{d_(dl)}/>')
+        o.append(pen(f"M{EX1},{ym:.1f} L{LX-14},{ly:.1f} H{LX-4}", t["accent_line"], 0.9, dl, 0.6))
+        o.append(f'<g class="fi"{d_(dl+0.3)}>' + text(LX, ly + 4, f"{i+1:02d}", "mono-m", 11.5, t["accent"])
+                 + label(LX + 26, ly + 4, c["category"], t, t["ink2"], 11)
+                 + text(W - M - 22, ly + 4, str(len(c["items"])), "mono-m", 12, t["ink3"], "end") + "</g>")
+
+    # ---- the tracer's read-out
+    HX = 70
+    o.append(label(HX, 146, "tracing", t, t["accent"], 12, extra=f' class="mono-m fi"{d_(LOOP0-0.6)}'))
+    o.append(f'<circle cx="{HX+76}" cy="142" r="4" fill="{t["accent"]}" class="blink"/>')
+    for k, tk in enumerate(tr):
+        o.append(f'<g class="hl s{k}">'
+                 + text(HX, 204, tk["name"], "serif", 54, t["ink"])
+                 + text(HX + 2, 232, tk["sub"], "serif-i", 20, t["ink3"])
+                 + text(HX, 312, str(tk["n"]), "serif", 72, t["accent"])
+                 + text(HX + 2, 338, f"materials across {tk['d']} disciplines", "mono", 12.5, t["ink2"]) + "</g>")
+    qy = 382
+    o.append(rule(HX, qy - 18, HX + 330, qy - 18, t["rule"], 0.8))
+    for k, tk in enumerate(tr):
+        yy = qy + k * 24
+        o.append(text(HX + 18, yy + 4, tk["code"], "mono", 11.5, t["ink4"]) + text(HX + 72, yy + 4, tk["name"], "mono-m", 13, t["ink3"])
+                 + text(HX + 330, yy + 4, f"{tk['n']}", "mono", 12, t["ink4"], "end"))
+        o.append(f'<g class="hl s{k}"><rect x="{HX}" y="{yy-11}" width="334" height="22" fill="{t["accent_soft"]}"/>'
+                 f'<circle cx="{HX+7}" cy="{yy}" r="3.2" fill="{t["accent"]}"/>'
+                 + text(HX + 72, yy + 4, tk["name"], "mono-m", 13, t["accent"]) + "</g>")
+
+    # ---- the schedule itself
+    o.append(rule(X0, SY0, X1, SY0, t["rule_strong"], 1.2))
+    o.append(label(X0 + 14, SY0 + 24, "discipline", t, t["ink4"], 11))
+    o.append(label(CX0, SY0 + 24, "material", t, t["ink4"], 11))
+    o.append(text(X1 - 14, SY0 + 24, "the small number is how many repos or engagements use it", "mono", 11.5, t["ink4"], "end"))
+    y = SY0 + 36
+    for ci, (c, lines, sh) in enumerate(layout):
+        dl = 0.6 + ci * 0.1
+        o.append(rule(X0, y, X1, y, t["rule"], 0.8))
+        o.append(f'<rect x="{X0}" y="{y}" width="{LAB}" height="{sh}" fill="{t["sunk"]}" fill-opacity=".7"/>')
+        o.append(rule(X0 + LAB, y, X0 + LAB, y + sh, t["rule"], 0.8))
+        o.append(f'<rect x="{X0+14}" y="{y+16}" width="40" height="24" fill="url(#m{ci})" stroke="{t["rule_ink"]}" stroke-width="0.9"/>')
+        words, lab_lines, cur = c["category"].split(" "), [], ""
         for wd in words:
             trial = (cur + " " + wd).strip()
-            if mono_w(trial, 12, 0.16) > LAB_W - 60 and cur:
+            if mono_w(trial, 11.5, 0.16) > LAB - 82 and cur:
                 lab_lines.append(cur)
                 cur = wd
             else:
                 cur = trial
         lab_lines.append(cur)
-        o.append(text(18, y + SEC_PAD + 18, f"{ci+1:02d}", "mono-m", 12, t["accent"]))
+        o.append(text(X0 + 66, y + 27, f"{ci+1:02d}", "mono-m", 11.5, t["accent"]))
         for i, ll in enumerate(lab_lines):
-            o.append(label(46, y + SEC_PAD + 18 + i * 18, ll, t, t["ink3"], 12))
-        o.append(text(LAB_W - 16, y + sec_h - 12, f"{len(cat['items'])}", "serif", 30, t["ink4"], "end"))
+            o.append(label(X0 + 92, y + 27 + i * 16, ll, t, t["ink2"], 11.5))
+        o.append(text(X0 + LAB - 14, y + sh - 14, str(len(c["items"])), "serif", 32, t["ink4"], "end"))
+        for k, tk in enumerate(tr):
+            u = len(tk["used"][ci])
+            msg = f"{tk['name']} · {u}" if u else f"{tk['name']} · none"
+            o.append(f'<g class="hl s{k}">' + text(X0 + 14, y + sh - 16, msg, "mono-m", 11.5, t["accent"] if u else t["ink4"]) + "</g>")
         for li, line in enumerate(lines):
-            cy = y + SEC_PAD + li * (CH_H + ROW_GAP)
-            x = LAB_W + 16
-            for k, (it, w) in enumerate(line):
+            cy = y + SP + li * (CH + RG)
+            x = CX0
+            for j, (it, w) in enumerate(line):
                 heavy = it["n"] >= 3
-                fill = t["accent_soft"] if heavy else "none"
-                stroke = t["accent_line"] if heavy else t["rule"]
-                o.append(f'<g class="chip"{d_(dl + li * 0.05 + k * 0.025)}>'
-                         f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH_H}" rx="3" fill="{fill}" stroke="{stroke}" stroke-width="0.9"/>'
-                         + text(x + PADX, cy + 20, it["name"], "mono-m" if heavy else "mono", SIZE, t["ink"]) + "</g>")
+                fill = t["raised"] if heavy else "none"
+                stroke = t["rule_strong"] if heavy else t["rule"]
+                slots = [k for k, tk in enumerate(tr) if it["name"] in tk["used"][ci]]
+                hl = "".join(f'<g class="hl s{k}"><rect x="{x-2.5:.1f}" y="{cy-2.5}" width="{w+5:.1f}" height="{CH+5}" rx="5" fill="none" '
+                             f'stroke="{t["accent"]}" stroke-opacity=".3" stroke-width="3"/>'
+                             f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH}" rx="3" fill="{t["accent"]}" '
+                             f'fill-opacity="{0.34 if t["glow_op"] > .5 else 0.22}" stroke="{t["accent"]}" stroke-width="1.8"/></g>' for k in slots)
+                o.append(f'<g class="chip"{d_(dl + li * 0.04 + j * 0.02)}>'
+                         f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH}" rx="3" fill="{fill}" stroke="{stroke}" stroke-width="0.9"/>{hl}'
+                         + text(x + PADX, cy + 17.5, it["name"], "mono-m" if heavy else "mono", FS, t["ink"])
+                         + text(x + w - PADX, cy + 17.5, str(it["n"]), "mono", FC, t["ink4"], "end") + "</g>")
                 x += w + GAP
-        y += sec_h
-    o.append(rule(1, y, W - 1, y, t["rule_strong"], 1))
-    ly = y + 20
-    o.append(label(18, ly + 12, "legend", t, t["ink4"], 12))
-    o.append(f'<rect x="{LAB_W+16}" y="{ly}" width="20" height="15" rx="3" fill="{t["accent_soft"]}" stroke="{t["accent_line"]}" stroke-width="0.9"/>')
-    o.append(text(LAB_W + 46, ly + 12, "in three or more repos or engagements", "mono", 13, t["ink3"]))
-    o.append(f'<rect x="{LAB_W+386}" y="{ly}" width="20" height="15" rx="3" fill="none" stroke="{t["rule"]}" stroke-width="0.9"/>')
-    o.append(text(LAB_W + 416, ly + 12, "in one or two", "mono", 13, t["ink3"]))
-    total = sum(len(c["items"]) for c in stack)
-    o.append(text(W - 18, ly + 12, f"{total} items, from every repo and engagement", "mono", 13, t["ink4"], "end"))
-    # a scanning bar reads the schedule top to bottom, every so often
-    o.append(f'<g class="scan"><rect x="1" y="-60" width="{W-2}" height="60" fill="url(#scanG)"/>'
-             f'<rect x="1" y="-1" width="{W-2}" height="1.4" fill="{t["accent"]}" fill-opacity=".8"/></g>')
-    defs = (f'<defs><linearGradient id="scanG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="0"/>'
-            f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="{0.16 if t["glow_op"]>.5 else 0.1}"/></linearGradient></defs>')
-    css = (".chip{animation:chip .6s cubic-bezier(.2,.8,.2,1) both}@keyframes chip{from{opacity:0;transform:translateY(8px)}}"
-           f".scan{{animation:scan 11s cubic-bezier(.45,0,.55,1) 2s infinite both}}"
-           f"@keyframes scan{{0%{{transform:translateY(0);opacity:0}}4%{{opacity:1}}60%{{transform:translateY({H+60}px);opacity:1}}61%,100%{{opacity:0;transform:translateY({H+60}px)}}}}")
-    return svg(W, H, defs + "\n".join(o), ("serif", "mono", "mono-m"),
-               "Schedule of materials: every technology across my repositories and engagements, grouped by discipline.", css)
+        y += sh
+    o.append(rule(X0, y, X1, y, t["rule_strong"], 1.2))
+    ly = y + 26
+    o.append(label(X0 + 14, ly + 12, "legend", t, t["ink4"], 11))
+    o.append(f'<rect x="{CX0}" y="{ly}" width="22" height="16" rx="3" fill="{t["raised"]}" stroke="{t["rule_strong"]}" stroke-width="0.9"/>')
+    o.append(text(CX0 + 32, ly + 12.5, "in three or more", "mono-m", 12.5, t["ink3"]))
+    o.append(f'<rect x="{CX0+196}" y="{ly}" width="22" height="16" rx="3" fill="none" stroke="{t["rule"]}" stroke-width="0.9"/>')
+    o.append(text(CX0 + 228, ly + 12.5, "in one or two", "mono", 12.5, t["ink3"]))
+    o.append(f'<rect x="{CX0+380}" y="{ly}" width="22" height="16" rx="3" fill="{t["accent"]}" fill-opacity=".34" stroke="{t["accent"]}" stroke-width="1.8"/>')
+    o.append(text(CX0 + 412, ly + 12.5, "used by the project being traced", "mono", 12.5, t["ink3"]))
+
+    css = (".lay{animation:lay .8s cubic-bezier(.3,1.4,.5,1) both}@keyframes lay{from{opacity:0;transform:translateY(-26px)}}"
+           ".chip{animation:chip .6s cubic-bezier(.2,.8,.2,1) both}@keyframes chip{from{opacity:0;transform:translateY(8px)}}"
+           f".hl{{opacity:0;animation:hl {CYCLE:.0f}s ease-in-out infinite both}}"
+           f"@keyframes hl{{0%{{opacity:0}}{100*0.5/CYCLE:.2f}%{{opacity:1}}{100*(STOP-0.35)/CYCLE:.2f}%{{opacity:1}}{100*STOP/CYCLE:.2f}%,100%{{opacity:0}}}}"
+           + "".join(f".s{k}{{animation-delay:{LOOP0+k*STOP:.2f}s}}" for k in range(NS))
+           + ".blink{animation:blink 1.2s steps(2) infinite}@keyframes blink{50%{opacity:0}}"
+           "@media (prefers-reduced-motion:reduce){.s0{opacity:1}}")
+    alt = (f"Schedule of materials, sheet A-102: {total} items across {len(cats)} disciplines, every tool from every repository and engagement. "
+           "A wall section stacks one stratum per discipline, thick by how many items it holds. A tracer walks through six projects, "
+           + ", ".join(f"{tk['name']} ({tk['n']} materials)" for tk in tr)
+           + ", and lights every material each one uses. The full list is in text below.")
+    return svg(W, H, "\n".join(o), ("serif", "serif-i", "mono", "mono-m"), alt, css)
 
 
 # --------------------------------------------------------------------------
@@ -1398,7 +1550,7 @@ def main():
         (out / "hero.svg").write_text(plate_hero(t, stats, updated, rev, n_materials))
         (out / "teststand.svg").write_text(plate_teststand(t))
         (out / "keyplan.svg").write_text(plate_keyplan(t, zones))
-        (out / "schedule.svg").write_text(plate_schedule(t, stack))
+        (out / "schedule.svg").write_text(plate_schedule(t, stack, zones))
         (out / "numbers.svg").write_text(plate_telemetry(t, stats, updated))
         (out / "closing.svg").write_text(plate_closing(t, updated, rev))
         for key, code, title, note, seq in headers:
