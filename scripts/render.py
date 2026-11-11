@@ -667,6 +667,187 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
 
 
 # --------------------------------------------------------------------------
+# Plate 1b: general notes. Seven notes, each with a figure that does what the
+# note says, and the sheet's approval block in the eighth cell.
+# --------------------------------------------------------------------------
+def note_figure(t, k, x0, y0, w, h):
+    acc, ink, faint, strong = t["accent"], t["rule_ink"], t["rule"], t["rule_strong"]
+    o = [f'<rect x="{x0}" y="{y0}" width="{w}" height="{h}" rx="4" fill="{t["deep"]}" stroke="{strong}" stroke-width="0.9"/>']
+    cx, cy = x0 + w / 2, y0 + h / 2
+    if k == 0:
+        # thrust, controlled: one vector thrashes, the gimballed one holds
+        for bx, cls, col, lab in ((x0 + w * 0.28, "wild", strong, "thrust"), (x0 + w * 0.72, "held", acc, "trust")):
+            by = y0 + h - 26
+            L_ = min(h - 60, 110)
+            o.append(f'<g transform="translate({bx:.1f},{by})"><g class="{cls}">'
+                     f'<path d="M0,0 V{-L_}" stroke="{col}" stroke-width="2.6"/><path d="M-7,{-L_+9} L0,{-L_-4} L7,{-L_+9}" fill="none" stroke="{col}" stroke-width="2.6"/></g>'
+                     f'<circle r="6" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.2"/></g>')
+            o.append(text(bx, y0 + h - 8, lab, "mono-m", 10, t["ink3"] if cls == "wild" else acc, "middle"))
+        o.append(f'<path d="M{x0+w*0.72-18:.1f},{y0+h-26} a18,18 0 0 1 36,0" fill="none" stroke="{acc}" stroke-width="0.9" stroke-dasharray="2 3"/>')
+    elif k == 1:
+        # one seat that moves between the boardroom side and the bare-metal side
+        tx, ty, tw, th = x0 + 30, cy - 16, w - 60, 32
+        o.append(f'<rect x="{tx}" y="{ty}" width="{tw}" height="{th}" rx="4" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.1"/>')
+        for i in range(3):
+            sx = tx + tw * (i + 0.5) / 3
+            for sy in (ty - 14, ty + th + 14):
+                o.append(f'<rect x="{sx-9:.1f}" y="{sy-6}" width="18" height="12" rx="3" fill="none" stroke="{faint}" stroke-width="1"/>')
+        o.append(text(cx, y0 + 16, "boardroom", "mono-m", 9.5, t["ink3"], "middle"))
+        o.append(text(cx, y0 + h - 8, "bare metal", "mono-m", 9.5, t["ink3"], "middle"))
+        route = f"M{cx:.1f},{ty-14} H{tx+tw+14} V{ty+th+14} H{cx:.1f} H{tx-14} V{ty-14} H{cx:.1f}"
+        o.append(f'<g><animateMotion dur="8s" repeatCount="indefinite" path="{route}" keyPoints="0;0;0.5;0.5;1" keyTimes="0;0.3;0.5;0.8;1" calcMode="linear"/>'
+                 f'<circle r="9" fill="{acc}" fill-opacity=".2"/><circle r="5" fill="{acc}"/></g>')
+    elif k == 2:
+        # one pair of hands, every stage
+        stages = ["drawing", "product", "safety", "release", "runbook"]
+        sy0, step = y0 + 20, (h - 36) / 4
+        o.append(f'<path d="M{x0+24},{sy0} V{sy0+4*step}" stroke="{faint}" stroke-width="1.2"/>')
+        for i, s in enumerate(stages):
+            yy = sy0 + i * step
+            o.append(f'<circle cx="{x0+24}" cy="{yy:.1f}" r="5.5" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.1"/>')
+            o.append(f'<circle cx="{x0+24}" cy="{yy:.1f}" r="3" fill="{acc}" class="stg" style="animation-delay:{i*0.8:.1f}s"/>')
+            o.append(text(x0 + 40, yy + 4, s, "mono", 11, t["ink2"]))
+        o.append(f'<g><animateMotion dur="4s" repeatCount="indefinite" path="M{x0+24},{sy0} V{sy0+4*step}"/>'
+                 f'<circle r="9" fill="{acc}" fill-opacity=".25"/></g>')
+    elif k == 3:
+        # the job queue that survives a restart
+        ly = cy + 4
+        o.append(f'<path d="M{x0+10},{ly} H{x0+w-10}" stroke="{faint}" stroke-width="1"/>')
+        bx = x0 + w * 0.5 - 24
+        o.append(f'<rect x="{bx:.1f}" y="{ly-22}" width="48" height="44" rx="4" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.1"/>')
+        o.append(f'<rect x="{bx:.1f}" y="{ly-22}" width="48" height="44" rx="4" fill="#e5484d" class="crash"/>')
+        o.append(text(bx + 24, ly - 28, "worker", "mono-m", 9.5, t["ink3"], "middle"))
+        o.append(text(bx + 24, ly + 38, "lease", "mono", 9.5, t["ink4"], "middle"))
+        for i in range(4):
+            o.append(f'<rect x="{x0+6}" y="{ly-6}" width="16" height="12" rx="2" fill="{acc}" class="job" style="animation-delay:{-i*1.5:.1f}s"/>')
+        o.append(text(x0 + w - 8, y0 + 16, "restart", "mono-m", 9, "#e5484d", "end", extra=' class="mono-m crashT"'))
+    elif k == 4:
+        # the decision record writes itself, then it is accepted
+        px, py, pw, ph = x0 + 26, y0 + 12, w - 52, h - 24
+        o.append(f'<rect x="{px}" y="{py}" width="{pw}" height="{ph}" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.1"/>')
+        o.append(text(px + 8, py + 16, "ADR-0007", "mono-m", 10, acc))
+        widths = (0.9, 0.75, 0.85, 0.6, 0.8, 0.5, 0.88, 0.7, 0.4, 0.82, 0.66, 0.9, 0.55, 0.78)
+        n_ = int((ph - 70) // 12)
+        for i, f in enumerate(widths[:n_]):
+            o.append(f'<rect x="{px+8}" y="{py+28+i*12+(8 if i > 3 else 0)+(8 if i > 8 else 0)}" width="{(pw-16)*f:.1f}" height="4" fill="{faint}" '
+                     f'class="wr" style="animation-delay:{i*0.3:.2f}s"/>')
+        o.append(f'<g transform="translate({px+pw-30},{py+ph-22}) rotate(-12)"><g class="acc">'
+                 f'<rect x="-30" y="-10" width="60" height="20" rx="2" fill="none" stroke="{acc}" stroke-width="1.6"/>'
+                 + text(0, 4, "ACCEPTED", "mono-m", 8.5, acc, "middle") + "</g></g>")
+    elif k == 5:
+        # a figure, and the conditions it was measured under
+        oy = y0 + (h - 150) / 2
+        o.append(text(x0 + 16, oy + 56, "94%", "serif", 48, t["ink"]))
+        o.append(text(x0 + 92, oy + 30, "1", "mono-m", 11, acc))
+        o.append(pen(f"M{x0+98},{oy+36} C{x0+118},{oy+66} {x0+66},{oy+76} {x0+66},{oy+92}", acc, 1, 0.6, 1.0))
+        rows = ["precision", "held-out set", "results file"]
+        for i, r in enumerate(rows):
+            yy = oy + 106 + i * 17
+            o.append(f'<g class="row" style="animation-delay:{1.2+i*0.3:.1f}s">' + rule(x0 + 14, yy + 4, x0 + w - 14, yy + 4, faint, 0.7)
+                     + text(x0 + 16, yy, f"{i+1 if i == 0 else ' '} {r}" if i == 0 else f"  {r}", "mono", 9.5, t["ink2"]) + "</g>")
+    else:
+        # a router: most questions never need a model
+        rx, ry = x0 + 46, cy
+        o.append(f'<path d="M{rx},{ry-12} L{rx+12},{ry} L{rx},{ry+12} L{rx-12},{ry} Z" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.1"/>')
+        exits = [("saved answer", y0 + 26, faint), ("plain rule", cy, faint), ("model", y0 + h - 26, acc)]
+        for lab, ey, col in exits:
+            o.append(f'<path d="M{rx+12},{ry} C{rx+40},{ry} {rx+40},{ey} {rx+60},{ey} H{x0+w-10}" fill="none" stroke="{col}" stroke-width="1"/>')
+            o.append(text(x0 + w - 10, ey - 5, lab, "mono", 9.5, t["ink3"] if col == faint else acc, "end"))
+        o.append(f'<path d="M{x0+8},{ry} H{rx-12}" stroke="{faint}" stroke-width="1"/>')
+        plan = [0, 1, 0, 0, 1, 2]  # one in six reaches the model
+        for i, e in enumerate(plan):
+            ey = exits[e][1]
+            pth = f"M{x0+8},{ry} H{rx+12} C{rx+40},{ry} {rx+40},{ey} {rx+60},{ey} H{x0+w-10}"
+            o.append(f'<circle r="3.2" fill="{acc if e == 2 else t["ink2"]}" opacity="0"><animateMotion dur="6s" begin="{i:.0f}s" repeatCount="indefinite" '
+                     f'path="{pth}" keyPoints="0;1;1" keyTimes="0;0.4;1" calcMode="linear"/>'
+                     f'<animate attributeName="opacity" values="1;1;0;0" keyTimes="0;0.38;0.4;1" dur="6s" begin="{i:.0f}s" repeatCount="indefinite"/></circle>')
+    return "".join(o)
+
+
+NOTE_CSS = (
+    ".wild{animation:wild 1.9s ease-in-out infinite}"
+    "@keyframes wild{0%{transform:rotate(-24deg)}18%{transform:rotate(19deg)}31%{transform:rotate(-8deg)}47%{transform:rotate(28deg)}63%{transform:rotate(-30deg)}80%{transform:rotate(12deg)}100%{transform:rotate(-24deg)}}"
+    ".held{animation:held 2.4s ease-in-out infinite alternate}@keyframes held{from{transform:rotate(-2.5deg)}to{transform:rotate(2.5deg)}}"
+    ".stg{opacity:.15;animation:stg 4s linear infinite}@keyframes stg{0%,8%{opacity:1}30%,100%{opacity:.15}}"
+    ".job{animation:job 6s linear infinite}"
+    "@keyframes job{0%{transform:translateX(0);opacity:0}5%{opacity:1}40%{transform:translateX(52px)}55%{transform:translateX(52px)}95%{opacity:1}100%{transform:translateX(118px);opacity:0}}"
+    ".crash{opacity:0;animation:crash 6s steps(1) infinite}@keyframes crash{0%{opacity:0}42%{opacity:.55}50%{opacity:0}}"
+    ".crashT{opacity:0;animation:crash 6s steps(1) infinite}"
+    ".wr{transform-box:fill-box;transform-origin:0 0;animation:wr 7s ease-out infinite both}"
+    "@keyframes wr{0%{transform:scaleX(0)}8%,100%{transform:scaleX(1)}}"
+    ".acc{opacity:0;animation:acc 7s cubic-bezier(.3,1.6,.5,1) infinite}"
+    "@keyframes acc{0%,44%{opacity:0;transform:scale(2)}50%,92%{opacity:1;transform:scale(1)}100%{opacity:0}}"
+    ".row{animation:fi .6s ease-out both}"
+    "@media (prefers-reduced-motion:reduce){.acc{opacity:1}.stg{opacity:1}}"
+)
+
+
+def plate_notes(t, notes, updated, rev) -> str:
+    COLS, GX, GY = 2, 22, 20
+    X0, Y0 = 52, 58
+    PW = (W - 2 * X0 - GX) / COLS
+    FW = 184
+    TW = PW - FW - 74
+    # every panel is as tall as the tallest note needs
+    lay = []
+    for n in notes:
+        tl = wrap(n["title"], 25, TW, 0.43)
+        bl = wrap(n["body"], 15.5, TW, 0.535)
+        lay.append((tl, bl))
+    need = max(36 + len(tl) * 29 + 14 + len(bl) * 22 for tl, bl in lay)
+    PH = max(214, need + 22)
+    FH = PH - 22
+    rows = (len(notes) + 1 + COLS - 1) // COLS
+    H = Y0 + rows * PH + (rows - 1) * GY + 52
+    o = sheet_frame(t, H, H - M, cols="ABCDEFGH")
+    o.append(label(X0, 44, f"General notes  ·  {len(notes)} notes  ·  read before the drawings", t, t["accent"], 12, extra=f' class="mono-m lt"{d_(0.1)}'))
+    for i, (n, (tl, bl)) in enumerate(zip(notes, lay)):
+        col, row = i % COLS, i // COLS
+        px, py = X0 + col * (PW + GX), Y0 + row * (PH + GY)
+        dl = 0.15 + i * 0.12
+        o.append(f'<g class="up"{d_(dl)}>')
+        o.append(f'<rect x="{px:.1f}" y="{py}" width="{PW:.1f}" height="{PH}" rx="6" fill="{t["sheet"]}" fill-opacity=".85" stroke="{t["rule_strong"]}" stroke-width="1"/>')
+        o.append(f'<circle cx="{px+30:.1f}" cy="{py+34}" r="17" fill="{t["accent"]}"/>')
+        o.append(text(px + 30, py + 42, str(i + 1), "serif", 25, t["sheet"], "middle"))
+        for k, ln in enumerate(tl):
+            o.append(text(px + 60, py + 42 + k * 29, ln, "serif", 25, t["ink"]))
+        by = py + 42 + len(tl) * 29 + 6
+        for k, ln in enumerate(bl):
+            o.append(text(px + 60, by + k * 22, ln, "sans", 15.5, t["ink2"]))
+        fx, fy = px + PW - FW - 16, py + 18
+        o.append(note_figure(t, i, fx, fy, FW, FH - 26))
+        o.append(text(fx + FW, fy + FH - 8, f"fig. {i+1}  ·  {n['fig']}", "mono", 10.5, t["ink4"], "end"))
+        o.append("</g>")
+    # the eighth cell: the approval block
+    i = len(notes)
+    col, row = i % COLS, i // COLS
+    px, py = X0 + col * (PW + GX), Y0 + row * (PH + GY)
+    o.append(f'<g class="up"{d_(0.15+i*0.12)}>')
+    o.append(f'<rect x="{px:.1f}" y="{py}" width="{PW:.1f}" height="{PH}" rx="6" fill="none" stroke="{t["rule_strong"]}" stroke-width="1" stroke-dasharray="5 4"/>')
+    o.append(text(px + 28, py + 52, "Read before the drawings.", "serif-i", 30, t["accent"]))
+    fields = [("drawn", "ax5hay"), ("checked", "ax5hay"), ("issued", updated), ("revision", str(rev))]
+    for k, (a, b) in enumerate(fields):
+        yy = py + 92 + k * 28
+        o.append(label(px + 30, yy, a, t, t["ink4"], 11))
+        o.append(text(px + 150, yy, b, "mono-m", 14, t["ink"]))
+        o.append(rule(px + 30, yy + 9, px + 330, yy + 9, t["rule_faint"], 0.8))
+    o.append("</g>")
+    o.append(stamp(px + PW - 118, py + PH / 2 + 6, "issued for", "construction", t, -8, 2.2).replace("font-size=\"20\"", "font-size=\"17\""))
+    alt = "General notes. " + " ".join(f"{k+1}. {n['title']} {n['body']}" for k, n in enumerate(notes))
+    return svg(W, H, "\n".join(o), ("serif", "serif-i", "mono", "mono-m", "sans"), alt, NOTE_CSS + STAMP_CSS)
+
+
+def notes_markdown(notes) -> str:
+    def pic(path, alt):
+        return (f'<picture>\n  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/{path}">\n'
+                f'  <img src="assets/light/{path}" width="100%" alt="{escape(alt, {chr(34): "&quot;"})}">\n</picture>')
+    alt = "General notes, each with a working figure. " + " ".join(f"{k+1}. {n['title']} {n['body']}" for k, n in enumerate(notes))
+    lines = "\n".join(f"{k+1}. **{n['title']}** {n['body']}" for k, n in enumerate(notes))
+    return ("\n" + pic("notes.svg", alt) + "\n\n<details>\n<summary>The same notes as text</summary>\n<br>\n\n"
+            + lines + "\n\n</details>\n")
+
+
+# --------------------------------------------------------------------------
 # Section headers: a discipline code, the title, a double rule, a note
 # --------------------------------------------------------------------------
 def plate_header(t, code: str, title: str, note: str = "", seq: str = "") -> str:
@@ -1777,7 +1958,7 @@ def refresh_stats(login="ax5hay"):
     return s
 
 
-def sync_readme(stack, updated, zones) -> None:
+def sync_readme(stack, updated, zones, notes) -> None:
     """Keep the plain-text schedule and the dateline inside README.md in step."""
     readme = ROOT / "README.md"
     if not readme.exists():
@@ -1794,6 +1975,7 @@ def sync_readme(stack, updated, zones) -> None:
     lines = [f"- **{cat['category']}.** " + ", ".join(i["name"] for i in cat["items"]) for cat in stack]
     body = replace_block(body, "<!-- schedule:start -->", "<!-- schedule:end -->", "\n" + "\n".join(lines) + "\n")
     body = replace_block(body, "<!-- index:start -->", "<!-- index:end -->", index_markdown(zones))
+    body = replace_block(body, "<!-- notes:start -->", "<!-- notes:end -->", notes_markdown(notes))
     pretty = dt.date.fromisoformat(updated).strftime("%-d %B %Y")
     body = replace_block(body, "<!-- updated:start -->", "<!-- updated:end -->", pretty)
     readme.write_text(body)
@@ -1809,6 +1991,7 @@ def revision() -> int:
 def main():
     stack = json.loads((DATA / "stack.json").read_text())
     zones = json.loads((DATA / "projects.json").read_text())["zones"]
+    notes = json.loads((DATA / "notes.json").read_text())["notes"]
     stats = refresh_stats()
     updated = stats.get("generated") or dt.date.today().isoformat()
     rev = revision() + 1  # this render lands in the next commit
@@ -1826,6 +2009,7 @@ def main():
         out.mkdir(parents=True, exist_ok=True)
         (out / "hero.svg").write_text(plate_hero(t, stats, updated, rev, n_materials))
         (out / "teststand.svg").write_text(plate_teststand(t))
+        (out / "notes.svg").write_text(plate_notes(t, notes, updated, rev))
         (out / "keyplan.svg").write_text(plate_keyplan(t, zones))
         (out / "schedule.svg").write_text(plate_schedule(t, stack, zones))
         (out / "numbers.svg").write_text(plate_telemetry(t, stats, updated))
@@ -1839,7 +2023,7 @@ def main():
         (out / "closing.svg").write_text(plate_closing(t, updated, rev))
         for key, code, title, note, seq in headers:
             (out / f"h-{key}.svg").write_text(plate_header(t, code, title, note, seq))
-    sync_readme(stack, updated, zones)
+    sync_readme(stack, updated, zones, notes)
     print(f"updated {updated} rev {rev}: {len(list(ASSETS.glob('*/**/*.svg')))} plates")
 
 

@@ -22,6 +22,16 @@
   <img src="assets/light/h-notes.svg" width="100%" alt="General notes">
 </picture>
 
+<!-- notes:start -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/dark/notes.svg">
+  <img src="assets/light/notes.svg" width="100%" alt="General notes, each with a working figure. 1. Thrust is cheap. Controlled thrust is the whole job. Shipping a demo is thrust. Keeping it upright in production is trust. 2. I sit on both sides of the table. In the room with clients and executives for the readout, the scope and the sign-off; back in the code for the hard parts. Nothing is lost in translation, because there is no translation. 3. I own systems from the first drawing to the runbook. The architecture, the product, the safety layer, the release, and the team that builds it. The same hands write a Rust power API, a guarded SQL agent and a Terraform module. 4. Most of the work sits in the unglamorous middle. Orchestration, the schema that refuses bad data, the job queue that survives a restart. 5. Decisions are written down. Decision records, specs, runbooks and handoff notes ship with the code, so the next team starts where I stopped. 6. Numbers come with their conditions. When a figure appears in one of my READMEs, a results file sits behind it. 7. AI where it earns its place. When a saved answer or a plain rule will do, no model is called. Everything else fails loud.">
+</picture>
+
+<details>
+<summary>The same notes as text</summary>
+<br>
+
 1. **Thrust is cheap. Controlled thrust is the whole job.** Shipping a demo is thrust. Keeping it upright in production is trust.
 2. **I sit on both sides of the table.** In the room with clients and executives for the readout, the scope and the sign-off; back in the code for the hard parts. Nothing is lost in translation, because there is no translation.
 3. **I own systems from the first drawing to the runbook.** The architecture, the product, the safety layer, the release, and the team that builds it. The same hands write a Rust power API, a guarded SQL agent and a Terraform module.
@@ -29,6 +39,9 @@
 5. **Decisions are written down.** Decision records, specs, runbooks and handoff notes ship with the code, so the next team starts where I stopped.
 6. **Numbers come with their conditions.** When a figure appears in one of my READMEs, a results file sits behind it.
 7. **AI where it earns its place.** When a saved answer or a plain rule will do, no model is called. Everything else fails loud.
+
+</details>
+<!-- notes:end -->
 
 <br>
 

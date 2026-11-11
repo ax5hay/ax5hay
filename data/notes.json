@@ -1,0 +1,39 @@
+{
+ "notes": [
+  {
+   "title": "Thrust is cheap. Controlled thrust is the whole job.",
+   "body": "Shipping a demo is thrust. Keeping it upright in production is trust.",
+   "fig": "thrust, controlled"
+  },
+  {
+   "title": "I sit on both sides of the table.",
+   "body": "In the room with clients and executives for the readout, the scope and the sign-off; back in the code for the hard parts. Nothing is lost in translation, because there is no translation.",
+   "fig": "both sides of the table"
+  },
+  {
+   "title": "I own systems from the first drawing to the runbook.",
+   "body": "The architecture, the product, the safety layer, the release, and the team that builds it. The same hands write a Rust power API, a guarded SQL agent and a Terraform module.",
+   "fig": "one pair of hands"
+  },
+  {
+   "title": "Most of the work sits in the unglamorous middle.",
+   "body": "Orchestration, the schema that refuses bad data, the job queue that survives a restart.",
+   "fig": "the unglamorous middle"
+  },
+  {
+   "title": "Decisions are written down.",
+   "body": "Decision records, specs, runbooks and handoff notes ship with the code, so the next team starts where I stopped.",
+   "fig": "the paperwork ships"
+  },
+  {
+   "title": "Numbers come with their conditions.",
+   "body": "When a figure appears in one of my READMEs, a results file sits behind it.",
+   "fig": "a figure and its conditions"
+  },
+  {
+   "title": "AI where it earns its place.",
+   "body": "When a saved answer or a plain rule will do, no model is called. Everything else fails loud.",
+   "fig": "a model where it earns it"
+  }
+ ]
+}
