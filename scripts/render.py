@@ -2306,10 +2306,12 @@ def plate_closing(t, updated, rev) -> str:
     # stars come out as it climbs (night issue only)
     if t["glow_op"] > .5:
         rnd = random.Random(5)
-        for _ in range(70):
+        groups = [[] for _ in range(6)]
+        for k in range(70):
             x, y = rnd.uniform(560, W - M), rnd.uniform(M, GY - 120)
-            o.append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.uniform(.5, 1.3):.1f}" fill="#e6f1fc" class="tw" '
-                     f'style="animation-delay:{-rnd.uniform(0, 4):.2f}s;animation-duration:{rnd.uniform(2.5, 5):.2f}s"/>')
+            groups[k % 6].append(f'<circle cx="{x:.1f}" cy="{y:.1f}" r="{rnd.uniform(.5, 1.3):.1f}"/>')
+        for g, stars in enumerate(groups):
+            o.append(f'<g fill="#e6f1fc" class="tw" style="animation-delay:{-g*0.7:.2f}s;animation-duration:{2.6+g*0.45:.2f}s">{"".join(stars)}</g>')
     # ground, pad, tower
     o.append(f'<rect x="540" y="{GY}" width="{W-M-540}" height="14" fill="url(#gM)"/>')
     o.append(rule(540, GY, W - M, GY, t["rule_strong"], 1.2))
