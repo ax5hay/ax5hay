@@ -570,8 +570,11 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
 
     # ---- left field: the name and the thesis
     o.append(label(70, 112, "Sheet GH-01  ·  GitHub profile", t, t["accent"], 13, extra=f' class="mono-m lt"{d_(0.2)}'))
-    o.append(f'<g class="up"{d_(0.35)}>' + text(62, 214, "Akshay Bajpai", "serif", 122, t["ink"]) + "</g>")
-    o.append(f'<g class="up"{d_(0.6)}>' + text(68, 278, "In thrust we trust.", "serif-i", 50, t["accent"]) + "</g>")
+    # the name is inked the way a pen would: outlines first, then the fill floods in
+    o.append(text(62, 214, "Akshay Bajpai", "serif", 122, t["ink"],
+                  extra=f' class="serif ink" stroke="{t["ink"]}" stroke-width="0.9" style="--L:900;animation-delay:.35s"'))
+    o.append(text(68, 278, "In thrust we trust.", "serif-i", 50, t["accent"],
+                  extra=f' class="serif-i ink" stroke="{t["accent"]}" stroke-width="0.6" style="--L:420;animation-delay:1.1s;animation-duration:1.8s"'))
     o.append(line_pen(70, 314, 230, 314, t["rule_strong"], 1, 0.9, 0.8))
     stand = ["I lead technology from the first client",
              "conversation to the release: the architecture,",
@@ -658,6 +661,8 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
            ".carriage{animation:carriage 2.6s cubic-bezier(.45,0,.35,1) .1s both}"
            f"@keyframes carriage{{0%{{transform:translateX({M}px);opacity:1}}92%{{opacity:1}}100%{{transform:translateX({W-M}px);opacity:0}}}}"
            ".carriage{opacity:0}"
+           ".ink{stroke-dasharray:var(--L);animation:ink 2.6s cubic-bezier(.5,0,.3,1) both}"
+           "@keyframes ink{0%{stroke-dashoffset:var(--L);fill-opacity:0}62%{stroke-dashoffset:0;fill-opacity:0}100%{stroke-dashoffset:0;fill-opacity:1}}"
            ".spin{animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}"
            ".flow{animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-11}}")
     alt = ("Akshay Bajpai. In thrust we trust. I lead technology from the first client conversation to the release: "
