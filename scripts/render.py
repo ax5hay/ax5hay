@@ -642,6 +642,28 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
              + text(0, -58, "X-RAY  ·  L", "mono-m", 6.5, t["accent2"], "middle", tracking=0.2) +
              "</g></g></g>")
 
+    # an overall dimension, gimbal to exit plane, and a section cut through the chamber
+    dx_ = cx - 150
+    y1d, y2d = top + 16 * s, top + 300 * s
+    for yy, x_from in ((y1d, cx - 52 * s), (y2d, cx - 90 * s)):
+        o.append(line_pen(x_from, yy, dx_ - 8, yy, t["rule"], 0.8, 2.5, 0.5))
+    o.append(line_pen(dx_, y1d, dx_, y2d, t["rule_strong"], 0.9, 2.7, 0.9))
+    for yy, sg in ((y1d, 1), (y2d, -1)):
+        o.append(f'<path d="M{dx_},{yy:.1f} l-3.5,{sg*10} h7 Z" fill="{t["rule_strong"]}" class="fi"{d_(3.2)}/>')
+    ym = (y1d + y2d) / 2
+    o.append(f'<g class="fi"{d_(3.3)}><rect x="{dx_-8}" y="{ym-62:.1f}" width="16" height="124" fill="{t["sheet"]}"/>'
+             + text(dx_ + 4, ym, "gimbal to exit plane", "mono", 10.5, t["ink3"], "middle", extra=f' class="mono" transform="rotate(-90 {dx_+4} {ym:.1f})"')
+             + "</g>")
+    sy_ = top + 112 * s
+    o.append(f'<path d="M{cx-92},{sy_:.1f} H{cx+92}" stroke="{t["rule_strong"]}" stroke-width="0.8" stroke-dasharray="16 4 3 4" class="fi"{d_(3.0)}/>')
+    for sg in (-1, 1):
+        ex_ = cx + sg * 92
+        o.append(f'<g class="fi"{d_(3.1)}><path d="M{ex_-sg*12},{sy_:.1f} H{ex_}" stroke="{t["rule_ink"]}" stroke-width="2.4"/>'
+                 f'<path d="M{ex_-sg*6},{sy_-2:.1f} V{sy_-16:.1f}" stroke="{t["rule_ink"]}" stroke-width="1.2"/>'
+                 f'<path d="M{ex_-sg*6-4},{sy_-12:.1f} L{ex_-sg*6},{sy_-20:.1f} L{ex_-sg*6+4},{sy_-12:.1f} Z" fill="{t["rule_ink"]}"/>'
+                 f'<circle cx="{ex_+sg*12}" cy="{sy_:.1f}" r="8" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/>'
+                 + text(ex_ + sg * 12, sy_ + 3.6, "A", "mono-m", 10, t["ink"], "middle") + "</g>")
+
     # callouts: leaders from the parts to the right margin, drawn after the walls
     def G(px, py):
         return cx + px * s, top + py * s
