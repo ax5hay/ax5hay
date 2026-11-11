@@ -247,6 +247,6 @@
 <text x="778.0" y="728.0" class="mono-m" font-size="15" fill="#e6f1fc" text-anchor="start">2026-10-10</text>
 <line x1="954.0" y1="683.0" x2="954.0" y2="742.0" stroke="rgba(157,207,255,0.28)" stroke-width="0.8"/>
 <text x="968.0" y="704.0" class="mono-m" font-size="10.5" fill="#6a8dab" text-anchor="start" letter-spacing="0.16em">REV</text>
-<text x="968.0" y="728.0" class="mono-m" font-size="15" fill="#e6f1fc" text-anchor="start">54</text>
+<text x="968.0" y="728.0" class="mono-m" font-size="15" fill="#e6f1fc" text-anchor="start">55</text>
 <g transform="translate(1030,634) rotate(-6)"><g class="stamp" style="animation-delay:3.30s"><rect x="-100.0" y="-34.0" width="200" height="68" rx="4" fill="#082139" fill-opacity="0.8" stroke="#ffc75a" stroke-width="2"/><rect x="-95.0" y="-29.0" width="190" height="58" rx="2" fill="none" stroke="#ffc75a" stroke-width="0.8"/><text x="0.0" y="-10.0" class="mono-m" font-size="11" fill="#ffc75a" text-anchor="middle" letter-spacing="0.22em">LAST UPDATED</text><text x="0.0" y="21.0" class="mono-m" font-size="20" fill="#ffc75a" text-anchor="middle" letter-spacing="0.06em">2026-11-11</text></g></g>
 </svg>
