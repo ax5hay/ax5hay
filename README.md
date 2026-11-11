@@ -13,7 +13,7 @@
   <a href="mailto:contact@akshaybajpai.com"><b>contact@akshaybajpai.com</b></a>
 </p>
 
-<p align="center"><sub>Last updated <!-- updated:start -->12 November 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
+<p align="center"><sub>Last updated <!-- updated:start -->11 November 2026<!-- updated:end -->. Every plate below is re-issued daily.</sub></p>
 
 <br>
 
@@ -96,7 +96,7 @@ What the work was and what it changed, without letterheads or dates. Two of thes
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/dark/keyplan.svg">
-  <img src="assets/light/keyplan.svg" width="100%" alt="Key plan: five domains drawn as rooms. AI and LLM systems, vision, edge and desktop, data and platforms, web and product, research notebooks. Each room lists the projects filed under it.">
+  <img src="assets/light/keyplan.svg" width="100%" alt="Key plan, sheet G-000: a floor plan of the work, drawn in by a plotter. Five rooms off one corridor, one per domain, each listing its sheets by number: A, AI and LLM systems, 7 sheets; V, vision, edge and desktop, 4; D, data and platforms, 4; W, web and product, 6; R, research notebooks, 7. A camera visits each room in turn and its light comes on, while someone in the corridor walks to its door.">
 </picture>
 
 <br>

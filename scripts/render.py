@@ -745,75 +745,215 @@ def plate_teststand(t) -> str:
 # is always walking the corridor.
 # --------------------------------------------------------------------------
 def plate_keyplan(t, zones) -> str:
-    ROW_H, PAD, TOP, WALL, COR = 46, 22, 74, 6, 64
+    """A floor plan of the work: five rooms off one corridor.
+
+    The plotter draws the walls; then the key plan camera visits each room in
+    turn, the room's light comes on, and someone in the corridor walks to its
+    door. Every project carries the sheet number it has in the index below.
+    """
+    H = 780
+    PX0, PX1 = 84, W - 84           # inside face of the exterior walls
+    RY0 = 184                       # inside face of the top wall
+    ROW, HEAD, PAD, CODE = 40, 66, 18, 44
     maxn = max(len(z["projects"]) for z in zones)
-    RH = TOP + PAD + maxn * ROW_H + 40
-    H = RH + COR
-    widths = []
+    RY1 = RY0 + HEAD + maxn * ROW + 34   # room / corridor wall
+    CY0, CY1 = RY1 + 6, RY1 + 6 + 66     # corridor
+    EXT, PART = 12, 6
+    TBY = H - M - 62
+    total = sum(len(z["projects"]) for z in zones)
+
+    # rooms share the plan by what they hold
+    need = []
     for z in zones:
-        longest = max(max(mono_w(p["name"], 16), mono_w(p["sub"], 12)) for p in z["projects"])
-        widths.append(max(longest + 2 * PAD + 12, mono_w(z["title"], 11.5, 0.16) + 2 * PAD + 44))
-    scale = (W - WALL) / sum(widths)
-    widths = [w * scale for w in widths]
+        longest = max(max(mono_w(p["name"], 15), mono_w(p["sub"], 11.5)) for p in z["projects"])
+        need.append(max(longest + CODE + 2 * PAD, mono_w(z["title"], 11, 0.16) + 2 * PAD + 44))
+    span = PX1 - PX0 - PART * (len(zones) - 1)
+    scale = span / sum(need)
+    widths = [w * scale for w in need]
     fs = min(1.0, scale)
-    NAME, SUB, TITLE = round(16 * fs, 2), round(12 * fs, 2), round(11.5 * fs, 2)
-    o = [f'<defs>{grid_defs(t, "k")}</defs>',
-         f'<rect width="{W}" height="{H}" fill="{t["sheet"]}"/>',
-         f'<rect x="0" y="0" width="{W}" height="{H}" fill="url(#kM)"/>']
-    x = 0.0
-    for zi, (z, w) in enumerate(zip(zones, widths)):
-        dl = 0.2 + zi * 0.25
-        o.append(f'<rect x="{x+WALL}" y="{WALL}" width="{w-WALL}" height="{RH-2*WALL}" fill="{t["raised"]}" fill-opacity="0.4"/>')
-        # the room light comes on when the plan is read, then breathes
-        o.append(f'<rect x="{x+WALL}" y="{WALL}" width="{w-WALL}" height="{RH-2*WALL}" fill="{t["accent_soft"]}" '
-                 f'class="room" style="animation-delay:{dl:.2f}s,{dl+1.4+zi*1.7:.2f}s"/>')
-        o.append(f'<circle cx="{x+WALL+PAD+12}" cy="{WALL+PAD+12}" r="13" fill="none" stroke="{t["accent"]}" stroke-width="1.3" class="fi"{d_(dl)}/>')
-        o.append(text(x + WALL + PAD + 12, WALL + PAD + 17, z["code"], "mono-m", 14, t["accent"], "middle"))
-        o.append(label(x + WALL + PAD + 34, WALL + PAD + 17, z["title"], t, t["ink3"], TITLE))
-        o.append(line_pen(x + WALL + PAD, TOP, x + w - PAD, TOP, t["rule"], 0.8, dl, 0.8))
+    NAME, SUB, CODEF = round(15 * fs, 2), round(11.5 * fs, 2), round(11 * fs, 2)
+    rooms, x = [], PX0
+    for w in widths:
+        rooms.append((x, w))
+        x += w + PART
+    doors = [rx + 26 for rx, _ in rooms]
+    DW = 36
+
+    odo_css = []
+    o = sheet_frame(t, H, TBY)
+    o.append(f'<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">'
+             f'<rect width="7" height="7" fill="{t["raised"]}"/><path d="M0,0 V7" stroke="{t["rule_strong"]}" stroke-width="1.1"/></pattern>'
+             f'<radialGradient id="lamp"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="{0.38 if t["glow_op"] > .5 else 0.22}"/>'
+             f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="0"/></radialGradient></defs>')
+
+    # ---- heading
+    o.append(label(M + 22, 74, f"Key plan  ·  G-000  ·  {len(zones)} domains, {total} sheets", t, t["accent"], 12.5, extra=f' class="mono-m lt"{d_(0.1)}'))
+    o.append(f'<g class="fi"{d_(0.3)}>' + text(W - M - 22, 76, "Every room is a domain; every line in it, a sheet.", "serif-i", 22, t["ink3"], "end") + "</g>")
+
+    # ---- structural grid: bubbles over every wall line
+    gl = [PX0 - EXT / 2] + [rx + w + PART / 2 for rx, w in rooms[:-1]] + [PX1 + EXT / 2]
+    for i, gx in enumerate(gl):
+        dl = 0.3 + i * 0.07
+        o.append(f'<path d="M{gx:.1f},{126} V{CY1+EXT+30}" stroke="{t["rule_faint"]}" stroke-width="0.8" stroke-dasharray="10 4 2 4" class="fi"{d_(dl)}/>')
+        o.append(f'<circle cx="{gx:.1f}" cy="112" r="12" fill="{t["sheet"]}" stroke="{t["rule_strong"]}" stroke-width="1" class="fi"{d_(dl)}/>')
+        o.append(text(gx, 116.5, str(i + 1), "mono-m", 12, t["ink2"], "middle", extra=f' class="mono-m fi"{d_(dl)}'))
+    # ---- dimension string: each room's width is the sheets it holds
+    dy = 152
+    o.append(line_pen(PX0 - EXT, dy, PX1 + EXT, dy, t["rule_strong"], 0.8, 0.5, 1.2))
+    for i, (rx, w) in enumerate(rooms):
+        for xx in (rx, rx + w):
+            o.append(f'<path d="M{xx-4:.1f},{dy+4} L{xx+4:.1f},{dy-4} M{xx:.1f},{dy-8} V{RY0-EXT-4}" stroke="{t["rule_strong"]}" stroke-width="0.9" class="fi"{d_(0.8)}/>')
+        n = len(zones[i]["projects"])
+        o.append(text(rx + w / 2, dy - 7, f"{n} sheet{'s' if n != 1 else ''}", "mono", 12, t["ink3"], "middle", extra=f' class="mono fi"{d_(0.9+i*0.08)}'))
+
+    # ---- room lights: drawn under the walls, lit by the camera's visit
+    CYCLE, STOP, LOOP0 = 20.0, 4.0, 3.6
+    for i, (rx, w) in enumerate(rooms):
+        lx, ly = rx + w - 14, RY0 + 14
+        o.append(f'<clipPath id="rm{i}"><rect x="{rx:.1f}" y="{RY0}" width="{w:.1f}" height="{RY1-RY0}"/></clipPath>')
+        o.append(f'<g class="lit" clip-path="url(#rm{i})" style="animation-delay:{LOOP0+i*STOP:.2f}s">'
+                 f'<rect x="{rx:.1f}" y="{RY0}" width="{w:.1f}" height="{RY1-RY0}" fill="{t["accent_soft"]}"/>'
+                 f'<ellipse cx="{lx:.1f}" cy="{ly}" rx="{w*0.75:.1f}" ry="{(RY1-RY0)*0.62:.1f}" fill="url(#lamp)"/></g>')
+
+    # ---- walls: drawn by the plotter, then filled with poché
+    def wall(x, y, w, h, dl):
+        o.append(f'<rect x="{x:.1f}" y="{y:.1f}" width="{w:.1f}" height="{h:.1f}" fill="url(#hatch)" class="fi"{d_(dl+0.9)}/>')
+        o.append(pen(f"M{x:.1f},{y:.1f} h{w:.1f} v{h:.1f} h{-w:.1f} Z", t["rule_ink"], 1.3, dl, 1.4))
+
+    # exterior: top wall broken by a window over each room
+    win = []
+    x0 = PX0 - EXT
+    for rx, w in rooms:
+        wx = rx + w / 2 - 34
+        win.append((wx, 68))
+        wall(x0, RY0 - EXT, wx - x0, EXT, 0.2)
+        x0 = wx + 68
+    wall(x0, RY0 - EXT, PX1 + EXT - x0, EXT, 0.2)
+    for wx, ww in win:
+        o.append(f'<g class="fi"{d_(1.2)}><rect x="{wx:.1f}" y="{RY0-EXT}" width="{ww}" height="{EXT}" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/>'
+                 f'<path d="M{wx:.1f},{RY0-EXT/2-1.5} h{ww} M{wx:.1f},{RY0-EXT/2+1.5} h{ww}" stroke="{t["rule_strong"]}" stroke-width="0.8"/></g>')
+    # sides, with the entrance on the left and the stair exit on the right
+    wall(PX0 - EXT, RY0, EXT, CY0 + 8 - RY0, 0.35)
+    wall(PX0 - EXT, CY1 - 8, EXT, 8, 0.35)
+    wall(PX1, RY0, EXT, CY0 + 8 - RY0, 0.35)
+    wall(PX1, CY1 - 8, EXT, 8, 0.35)
+    wall(PX0 - EXT, CY1, PX1 - PX0 + 2 * EXT, EXT, 0.45)
+    # partitions
+    for rx, w in rooms[:-1]:
+        wall(rx + w, RY0, PART, RY1 - RY0, 0.6)
+    # the corridor wall, cut by a door into every room
+    x0 = PX0
+    for d in doors:
+        wall(x0, RY1, d - x0, PART, 0.7)
+        x0 = d + DW
+    wall(x0, RY1, PX1 - x0, PART, 0.7)
+    for i, d in enumerate(doors):
+        o.append(f'<path d="M{d+DW},{RY1} A{DW},{DW} 0 0 0 {d},{RY1-DW}" fill="none" stroke="{t["rule_strong"]}" stroke-width="0.8" stroke-dasharray="2 3" class="fi"{d_(2.2)}/>')
+        o.append(f'<g transform="translate({d},{RY1})"><g class="door" style="animation-delay:{2.2+i*0.15:.2f}s">'
+                 f'<rect x="-1.5" y="{-DW}" width="3" height="{DW}" fill="{t["rule_ink"]}"/></g></g>')
+
+    # ---- rooms: tag, title, fixture, and the sheets filed inside
+    for zi, (z, (rx, w)) in enumerate(zip(zones, rooms)):
+        dl = 1.3 + zi * 0.18
+        tx, ty = rx + PAD + 14, RY0 + 30
+        o.append(f'<g transform="translate({tx:.1f},{ty})"><g class="tag"{d_(dl)}>'
+                 f'<circle r="15" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="1.4"/>'
+                 + text(0, 5, z["code"], "mono-m", 14, t["accent"], "middle") + "</g></g>")
+        o.append(label(tx + 24, ty + 4.5, z["title"], t, t["ink2"], round(11 * fs, 2), extra=f' class="mono-m lt"{d_(dl+0.1)}'))
+        fx, fy = rx + w - 14, RY0 + 14
+        o.append(f'<g class="fi"{d_(dl+0.2)}><circle cx="{fx:.1f}" cy="{fy}" r="5.5" fill="none" stroke="{t["rule_strong"]}" stroke-width="0.9"/>'
+                 f'<path d="M{fx-3.9:.1f},{fy-3.9} l7.8,7.8 M{fx+3.9:.1f},{fy-3.9} l-7.8,7.8" stroke="{t["rule_strong"]}" stroke-width="0.8"/></g>')
+        o.append(f'<circle cx="{fx:.1f}" cy="{fy}" r="2.8" fill="{t["accent"]}" class="lamp" style="animation-delay:{LOOP0+zi*STOP:.2f}s"/>')
+        o.append(line_pen(rx + PAD, RY0 + HEAD - 14, rx + w - PAD, RY0 + HEAD - 14, t["rule"], 0.8, dl + 0.1, 0.8))
         for i, p in enumerate(z["projects"]):
-            y = TOP + PAD + i * ROW_H
-            pd = dl + 0.3 + i * 0.08
-            o.append(f'<g class="lt"{d_(pd)}>' + text(x + WALL + PAD, y + 15, p["name"], "mono-m", NAME, t["ink"]) +
-                     text(x + WALL + PAD, y + 33, p["sub"], "mono", SUB, t["ink4"]) + "</g>")
-        n = len(z["projects"])
-        o.append(text(x + w - PAD, RH - WALL - 16, f"{n} sheet{'s' if n != 1 else ''}", "mono", 12, t["ink4"], "end"))
-        x += w
-    o.append(f'<rect x="0" y="0" width="{W}" height="{RH}" fill="none" stroke="{t["rule_ink"]}" stroke-width="{WALL*2}"/>')
-    x = 0.0
-    for w in widths[:-1]:
-        x += w
-        o.append(rule(x + WALL / 2, 0, x + WALL / 2, RH, t["rule_ink"], WALL))
-    # doors, cut after the walls so they read as openings
-    x = 0.0
-    doors = []
-    for zi, w in enumerate(widths):
-        dx, dy, DW = x + WALL + 30, RH, 34
-        doors.append(dx + DW / 2)
-        o.append(f'<rect x="{dx}" y="{dy-WALL-1}" width="{DW}" height="{WALL+2}" fill="{t["sheet"]}"/>')
-        o.append(f'<path d="M{dx},{dy-WALL} V{dy-WALL-DW} A{DW},{DW} 0 0 1 {dx+DW},{dy-WALL}" fill="none" stroke="{t["rule_strong"]}" stroke-width="0.8" stroke-dasharray="2 3"/>')
-        o.append(f'<g transform="translate({dx},{dy-WALL})"><g class="door" style="animation-delay:{0.6+zi*0.25:.2f}s">'
-                 f'<path d="M0,0 V{-DW}" stroke="{t["rule_ink"]}" stroke-width="2.2"/></g></g>')
-        x += w
-    # the corridor: a walked route that visits every door
-    cy = RH + COR / 2 - 4
-    route = f"M-20,{cy} " + " ".join(f"L{d-30:.1f},{cy} Q{d:.1f},{cy} {d:.1f},{RH+6} Q{d:.1f},{cy} {d+30:.1f},{cy}" for d in doors) + f" L{W+20},{cy}"
-    o.append(f'<path d="{route}" fill="none" stroke="{t["accent_line"]}" stroke-width="1.4" stroke-dasharray="1 7" stroke-linecap="round" class="march"/>')
-    o.append(f'<g><animateMotion dur="26s" repeatCount="indefinite" rotate="auto" path="{route}"/>'
-             f'<circle r="9" fill="{t["accent"]}" fill-opacity=".18"/><circle r="4" fill="{t["accent"]}"/></g>')
-    o.append(text(16, H - 10, "key plan, not to scale. the corridor is where the ideas walk in.", "mono", 12, t["ink4"]))
-    nx, ny = W - 30, H - 26
-    o.append(f'<circle cx="{nx}" cy="{ny}" r="12" fill="none" stroke="{t["rule_strong"]}" stroke-width="0.8"/>')
-    o.append(f'<g transform="translate({nx},{ny})"><g class="needleN"><path d="M0,-11 L4.5,7 L0,3 L-4.5,7 Z" fill="{t["accent"]}"/></g></g>')
-    o.append(text(nx - 20, ny + 4.5, "N", "mono-m", 12, t["ink3"], "end"))
-    css = (".room{opacity:0;animation:rlit 1.4s ease-out both,rbreathe 9s ease-in-out infinite}"
-           "@keyframes rlit{0%{opacity:0}30%{opacity:1}100%{opacity:0}}"
-           "@keyframes rbreathe{0%,100%{opacity:0}12%{opacity:.9}30%{opacity:0}}"
-           ".door{animation:door 1.2s cubic-bezier(.3,1.4,.5,1) both}@keyframes door{from{transform:rotate(90deg)}}"
-           ".march{animation:march 1.4s linear infinite}@keyframes march{to{stroke-dashoffset:-16}}"
-           ".needleN{animation:nn 2.4s cubic-bezier(.3,1.6,.4,1) .4s both}@keyframes nn{from{transform:rotate(-140deg)}}")
-    return svg(W, H, "\n".join(o), ("mono", "mono-m"),
-               "Key plan: five domains drawn as rooms, each listing the projects filed under it.", css)
+            y = RY0 + HEAD + i * ROW
+            pd = dl + 0.35 + i * 0.07
+            o.append(f'<g class="lt"{d_(pd)}>'
+                     + text(rx + PAD, y + 13, f"{z['code']}-{i+1:02d}", "mono", CODEF, t["accent"])
+                     + text(rx + PAD + CODE * fs, y + 13, p["name"], "mono-m", NAME, t["ink"])
+                     + text(rx + PAD + CODE * fs, y + 30, p["sub"], "mono", SUB, t["ink4"]) + "</g>")
+
+    # ---- corridor: stair up at the far end, the way in at the near end
+    cy = (CY0 + CY1) / 2
+    sx0 = PX1 - 96
+    o.append(f'<g class="fi"{d_(2.0)}>' + "".join(
+        f'<path d="M{sx0+k*12},{CY0+8} V{CY1-8}" stroke="{t["rule_strong"]}" stroke-width="0.8"/>' for k in range(8))
+        + f'<path d="M{sx0-4},{cy} H{PX1-6}" stroke="{t["rule_ink"]}" stroke-width="1"/>'
+        f'<path d="M{PX1-14},{cy-5} L{PX1-6},{cy} L{PX1-14},{cy+5}" fill="none" stroke="{t["rule_ink"]}" stroke-width="1"/>'
+        + text(sx0 - 10, cy + 4, "UP", "mono-m", 11, t["ink3"], "end") + "</g>")
+    o.append(f'<g class="fi"{d_(2.0)}><path d="M{PX0-58},{cy} H{PX0+8}" stroke="{t["accent_line"]}" stroke-width="1.2"/>'
+             f'<path d="M{PX0},{cy-5} L{PX0+8},{cy} L{PX0},{cy+5}" fill="none" stroke="{t["accent_line"]}" stroke-width="1.2"/>'
+             + text(PX0 - 58, cy - 9, "IN", "mono-m", 11, t["accent"]) + "</g>")
+    o.append(f'<path d="M{PX0+20},{cy} H{sx0-30}" stroke="{t["accent_line"]}" stroke-width="1.4" stroke-dasharray="1 8" stroke-linecap="round" class="march"/>')
+    o.append(text(PX0 + 20, CY1 - 10, "corridor  ·  where the ideas walk in", "mono", 11, t["ink4"]))
+
+    # ---- the camera and the walker share one timetable
+    n = len(rooms)
+    kt, idx = [0.0], [n - 1]
+    for i in range(n):
+        kt += [(i * STOP + 0.9) / CYCLE, ((i + 1) * STOP) / CYCLE if i < n - 1 else 1.0]
+        idx += [i, i]
+    kt = kt[:2 * n + 1]
+    idx = idx[:2 * n + 1]
+    kt[-1] = 1.0
+    splines = ";".join(".6 0 .2 1" if k % 2 == 0 else "0 0 1 1" for k in range(len(kt) - 1))
+    kts = ";".join(f"{v:.4f}" for v in kt)
+    inset = 9
+
+    def corner(xs, y, sx, sy):
+        vals = ";".join(f"{v:.1f},{y}" for v in xs)
+        return (f'<g transform="translate({xs[1]:.1f},{y})"><animateTransform attributeName="transform" type="translate" '
+                f'values="{vals}" keyTimes="{kts}" calcMode="spline" keySplines="{splines}" dur="{CYCLE}s" begin="{LOOP0}s" repeatCount="indefinite"/>'
+                f'<path d="M0,{sy*22} V0 H{sx*22}" fill="none" stroke="{t["accent"]}" stroke-width="2.2"/></g>')
+    lefts = [rooms[i][0] + inset for i in idx]
+    rights = [rooms[i][0] + rooms[i][1] - inset for i in idx]
+    o.append(f'<g class="fi"{d_(LOOP0-0.4)}>' + corner(lefts, RY0 + inset, 1, 1) + corner(rights, RY0 + inset, -1, 1)
+             + corner(lefts, RY1 - inset, 1, -1) + corner(rights, RY1 - inset, -1, -1) + "</g>")
+    # what the camera is looking at
+    for i, (rx, w) in enumerate(rooms):
+        k = len(zones[i]["projects"])
+        o.append(f'<g class="lit" style="animation-delay:{LOOP0+i*STOP:.2f}s">'
+                 + label(rx + w / 2, RY1 - inset - 3, f"{zones[i]['code']}-01 to {zones[i]['code']}-{k:02d}", t, t["accent"], round(10.5 * fs, 2), "middle")
+                 + "</g>")
+    span_c = (PX1 + 40) - (PX0 - 40)
+    kp = ";".join(f"{(doors[i] + DW / 2 - (PX0 - 40)) / span_c:.4f}" for i in idx)
+    o.append(f'<g class="fi"{d_(LOOP0-0.4)}><g>'
+             f'<animateMotion path="M{PX0-40},{cy-4} H{PX1+40}" keyPoints="{kp}" keyTimes="{kts}" calcMode="spline" '
+             f'keySplines="{splines}" dur="{CYCLE}s" begin="{LOOP0}s" repeatCount="indefinite" fill="freeze"/>'
+             f'<circle r="15" fill="{t["accent"]}" fill-opacity=".14" class="ping"/>'
+             f'<ellipse rx="9" ry="5.5" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="1.4"/>'
+             f'<circle r="3.6" fill="{t["accent"]}"/></g></g>')
+
+    # ---- overall dimension, compass, title block
+    oy = CY1 + EXT + 24
+    o.append(line_pen(PX0 - EXT, oy, PX1 + EXT, oy, t["rule_strong"], 0.8, 1.0, 1.2))
+    for xx in (PX0 - EXT, PX1 + EXT):
+        o.append(f'<path d="M{xx-4},{oy+4} L{xx+4},{oy-4}" stroke="{t["rule_strong"]}" stroke-width="0.9"/>')
+    o.append(f'<rect x="{W/2-150}" y="{oy-9}" width="300" height="18" fill="{t["sheet"]}"/>')
+    o.append(text(W / 2, oy + 4, f"{len(zones)} domains  ·  {total} sheets  ·  not to scale", "mono", 12, t["ink3"], "middle"))
+    nx, ny = W - M - 19, RY0 + 52
+    o.append(f'<circle cx="{nx}" cy="{ny}" r="13" fill="{t["sheet"]}" stroke="{t["rule_strong"]}" stroke-width="0.9"/>')
+    o.append(f'<path d="M{nx},{ny-18} V{ny+18}" stroke="{t["rule"]}" stroke-width="0.7"/>')
+    o.append(f'<g transform="translate({nx},{ny})"><g class="needleN"><path d="M0,-12 L4.6,6 L0,2.4 L-4.6,6 Z" fill="{t["accent"]}"/></g></g>')
+    o.append(text(nx, ny - 22, "N", "mono-m", 11, t["ink2"], "middle"))
+    o += title_block(t, TBY, [("drawing", "Key plan", 190), ("sheet", "G-000", 130), ("domains", str(len(zones)), 130),
+                              ("sheets", str(total), 120), ("scale", "NTS", 110),
+                              ("note", "the corridor is where the ideas walk in", W - 2 * M - 680)])
+
+    css = (".lit{opacity:0;animation:lit 20s ease-in-out infinite both}"
+           "@keyframes lit{0%{opacity:0}4.5%{opacity:1}19%{opacity:1}23%{opacity:0}100%{opacity:0}}"
+           ".lamp{animation:lamp 20s ease-in-out infinite both}"
+           "@keyframes lamp{0%{opacity:.25}4.5%{opacity:1}19%{opacity:1}23%{opacity:.25}100%{opacity:.25}}"
+           ".door{animation:door 1.3s cubic-bezier(.3,1.5,.5,1) both}@keyframes door{from{transform:rotate(90deg)}}"
+           ".tag{animation:tag .7s cubic-bezier(.3,1.6,.5,1) both}@keyframes tag{from{opacity:0;transform:scale(0)}}"
+           ".march{animation:march 1.4s linear infinite}@keyframes march{to{stroke-dashoffset:-18}}"
+           ".ping{transform-box:fill-box;transform-origin:50% 50%;animation:ping 2s ease-out infinite}"
+           "@keyframes ping{from{transform:scale(.6);opacity:1}to{transform:scale(2.2);opacity:0}}"
+           ".needleN{animation:nn 2.6s cubic-bezier(.3,1.6,.4,1) .6s both}@keyframes nn{from{transform:rotate(-200deg)}}")
+    alt = (f"Key plan, sheet G-000: a floor plan of the work. {len(zones)} rooms off one corridor, one per domain, "
+           + "; ".join(f"{z['title']} ({len(z['projects'])} sheets: " + ", ".join(p["name"] for p in z["projects"]) + ")" for z in zones)
+           + ". A camera visits each room in turn and its light comes on, while someone in the corridor walks to its door.")
+    return svg(W, H, "\n".join(o), ("serif-i", "mono", "mono-m"), alt, css)
 
 
 # --------------------------------------------------------------------------
