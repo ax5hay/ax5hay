@@ -1744,7 +1744,7 @@ def weekday_rose(t, days, cx, cy):
 
 
 def plate_telemetry(t, s, updated) -> str:
-    H = 1150
+    H = 1250
     odo = Odo()
     o = sheet_frame(t, H, H - M, cols="ABCDEFGH", grid=False)
     days = s.get("days") or []
@@ -1834,36 +1834,58 @@ def plate_telemetry(t, s, updated) -> str:
     rose_svg, rose_css, best_day = weekday_rose(t, days, rcx, rcy) if days else ("", "", "")
     o.append(rose_svg)
 
-    # ---- propellant: languages, by repositories that use them
+    # ---- propellant: languages as tanks, feeding one engine
     langs = [l for l in s["languages_by_repos"] if l["name"] != "Jupyter Notebook"][:8]
     mxr = max(l["repos"] for l in langs) if langs else 1
     ty0 = 870
     o.append(label(M + 22, ty0, "propellant  ·  languages, by repositories that use them", t, t["ink3"], 11))
-    TW, TH = 54, 128
-    gap = (W - 2 * M - 44) / len(langs)
+    TW, TH = 50, 106
+    span_x = W - M - 22 - 190 - (M + 22)
+    gap = span_x / len(langs)
+    ty, my = ty0 + 66, ty0 + 66 + TH + 48
+    ex = W - M - 160
     tanks_css = []
+    # manifold: the shared line every tank feeds
+    mx0 = M + 22 + gap / 2
+    o.append(f'<path d="M{mx0:.1f},{my-5} H{ex-30} M{mx0:.1f},{my+5} H{ex-30}" stroke="{t["rule_strong"]}" stroke-width="1.1"/>')
+    o.append(f'<path d="M{mx0:.1f},{my} H{ex-30}" stroke="{t["accent"]}" stroke-width="3" stroke-dasharray="6 10" class="flowm"/>')
     for i, l in enumerate(langs):
-        x = M + 22 + i * gap + (gap - TW) / 2
-        y = ty0 + 28
+        cx_ = M + 22 + i * gap + gap / 2
+        x = cx_ - TW / 2
         lvl = TH * l["repos"] / mxr
+        o.append(text(cx_, ty0 + 30, l["name"], "mono-m", 13, t["ink2"], "middle"))
+        o.append(text(cx_, ty0 + 48, f'{l["repos"]} repo{"s" if l["repos"] != 1 else ""}', "mono", 11.5, t["ink4"], "middle"))
         cid = f"tk{i}"
-        o.append(f'<defs><clipPath id="{cid}"><rect x="{x}" y="{y}" width="{TW}" height="{TH}" rx="{TW/2}"/></clipPath></defs>')
-        o.append(f'<rect x="{x}" y="{y}" width="{TW}" height="{TH}" rx="{TW/2}" fill="{t["deep"]}" stroke="{t["rule_strong"]}" stroke-width="1.1"/>')
-        wave = (f"M{x-TW},{0} " + " ".join(f"q{TW/4:.1f},-5 {TW/2:.1f},0 t{TW/2:.1f},0" for _ in range(3)) +
-                f" V{TH+20} H{x-TW} Z")
+        o.append(f'<defs><clipPath id="{cid}"><rect x="{x:.1f}" y="{ty}" width="{TW}" height="{TH}" rx="{TW/2}"/></clipPath></defs>')
+        o.append(f'<rect x="{x:.1f}" y="{ty}" width="{TW}" height="{TH}" rx="{TW/2}" fill="{t["deep"]}" stroke="{t["rule_strong"]}" stroke-width="1.1"/>')
+        wave = (f"M{x-TW:.1f},0 " + " ".join(f"q{TW/4:.1f},-5 {TW/2:.1f},0 t{TW/2:.1f},0" for _ in range(3)) + f" V{TH+20} H{x-TW:.1f} Z")
         fill = t["accent"] if i == 0 else t["ink3"]
         k = f"fill{i}"
         tanks_css.append(f"@keyframes {k}{{from{{transform:translateY({lvl:.1f}px)}}}}")
-        o.append(f'<g clip-path="url(#{cid})"><g transform="translate(0,{y+TH-lvl:.1f})">'
+        o.append(f'<g clip-path="url(#{cid})"><g transform="translate(0,{ty+TH-lvl:.1f})">'
                  f'<g style="animation:{k} 2.2s cubic-bezier(.2,.8,.2,1) {0.6+i*0.12:.2f}s both">'
                  f'<g class="wave" style="animation-delay:{-i*0.4:.2f}s"><path d="{wave}" fill="{fill}" fill-opacity="{0.9 if i == 0 else 0.45}"/></g>'
                  f'</g></g></g>')
         for k2 in range(1, 4):
-            yy = y + TH * k2 / 4
-            o.append(rule(x + TW - 10, yy, x + TW - 2, yy, t["rule"], 0.8))
-        o.append(f'<path d="M{x+10},{y+16} V{y+TH-16}" stroke="#fff" stroke-opacity=".12" stroke-width="5" stroke-linecap="round"/>')
-        o.append(text(x + TW / 2, y + TH + 26, l["name"], "mono-m", 13, t["ink2"], "middle"))
-        o.append(text(x + TW / 2, y + TH + 46, f'{l["repos"]} repo{"s" if l["repos"] != 1 else ""}', "mono", 12, t["ink4"], "middle"))
+            yy = ty + TH * k2 / 4
+            o.append(rule(x + TW - 9, yy, x + TW - 2, yy, t["rule"], 0.8))
+        o.append(f'<path d="M{x+9:.1f},{ty+16} V{ty+TH-16}" stroke="#fff" stroke-opacity=".12" stroke-width="4" stroke-linecap="round"/>')
+        # feed line, valve, tee into the manifold; more repos, faster flow
+        fy0, vy = ty + TH, ty + TH + 22
+        o.append(f'<path d="M{cx_-3:.1f},{fy0} V{my-5} M{cx_+3:.1f},{fy0} V{my-5}" stroke="{t["rule_strong"]}" stroke-width="0.9"/>')
+        o.append(f'<path d="M{cx_:.1f},{fy0} V{my}" stroke="{fill}" stroke-width="2" stroke-dasharray="3 6" '
+                 f'class="flowf" style="animation-duration:{2.2-1.5*l["repos"]/mxr:.2f}s"/>')
+        o.append(f'<path d="M{cx_-8:.1f},{vy-6} L{cx_+8:.1f},{vy+6} V{vy-6} L{cx_-8:.1f},{vy+6} Z" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/>')
+        o.append(f'<circle cx="{cx_:.1f}" cy="{my}" r="3.2" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/>')
+    # the engine all of it feeds
+    o.append(f'<g transform="translate({ex},{my})">'
+             f'<path d="M-30,-14 H30 V14 H-30 Z" fill="{t["raised"]}" stroke="{t["rule_ink"]}" stroke-width="1.2"/>'
+             f'<path d="M-30,-14 Q0,-34 30,-14" fill="none" stroke="{t["rule_ink"]}" stroke-width="1.2"/>'
+             f'<path d="M-16,14 Q-16,24 -6,30 Q-22,46 -28,66 H28 Q22,46 6,30 Q16,24 16,14" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1.2"/>'
+             f'<g class="fb fl2" style="transform-origin:50% 0"><path d="M-26,66 C-30,84 -12,104 0,118 C12,104 30,84 26,66 Z" fill="{t["fire_mid"]}" fill-opacity=".75"/></g>'
+             f'<g class="fb fl3" style="transform-origin:50% 0"><path d="M-14,66 C-14,78 -6,92 0,100 C6,92 14,78 14,66 Z" fill="{t["fire_core"]}" fill-opacity=".95"/></g>'
+             + label(46, -24, "one engine", t, t["accent"], 10.5) + text(46, -8, "every language", "mono", 10.5, t["ink4"])
+             + text(46, 6, "feeds the same", "mono", 10.5, t["ink4"]) + text(46, 20, "build", "mono", 10.5, t["ink4"]) + "</g>")
 
     defs = ('<defs>'
             f'<linearGradient id="burnA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="{t["phosphor"]}" stop-opacity="{0.32 if t["glow_op"]>.5 else 0.18}"/>'
@@ -1872,6 +1894,10 @@ def plate_telemetry(t, s, updated) -> str:
             '<filter id="blur3" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>'
             '</defs>')
     css = (odo.css() + "".join(tanks_css) + th_css + rose_css +
+           ".flowm{animation:flowm .9s linear infinite}@keyframes flowm{to{stroke-dashoffset:-16}}"
+           ".flowf{animation:flowf 1.4s linear infinite}@keyframes flowf{to{stroke-dashoffset:-9}}"
+           ".fl2{animation:fl .23s ease-in-out infinite alternate-reverse}.fl3{animation:fl .17s ease-in-out infinite alternate}"
+           "@keyframes fl{from{transform:scale(1,1)}to{transform:scale(.95,1.1)}}" +
            ".trace{stroke-dasharray:1 1;animation:trace 12s linear infinite}"
            "@keyframes trace{0%{stroke-dashoffset:1;opacity:1}60%{stroke-dashoffset:0;opacity:1}92%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}"
            ".areaFade{animation:areaF 12s linear infinite}"
