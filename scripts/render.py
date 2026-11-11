@@ -607,7 +607,7 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
     ign = 2.9
     loc = f"translate({cx},{top}) scale({s})"
     o.append(f'<defs><clipPath id="plume"><rect x="{M}" y="{M}" width="{W-2*M}" height="{TBY-M}"/></clipPath>'
-             f'<mask id="lensM" maskUnits="userSpaceOnUse" x="0" y="0" width="{W}" height="{H}">'
+             f'<mask id="lensM" maskUnits="userSpaceOnUse" x="{cx-150*s:.0f}" y="{top+15*s:.0f}" width="{300*s:.0f}" height="{345*s:.0f}">'
              f'<g transform="{loc}"><circle r="44" fill="#fff"><animateMotion dur="19s" begin="{ign+0.8}s" repeatCount="indefinite" path="{LENS_PATH}"/></circle></g>'
              f'</mask></defs>')
     # thrust vectoring: the engine swings a degree or so about its gimbal, plume and all
