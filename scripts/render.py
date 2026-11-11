@@ -1487,6 +1487,8 @@ def plate_schedule(t, stack, zones) -> str:
         tr.append(dict(repo=repo, name=name, sub=sub_of.get(name, ""), code=code_of.get(name, ""),
                        used=used, n=sum(len(u) for u in used), d=sum(1 for u in used if u)))
     NS = len(tr)
+    slot = [[] for _ in tr]     # everything one traced project lights, gathered into one layer
+    chip_text = []
     STOP, LOOP0 = 4.0, 4.6
     CYCLE = STOP * NS
 
@@ -1541,8 +1543,8 @@ def plate_schedule(t, stack, zones) -> str:
             f = len(tk["used"][i]) / len(c["items"])
             if f:
                 wv = (EX1 - EX0) * f
-                o.append(f'<g class="hl s{k}"><rect x="{EX0}" y="{y:.1f}" width="{wv:.1f}" height="{th:.1f}" fill="{t["accent"]}" fill-opacity=".42"/>'
-                         f'<path d="M{EX0+wv:.1f},{y:.1f} v{th:.1f}" stroke="{t["accent"]}" stroke-width="2"/></g>')
+                slot[k].append(f'<rect x="{EX0}" y="{y:.1f}" width="{wv:.1f}" height="{th:.1f}" fill="{t["accent"]}" fill-opacity=".42"/>'
+                               f'<path d="M{EX0+wv:.1f},{y:.1f} v{th:.1f}" stroke="{t["accent"]}" stroke-width="2"/>')
         y += th
     # ground and footing
     o.append(f'<rect x="{EX0-40}" y="{EY1}" width="{EX1-EX0+80}" height="16" fill="url(#earth)" class="fi"{d_(0.2)}/>')
@@ -1568,20 +1570,19 @@ def plate_schedule(t, stack, zones) -> str:
     o.append(label(HX, 146, "tracing", t, t["accent"], 12, extra=f' class="mono-m fi"{d_(LOOP0-0.6)}'))
     o.append(f'<circle cx="{HX+76}" cy="142" r="4" fill="{t["accent"]}" class="blink"/>')
     for k, tk in enumerate(tr):
-        o.append(f'<g class="hl s{k}">'
-                 + text(HX, 204, tk["name"], "serif", 54, t["ink"])
-                 + text(HX + 2, 232, tk["sub"], "serif-i", 20, t["ink3"])
-                 + text(HX, 312, str(tk["n"]), "serif", 72, t["accent"])
-                 + text(HX + 2, 338, f"materials across {tk['d']} disciplines", "mono", 12.5, t["ink2"]) + "</g>")
+        slot[k].append(text(HX, 204, tk["name"], "serif", 54, t["ink"])
+                       + text(HX + 2, 232, tk["sub"], "serif-i", 20, t["ink3"])
+                       + text(HX, 312, str(tk["n"]), "serif", 72, t["accent"])
+                       + text(HX + 2, 338, f"materials across {tk['d']} disciplines", "mono", 12.5, t["ink2"]))
     qy = 382
     o.append(rule(HX, qy - 18, HX + 330, qy - 18, t["rule"], 0.8))
     for k, tk in enumerate(tr):
         yy = qy + k * 24
         o.append(text(HX + 18, yy + 4, tk["code"], "mono", 11.5, t["ink4"]) + text(HX + 72, yy + 4, tk["name"], "mono-m", 13, t["ink3"])
                  + text(HX + 330, yy + 4, f"{tk['n']}", "mono", 12, t["ink4"], "end"))
-        o.append(f'<g class="hl s{k}"><rect x="{HX}" y="{yy-11}" width="334" height="22" fill="{t["accent_soft"]}"/>'
-                 f'<circle cx="{HX+7}" cy="{yy}" r="3.2" fill="{t["accent"]}"/>'
-                 + text(HX + 72, yy + 4, tk["name"], "mono-m", 13, t["accent"]) + "</g>")
+        slot[k].append(f'<rect x="{HX}" y="{yy-11}" width="334" height="22" fill="{t["accent_soft"]}"/>'
+                       f'<circle cx="{HX+7}" cy="{yy}" r="3.2" fill="{t["accent"]}"/>'
+                       + text(HX + 72, yy + 4, tk["name"], "mono-m", 13, t["accent"]))
 
     # ---- the schedule itself
     o.append(rule(X0, SY0, X1, SY0, t["rule_strong"], 1.2))
@@ -1611,7 +1612,7 @@ def plate_schedule(t, stack, zones) -> str:
         for k, tk in enumerate(tr):
             u = len(tk["used"][ci])
             msg = f"{tk['name']} · {u}" if u else f"{tk['name']} · none"
-            o.append(f'<g class="hl s{k}">' + text(X0 + 14, y + sh - 16, msg, "mono-m", 11.5, t["accent"] if u else t["ink4"]) + "</g>")
+            slot[k].append(text(X0 + 14, y + sh - 16, msg, "mono-m", 11.5, t["accent"] if u else t["ink4"]))
         for li, line in enumerate(lines):
             cy = y + SP + li * (CH + RG)
             x = CX0
@@ -1620,16 +1621,21 @@ def plate_schedule(t, stack, zones) -> str:
                 fill = t["raised"] if heavy else "none"
                 stroke = t["rule_strong"] if heavy else t["rule"]
                 slots = [k for k, tk in enumerate(tr) if it["name"] in tk["used"][ci]]
-                hl = "".join(f'<g class="hl s{k}"><rect x="{x-2.5:.1f}" y="{cy-2.5}" width="{w+5:.1f}" height="{CH+5}" rx="5" fill="none" '
-                             f'stroke="{t["accent"]}" stroke-opacity=".3" stroke-width="3"/>'
-                             f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH}" rx="3" fill="{t["accent"]}" '
-                             f'fill-opacity="{0.34 if t["glow_op"] > .5 else 0.22}" stroke="{t["accent"]}" stroke-width="1.8"/></g>' for k in slots)
-                o.append(f'<g class="chip"{d_(dl + li * 0.04 + j * 0.02)}>'
-                         f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH}" rx="3" fill="{fill}" stroke="{stroke}" stroke-width="0.9"/>{hl}'
-                         + text(x + PADX, cy + 17.5, it["name"], "mono-m" if heavy else "mono", FS, t["ink"])
-                         + text(x + w - PADX, cy + 17.5, str(it["n"]), "mono", FC, t["ink4"], "end") + "</g>")
+                for k in slots:
+                    slot[k].append(f'<rect x="{x-2.5:.1f}" y="{cy-2.5}" width="{w+5:.1f}" height="{CH+5}" rx="5" fill="none" '
+                                   f'stroke="{t["accent"]}" stroke-opacity=".3" stroke-width="3"/>'
+                                   f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH}" rx="3" fill="{t["accent"]}" '
+                                   f'fill-opacity="{0.34 if t["glow_op"] > .5 else 0.22}" stroke="{t["accent"]}" stroke-width="1.8"/>')
+                cd_ = d_(dl + li * 0.04 + j * 0.02)
+                o.append(f'<rect x="{x:.1f}" y="{cy}" width="{w:.1f}" height="{CH}" rx="3" fill="{fill}" stroke="{stroke}" stroke-width="0.9" class="chip"{cd_}/>')
+                chip_text.append(f'<g class="chip"{cd_}>'
+                                 + text(x + PADX, cy + 17.5, it["name"], "mono-m" if heavy else "mono", FS, t["ink"])
+                                 + text(x + w - PADX, cy + 17.5, str(it["n"]), "mono", FC, t["ink4"], "end") + "</g>")
                 x += w + GAP
         y += sh
+    # each project's highlights move as one layer: frames, then highlights, then the words on top
+    o += [f'<g class="hl s{k}">' + "".join(parts) + "</g>" for k, parts in enumerate(slot)]
+    o += chip_text
     o.append(rule(X0, y, X1, y, t["rule_strong"], 1.2))
     ly = y + 26
     o.append(label(X0 + 14, ly + 12, "legend", t, t["ink4"], 11))
