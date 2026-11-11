@@ -90,13 +90,13 @@ BASE_CSS = (
     ".mono{font-family:'ax-mono','IBM Plex Mono',ui-monospace,Menlo,monospace}"
     ".mono-m{font-family:'ax-mono-m','IBM Plex Mono',ui-monospace,Menlo,monospace}"
     ".sans{font-family:'ax-sans','IBM Plex Sans',system-ui,sans-serif}"
-    ".dr{stroke-dasharray:1 1;animation:dr 1.6s cubic-bezier(.65,0,.25,1) both}"
+    ".dr{stroke-dasharray:1 1;animation:dr 1.6s cubic-bezier(.65,0,.25,1) backwards}"
     "@keyframes dr{from{stroke-dashoffset:1}to{stroke-dashoffset:0}}"
-    ".fi{animation:fi 1s ease-out both}"
+    ".fi{animation:fi 1s ease-out backwards}"
     "@keyframes fi{from{opacity:0}}"
-    ".up{animation:up 1s cubic-bezier(.2,.7,.2,1) both}"
+    ".up{animation:up 1s cubic-bezier(.2,.7,.2,1) backwards}"
     "@keyframes up{from{opacity:0;transform:translateY(16px)}}"
-    ".lt{animation:lt 1s cubic-bezier(.2,.7,.2,1) both}"
+    ".lt{animation:lt 1s cubic-bezier(.2,.7,.2,1) backwards}"
     "@keyframes lt{from{opacity:0;transform:translateX(-14px)}}"
     ".fb{transform-box:fill-box}"
 )
@@ -303,7 +303,7 @@ def stamp(x, y, head, body, t, angle=-7, delay=2.8):
     )
 
 
-STAMP_CSS = (".stamp{animation:stamp .5s cubic-bezier(.3,1.6,.5,1) both}"
+STAMP_CSS = (".stamp{animation:stamp .5s cubic-bezier(.3,1.6,.5,1) backwards}"
              "@keyframes stamp{0%{opacity:0;transform:scale(2.2)}60%{opacity:1}100%{transform:scale(1)}}")
 
 
@@ -341,7 +341,7 @@ class Odo:
                 stack = "".join(text(cx + w / 2, y + i * L, str(i % 10), cls, size, fill, "middle")
                                 for i in range(spins + 1))
                 o.append(f'<g transform="translate(0,{-spins*L:.1f})"><g style="animation:{k} {dur+digit_i*0.25:.2f}s '
-                         f'cubic-bezier(.2,.75,.25,1) {delay:.2f}s both">{stack}</g></g>')
+                         f'cubic-bezier(.2,.75,.25,1) {delay:.2f}s backwards">{stack}</g></g>')
                 digit_i += 1
             else:
                 o.append(text(cx + w / 2, y, ch, cls, size, fill, "middle"))
@@ -503,7 +503,7 @@ def engine_glow(t, ign: float):
 
 
 FIRE_CSS = (
-    ".ign{animation:ign 1.1s cubic-bezier(.2,.9,.2,1) both}"
+    ".ign{animation:ign 1.1s cubic-bezier(.2,.9,.2,1) backwards}"
     "@keyframes ign{0%{opacity:0}30%{opacity:1}}"
     ".fl1,.fl2,.fl3{transform-origin:50% 0}"
     ".fl1{animation:fl 0.31s ease-in-out infinite alternate}"
@@ -516,7 +516,7 @@ FIRE_CSS = (
     "@keyframes pulse{from{opacity:1}to{opacity:.6;transform:scale(.94)}}"
     ".spark{animation:spark 1.6s linear infinite}"
     "@keyframes spark{0%{opacity:0;transform:translate(0,0)}10%{opacity:1}100%{opacity:0;transform:translate(var(--dx),240px)}}"
-    ".ring{transform-origin:50% 50%;animation:ring 3.6s cubic-bezier(.1,.6,.3,1) infinite both}"
+    ".ring{transform-origin:50% 50%;animation:ring 3.6s cubic-bezier(.1,.6,.3,1) infinite backwards}"
     "@keyframes ring{0%{opacity:0;transform:scale(.7)}15%{opacity:.45}100%{opacity:0;transform:scale(1.7,2.1)}}"
 )
 
@@ -717,12 +717,12 @@ def plate_hero(t, stats, updated, rev, n_materials) -> str:
     o.append(f'<path d="M{70+tw_/2:.1f},{sy0+38} l-5,8 h10 Z" fill="{t["accent"]}" class="here"/>')
 
     css = (odo.css() + FIRE_CSS + STAMP_CSS +
-           ".carriage{animation:carriage 2.6s cubic-bezier(.45,0,.35,1) .1s both}"
+           ".carriage{animation:carriage 2.6s cubic-bezier(.45,0,.35,1) .1s backwards}"
            f"@keyframes carriage{{0%{{transform:translateX({M}px);opacity:1}}92%{{opacity:1}}100%{{transform:translateX({W-M}px);opacity:0}}}}"
            ".carriage{opacity:0}"
-           ".tagin{animation:tagin .55s cubic-bezier(.3,1.6,.5,1) both}@keyframes tagin{from{opacity:0;transform:scale(.6)}}"
+           ".tagin{animation:tagin .55s cubic-bezier(.3,1.6,.5,1) backwards}@keyframes tagin{from{opacity:0;transform:scale(.6)}}"
            ".here{animation:here 1.6s ease-in-out infinite alternate}@keyframes here{to{transform:translateY(3px);opacity:.5}}"
-           ".ink{stroke-dasharray:var(--L);animation:ink 2.6s cubic-bezier(.5,0,.3,1) both}"
+           ".ink{stroke-dasharray:var(--L);animation:ink 2.6s cubic-bezier(.5,0,.3,1) backwards}"
            "@keyframes ink{0%{stroke-dashoffset:var(--L);fill-opacity:0}62%{stroke-dashoffset:0;fill-opacity:0}100%{stroke-dashoffset:0;fill-opacity:1}}"
            ".spin{animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}"
            ".flow{animation:flow 1.2s linear infinite}@keyframes flow{to{stroke-dashoffset:-11}}")
@@ -841,11 +841,11 @@ NOTE_CSS = (
     "@keyframes job{0%{transform:translateX(0);opacity:0}5%{opacity:1}40%{transform:translateX(52px)}55%{transform:translateX(52px)}95%{opacity:1}100%{transform:translateX(118px);opacity:0}}"
     ".crash{opacity:0;animation:crash 6s steps(1) infinite}@keyframes crash{0%{opacity:0}42%{opacity:.55}50%{opacity:0}}"
     ".crashT{opacity:0;animation:crash 6s steps(1) infinite}"
-    ".wr{transform-box:fill-box;transform-origin:0 0;animation:wr 7s ease-out infinite both}"
+    ".wr{transform-box:fill-box;transform-origin:0 0;animation:wr 7s ease-out infinite backwards}"
     "@keyframes wr{0%{transform:scaleX(0)}8%,100%{transform:scaleX(1)}}"
     ".acc{opacity:0;animation:acc 7s cubic-bezier(.3,1.6,.5,1) infinite}"
     "@keyframes acc{0%,44%{opacity:0;transform:scale(2)}50%,92%{opacity:1;transform:scale(1)}100%{opacity:0}}"
-    ".row{animation:fi .6s ease-out both}"
+    ".row{animation:fi .6s ease-out backwards}"
     "@media (prefers-reduced-motion:reduce){.acc{opacity:1}.stg{opacity:1}}"
 )
 
@@ -932,7 +932,7 @@ def plate_header(t, code: str, title: str, note: str = "", seq: str = "") -> str
         o.append(f'<g class="fi"{d_(0.7)}>' + text(W, 56, note, "serif-i", 24, t["ink3"], "end") + "</g>")
     if seq:
         o.append(label(W, 22, seq, t, t["ink4"], 11, "end"))
-    css = ".wipe{animation:wipe .6s cubic-bezier(.2,.8,.2,1) both;transform-origin:0 0}@keyframes wipe{from{transform:scaleX(0)}}"
+    css = ".wipe{animation:wipe .6s cubic-bezier(.2,.8,.2,1) backwards;transform-origin:0 0}@keyframes wipe{from{transform:scaleX(0)}}"
     return svg(W, H, "\n".join(o), ("serif", "serif-i", "mono-m"), title, css)
 
 
@@ -1084,7 +1084,7 @@ def plate_teststand(t) -> str:
         o.append(f'<path d="M{sx:.1f},{sy:.1f} A{ar},{ar} 0 1 1 {P(A0+SWEEP, ar)[0]:.1f},{P(A0+SWEEP, ar)[1]:.1f}" fill="none" '
                  f'stroke="{t["rule_faint"]}" stroke-width="7"/>')
         band_d = f"M{sx:.1f},{sy:.1f} A{ar},{ar} 0 {large} 1 {exx:.1f},{eyy:.1f}"
-        band_anim = (f'animation:dr 2.2s cubic-bezier(.3,.1,.3,1) {dl+0.6:.2f}s both,'
+        band_anim = (f'animation:dr 2.2s cubic-bezier(.3,.1,.3,1) {dl+0.6:.2f}s backwards,'
                      f'rb {RT}s ease-in-out {dl+RT0:.2f}s infinite')
         o.append(f'<path d="{band_d}" pathLength="1" fill="none" stroke="{t["accent"]}" stroke-width="16" stroke-opacity="{0.16 if t["glow_op"] > .5 else 0.08}" '
                  f'stroke-linecap="round" class="band" style="{band_anim}"/>')
@@ -1101,7 +1101,7 @@ def plate_teststand(t) -> str:
         css.append(f"@keyframes {kname}{{0%{{transform:rotate({-SWEEP*f:.1f}deg)}}62%{{transform:rotate(6deg)}}"
                    f"78%{{transform:rotate(-2.5deg)}}90%{{transform:rotate(1deg)}}100%{{transform:rotate(0)}}}}")
         o.append(f'<g transform="translate({gx:.1f},{gy}) rotate({fin:.1f})">'
-                 f'<g style="animation:{kname} 2.4s cubic-bezier(.3,.1,.3,1) {dl+0.6:.2f}s both">'
+                 f'<g style="animation:{kname} 2.4s cubic-bezier(.3,.1,.3,1) {dl+0.6:.2f}s backwards">'
                  f'<g style="animation:rt{i} {RT}s ease-in-out {dl+RT0:.2f}s infinite">'
                  f'<g class="tremor" style="animation-delay:{-i*0.37:.2f}s">'
                  f'<path d="M-16,-3.2 L{R-10},-0.9 L{R-4},0 L{R-10},0.9 L-16,3.2 Z" fill="{t["accent"]}"/>'
@@ -1136,7 +1136,7 @@ def plate_teststand(t) -> str:
             f'<radialGradient id="hd"><stop offset="0" stop-color="{t["diamond"]}" stop-opacity=".95"/><stop offset="1" stop-color="{t["diamond"]}" stop-opacity="0"/></radialGradient>'
             '</defs>')
     css_all = (odo.css() + "".join(css) +
-               ".band{stroke-dasharray:1 1;animation:dr 2.2s cubic-bezier(.3,.1,.3,1) both}"
+               ".band{stroke-dasharray:1 1;animation:dr 2.2s cubic-bezier(.3,.1,.3,1) backwards}"
                ".tremor{animation:tremor 2.9s ease-in-out infinite alternate}"
                ".pulse{animation:pulse 2.6s linear infinite}@keyframes pulse{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}"
                ".hfl1,.hfl2{transform-origin:0 50%}.hfl1{animation:hfl .27s ease-in-out infinite alternate}.hfl2{animation:hfl .19s ease-in-out infinite alternate-reverse}"
@@ -1144,7 +1144,7 @@ def plate_teststand(t) -> str:
                ".hdia{transform-origin:50% 50%;animation:hdia .5s ease-in-out infinite alternate}@keyframes hdia{to{opacity:.5;transform:scale(1.1,.88)}}"
                "@keyframes rb{0%,88%{stroke-dashoffset:0}91%{stroke-dashoffset:1}96%,100%{stroke-dashoffset:0}}"
                ".lampr{opacity:0;animation:lampr 24s steps(1) infinite}@keyframes lampr{0%{opacity:0}87%{opacity:1}97%,100%{opacity:0}}"
-               ".lamp{opacity:0;animation:lamp 3.4s ease-in-out infinite both}@keyframes lamp{0%{opacity:0}10%,100%{opacity:1}55%{opacity:.55}}"
+               ".lamp{opacity:0;animation:lamp 3.4s ease-in-out infinite backwards}@keyframes lamp{0%{opacity:0}10%,100%{opacity:1}55%{opacity:.55}}"
                "@media (prefers-reduced-motion:reduce){.lamp{opacity:1}}"
                "@keyframes tremor{0%{transform:rotate(-.5deg)}40%{transform:rotate(.35deg)}70%{transform:rotate(-.15deg)}100%{transform:rotate(.6deg)}}")
     alt = ("Test stand. An engine fires on a thrust stand into a deflector; eight taps along it are wired to eight gauges, "
@@ -1401,16 +1401,16 @@ def plate_keyplan(t, zones) -> str:
                               ("note", "the corridor is where the ideas walk in", W - 2 * M - 680)])
 
     css = (f".rscan{{animation:rscan 3.2s cubic-bezier(.45,0,.55,1) infinite}}@keyframes rscan{{to{{transform:translateY({RY1-RY0}px)}}}}"
-           ".lit{opacity:0;animation:lit 20s ease-in-out infinite both}"
+           ".lit{opacity:0;animation:lit 20s ease-in-out infinite backwards}"
            "@keyframes lit{0%{opacity:0}4.5%{opacity:1}19%{opacity:1}23%{opacity:0}100%{opacity:0}}"
-           ".lamp{animation:lamp 20s ease-in-out infinite both}"
+           ".lamp{animation:lamp 20s ease-in-out infinite backwards}"
            "@keyframes lamp{0%{opacity:.25}4.5%{opacity:1}19%{opacity:1}23%{opacity:.25}100%{opacity:.25}}"
-           ".door{animation:door 1.3s cubic-bezier(.3,1.5,.5,1) both}@keyframes door{from{transform:rotate(90deg)}}"
-           ".tag{animation:tag .7s cubic-bezier(.3,1.6,.5,1) both}@keyframes tag{from{opacity:0;transform:scale(0)}}"
+           ".door{animation:door 1.3s cubic-bezier(.3,1.5,.5,1) backwards}@keyframes door{from{transform:rotate(90deg)}}"
+           ".tag{animation:tag .7s cubic-bezier(.3,1.6,.5,1) backwards}@keyframes tag{from{opacity:0;transform:scale(0)}}"
            ".march{animation:march 1.4s linear infinite}@keyframes march{to{stroke-dashoffset:-18}}"
            ".ping{transform-box:fill-box;transform-origin:50% 50%;animation:ping 2s ease-out infinite}"
            "@keyframes ping{from{transform:scale(.6);opacity:1}to{transform:scale(2.2);opacity:0}}"
-           ".needleN{animation:nn 2.6s cubic-bezier(.3,1.6,.4,1) .6s both}@keyframes nn{from{transform:rotate(-200deg)}}")
+           ".needleN{animation:nn 2.6s cubic-bezier(.3,1.6,.4,1) .6s backwards}@keyframes nn{from{transform:rotate(-200deg)}}")
     alt = (f"Key plan, sheet G-000: a floor plan of the work. {len(zones)} rooms off one corridor, one per domain, "
            + "; ".join(f"{z['title']} ({len(z['projects'])} sheets: " + ", ".join(p["name"] for p in z["projects"]) + ")" for z in zones)
            + ". A camera visits each room in turn: its light comes on, a scan passes down it, and the light spills into the corridor "
@@ -1632,9 +1632,9 @@ def plate_schedule(t, stack, zones) -> str:
     o.append(f'<rect x="{CX0+380}" y="{ly}" width="22" height="16" rx="3" fill="{t["accent"]}" fill-opacity=".34" stroke="{t["accent"]}" stroke-width="1.8"/>')
     o.append(text(CX0 + 412, ly + 12.5, "used by the project being traced", "mono", 12.5, t["ink3"]))
 
-    css = (".lay{animation:lay .8s cubic-bezier(.3,1.4,.5,1) both}@keyframes lay{from{opacity:0;transform:translateY(-26px)}}"
-           ".chip{animation:chip .6s cubic-bezier(.2,.8,.2,1) both}@keyframes chip{from{opacity:0;transform:translateY(8px)}}"
-           f".hl{{opacity:0;animation:hl {CYCLE:.0f}s ease-in-out infinite both}}"
+    css = (".lay{animation:lay .8s cubic-bezier(.3,1.4,.5,1) backwards}@keyframes lay{from{opacity:0;transform:translateY(-26px)}}"
+           ".chip{animation:chip .6s cubic-bezier(.2,.8,.2,1) backwards}@keyframes chip{from{opacity:0;transform:translateY(8px)}}"
+           f".hl{{opacity:0;animation:hl {CYCLE:.0f}s ease-in-out infinite backwards}}"
            f"@keyframes hl{{0%{{opacity:0}}{100*0.5/CYCLE:.2f}%{{opacity:1}}{100*(STOP-0.35)/CYCLE:.2f}%{{opacity:1}}{100*STOP/CYCLE:.2f}%,100%{{opacity:0}}}}"
            + "".join(f".s{k}{{animation-delay:{LOOP0+k*STOP:.2f}s}}" for k in range(NS))
            + ".blink{animation:blink 1.2s steps(2) infinite}@keyframes blink{50%{opacity:0}}"
@@ -1845,7 +1845,7 @@ def zone_band(t, zone) -> str:
          f'<g class="lt"{d_(0.15)}>' + text(54, 52, zone["title"], "serif", 38, t["ink"]) + "</g>",
          line_pen(54, 66, W, 66, t["rule"], 0.9, 0.2, 1.4),
          label(W, 50, f"{zone['code']}-01 to {zone['code']}-{n:02d}  ·  {n} sheet{'s' if n != 1 else ''}", t, t["ink4"], 12, "end")]
-    css = ".tag{animation:tag .7s cubic-bezier(.3,1.6,.5,1) both}@keyframes tag{from{opacity:0;transform:translate(22px,40px) scale(0)}}"
+    css = ".tag{animation:tag .7s cubic-bezier(.3,1.6,.5,1) backwards}@keyframes tag{from{opacity:0;transform:translate(22px,40px) scale(0)}}"
     return svg(W, H_, "\n".join(o), ("serif", "mono-m"), f"{zone['code']} · {zone['title']}, {n} sheets", css)
 
 
@@ -1924,9 +1924,9 @@ def thermal_map(t, days, x0, y0):
              f'<stop offset=".8" stop-color="{t["accent"]}" stop-opacity="{0.22 if t["glow_op"] > .5 else 0.14}"/>'
              f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity=".9"/></linearGradient></defs>')
     o.append(f'<g clip-path="url(#thc)"><g class="thscan"><rect x="{gx0-60}" y="{y0+20}" width="60" height="{gh+2:.1f}" fill="url(#thg)"/></g></g>')
-    css.append(f".thscan{{animation:thscan 9s cubic-bezier(.45,0,.55,1) 2.5s infinite both}}"
+    css.append(f".thscan{{animation:thscan 9s cubic-bezier(.45,0,.55,1) 2.5s infinite backwards}}"
                f"@keyframes thscan{{0%{{transform:translateX(0);opacity:0}}5%{{opacity:1}}55%{{transform:translateX({w+60:.0f}px);opacity:1}}56%,100%{{opacity:0;transform:translateX({w+60:.0f}px)}}}}"
-               ".hc{transform-origin:50% 50%;animation:hc .5s cubic-bezier(.3,1.5,.5,1) both}@keyframes hc{from{opacity:0;transform:scale(.2)}}"
+               ".hc{transform-origin:50% 50%;animation:hc .5s cubic-bezier(.3,1.5,.5,1) backwards}@keyframes hc{from{opacity:0;transform:scale(.2)}}"
                ".hot{animation:hot 2.4s ease-in-out infinite alternate}@keyframes hot{from{stroke-opacity:.6}to{stroke-opacity:.05}}")
     ly = y0 + 22 + gh + 18
     o.append(text(gx0, ly, "less", "mono", 10.5, t["ink4"]))
@@ -1970,8 +1970,8 @@ def weekday_rose(t, days, cx, cy):
         o.append(text(lx, ly + 12, str(v), "mono", 10, t["ink4"], anc))
     o.append(f'<circle r="{R0-4}" fill="{t["sheet"]}" stroke="{t["rule_ink"]}" stroke-width="1"/><circle r="3" fill="{t["accent"]}"/>')
     o.append("</g>")
-    css = (".petal{transform-origin:0 0;animation:petal .9s cubic-bezier(.3,1.5,.5,1) both}@keyframes petal{from{transform:scale(0)}}"
-           ".best{animation:petal .9s cubic-bezier(.3,1.5,.5,1) both,bestp 2.2s ease-in-out 1.6s infinite alternate}"
+    css = (".petal{transform-origin:0 0;animation:petal .9s cubic-bezier(.3,1.5,.5,1) backwards}@keyframes petal{from{transform:scale(0)}}"
+           ".best{animation:petal .9s cubic-bezier(.3,1.5,.5,1) backwards,bestp 2.2s ease-in-out 1.6s infinite alternate}"
            "@keyframes bestp{to{fill-opacity:.5}}")
     return "".join(o), css, names[best]
 
@@ -2138,7 +2138,7 @@ def plate_telemetry(t, s, updated) -> str:
         k = f"fill{i}"
         tanks_css.append(f"@keyframes {k}{{from{{transform:translateY({lvl:.1f}px)}}}}")
         o.append(f'<g clip-path="url(#{cid})"><g transform="translate(0,{ty+TH-lvl:.1f})">'
-                 f'<g style="animation:{k} 2.2s cubic-bezier(.2,.8,.2,1) {0.6+i*0.12:.2f}s both">'
+                 f'<g style="animation:{k} 2.2s cubic-bezier(.2,.8,.2,1) {0.6+i*0.12:.2f}s backwards">'
                  f'<g class="wave" style="animation-delay:{-i*0.4:.2f}s"><path d="{wave}" fill="{fill}" fill-opacity="{0.9 if i == 0 else 0.45}"/></g>'
                  f'</g></g></g>')
         for k2 in range(1, 4):
