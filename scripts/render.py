@@ -884,18 +884,90 @@ GAUGES = [
 ]
 
 
+def test_rig(t, EY, GY):
+    """A horizontal engine on a thrust stand, firing into a deflector; taps along it."""
+    ink, strong, faint = t["rule_ink"], t["rule_strong"], t["rule"]
+    o = []
+
+    def r_at(x):
+        if x <= 500:
+            return 34
+        if x <= 560:
+            f = (x - 500) / 60
+            return 34 - 20 * f ** 1.6
+        return 14 + 50 * ((x - 560) / 140) ** 0.8
+    # ground, deflector, stand
+    o.append(f'<rect x="{M+22}" y="{GY}" width="{W-2*M-44}" height="12" fill="url(#gM)"/>')
+    o.append(rule(M + 22, GY, W - M - 22, GY, t["rule_strong"], 1.2))
+    for k in range(56):
+        xx = M + 30 + k * 20
+        o.append(rule(xx, GY, xx - 8, GY + 9, faint, 0.7))
+    o.append(f'<path d="M1050,{GY} V{EY-96} H1072 V{GY}" fill="url(#gM)" stroke="{ink}" stroke-width="1.2"/>')
+    for k in range(10):
+        o.append(rule(1050, EY - 90 + k * 18, 1072, EY - 78 + k * 18, faint, 0.7))
+    for lx in (390, 610):
+        o.append(f'<path d="M{lx-34},{GY} L{lx},{EY+r_at(lx)+4} L{lx+34},{GY}" fill="none" stroke="{strong}" stroke-width="1.4"/>')
+        o.append(f'<path d="M{lx-24},{GY-24} H{lx+24}" stroke="{faint}" stroke-width="0.9"/>')
+    # thrust takeout to the load cell
+    o.append(f'<path d="M270,{EY} H322" stroke="{ink}" stroke-width="2"/>')
+    o.append(f'<rect x="236" y="{EY-20}" width="34" height="40" rx="3" fill="{t["raised"]}" stroke="{ink}" stroke-width="1.2"/>')
+    o.append(f'<path d="M226,{EY-40} V{GY}" stroke="{ink}" stroke-width="3"/>')
+    o.append(label(236, EY - 30, "load cell", t, t["ink3"], 10))
+    # the plume, into the deflector
+    o.append(f'<g class="hfire"><path d="M700,{EY-60} C780,{EY-70} 900,{EY-40} 1048,{EY-14} V{EY+14} C900,{EY+40} 780,{EY+70} 700,{EY+60} Z" fill="url(#hp1)" class="fb hfl1"/>'
+             f'<path d="M700,{EY-34} C760,{EY-36} 840,{EY-18} 930,{EY} C840,{EY+18} 760,{EY+36} 700,{EY+34} Z" fill="url(#hp2)" class="fb hfl2"/>')
+    for k, (dx, w, h) in enumerate([(30, 22, 26), (82, 18, 20), (128, 14, 15)]):
+        o.append(f'<path d="M{700+dx-w},{EY} L{700+dx},{EY-h} L{700+dx+w},{EY} L{700+dx},{EY+h} Z" fill="url(#hd)" class="fb hdia" style="animation-delay:{-k*0.15:.2f}s"/>')
+    o.append("</g>")
+    # engine outline
+    o.append(f'<path d="M340,{EY-34} Q304,{EY} 340,{EY+34}" fill="{t["sheet"]}" stroke="{ink}" stroke-width="1.4"/>')
+    top = f"M340,{EY-34} H500 Q540,{EY-34} 560,{EY-14} Q600,{EY-22} 700,{EY-64}"
+    bot = f"M340,{EY+34} H500 Q540,{EY+34} 560,{EY+14} Q600,{EY+22} 700,{EY+64}"
+    o.append(f'<path d="{top} L700,{EY+64} Q600,{EY+22} 560,{EY+14} Q540,{EY+34} 500,{EY+34} H340 Z" fill="{t["sheet"]}" fill-opacity=".9"/>')
+    o.append(f'<path d="{top}" fill="none" stroke="{ink}" stroke-width="1.5"/><path d="{bot}" fill="none" stroke="{ink}" stroke-width="1.5"/>')
+    o.append(f'<path d="M700,{EY-64} V{EY+64}" stroke="{faint}" stroke-width="0.8" stroke-dasharray="3 3"/>')
+    o.append(f'<path d="M300,{EY} H1040" stroke="{faint}" stroke-width="0.6" stroke-dasharray="14 4 2 4"/>')
+    for k in range(6):
+        o.append(rule(350 + k * 26, EY - 34, 360 + k * 26, EY - 26, strong, 0.7))
+    o.append(label(M + 22, EY - 92, "thrust stand  ·  eight channels, one per engagement", t, t["ink3"], 11))
+    o.append(label(1061, EY - 104, "deflector", t, t["ink4"], 10, "middle"))
+    taps = [370, 420, 470, 520, 560, 612, 656, 692]
+    return o, [(x, EY + r_at(x)) for x in taps]
+
+
 def plate_teststand(t) -> str:
     COLS, CW = 4, (W - 2 * M) / 4
     ROW_H = 372
-    TOP = 92
+    RIG = 268
+    TOP = 92 + RIG
     H = TOP + 2 * ROW_H + 70
     odo = Odo()
     o = sheet_frame(t, H, H - M, cols="ABCDEFGH", grid=True)
     o.append(label(M + 22, 70, "Test stand  ·  eight engagements, one reading each", t, t["accent"], 12.5))
     o.append(text(W - M - 22, 72, "Every needle stops at a number from the record below.", "serif-i", 22, t["ink3"], "end"))
     o.append(rule(M + 22, 88, W - M - 22, 88, t["rule"], 0.8))
+    EY, GY = 214, 300
+    rig, taps = test_rig(t, EY, GY)
+    o += rig
     A0, SWEEP = 135, 270
     css = []
+    # the harness: a line from each tap down to its gauge, with data running along it
+    for i, (tx_, ty_) in enumerate(taps):
+        col, row = i % COLS, i // COLS
+        x0 = M + col * CW
+        gx = x0 + CW / 2
+        gtop = TOP + row * ROW_H + 140 - 104 - 12
+        lane = GY + 20 + i * 4.5
+        if row == 0:
+            d = f"M{tx_:.1f},{ty_:.1f} V{lane:.1f} H{gx:.1f} V{gtop:.1f}"
+        else:
+            xl = x0 + 12 + (i - 4) * 0
+            d = f"M{tx_:.1f},{ty_:.1f} V{lane:.1f} H{xl:.1f} V{TOP+ROW_H+8:.1f} H{gx:.1f} V{gtop:.1f}"
+        o.append(f'<path d="{d}" fill="none" stroke="{t["rule"]}" stroke-width="0.9"/>')
+        o.append(f'<path d="{d}" pathLength="100" fill="none" stroke="{t["accent"]}" stroke-width="2" stroke-dasharray="3 97" '
+                 f'stroke-linecap="round" class="pulse" style="animation-delay:{-i*0.37:.2f}s;animation-duration:{2.4+(i%3)*0.4:.1f}s"/>')
+        o.append(f'<circle cx="{tx_:.1f}" cy="{ty_:.1f}" r="3.4" fill="{t["sheet"]}" stroke="{t["accent"]}" stroke-width="1.4"/>')
+        o.append(text(tx_ + 6, ty_ + 15, f"{i+1:02d}", "mono-m", 9, t["accent"]))
     for i, (kind, val, f, ends, reading, cond) in enumerate(GAUGES):
         col, row = i % COLS, i // COLS
         x0 = M + col * CW
@@ -979,10 +1051,20 @@ def plate_teststand(t) -> str:
     o.append(text(M + 22, H - M - 10, "Readings are from the work itself, each with a results file or a case study behind it. "
                   "Dial ends are labelled; nothing is a score.", "mono", 12, t["ink4"]))
     defs = (f'<defs><radialGradient id="face"><stop offset="0" stop-color="{t["accent"]}" stop-opacity="{0.10 if t["glow_op"]>.5 else 0.05}"/>'
-            f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="0"/></radialGradient></defs>')
+            f'<stop offset="1" stop-color="{t["accent"]}" stop-opacity="0"/></radialGradient>'
+            f'<linearGradient id="hp1" x1="0" x2="1"><stop offset="0" stop-color="{t["fire_outer"]}" stop-opacity="{0.55 if t["glow_op"] > .5 else 0.35}"/>'
+            f'<stop offset="1" stop-color="{t["fire_outer"]}" stop-opacity="0.05"/></linearGradient>'
+            f'<linearGradient id="hp2" x1="0" x2="1"><stop offset="0" stop-color="{t["fire_core"]}"/><stop offset=".5" stop-color="{t["fire_mid"]}" stop-opacity=".8"/>'
+            f'<stop offset="1" stop-color="{t["fire_mid"]}" stop-opacity="0"/></linearGradient>'
+            f'<radialGradient id="hd"><stop offset="0" stop-color="{t["diamond"]}" stop-opacity=".95"/><stop offset="1" stop-color="{t["diamond"]}" stop-opacity="0"/></radialGradient>'
+            '</defs>')
     css_all = (odo.css() + "".join(css) +
                ".band{stroke-dasharray:1 1;animation:dr 2.2s cubic-bezier(.3,.1,.3,1) both}"
                ".tremor{animation:tremor 2.9s ease-in-out infinite alternate}"
+               ".pulse{animation:pulse 2.6s linear infinite}@keyframes pulse{from{stroke-dashoffset:100}to{stroke-dashoffset:0}}"
+               ".hfl1,.hfl2{transform-origin:0 50%}.hfl1{animation:hfl .27s ease-in-out infinite alternate}.hfl2{animation:hfl .19s ease-in-out infinite alternate-reverse}"
+               "@keyframes hfl{from{transform:scale(1,1)}to{transform:scale(1.06,.95)}}"
+               ".hdia{transform-origin:50% 50%;animation:hdia .5s ease-in-out infinite alternate}@keyframes hdia{to{opacity:.5;transform:scale(1.1,.88)}}"
                ".lamp{opacity:0;animation:lamp 3.4s ease-in-out infinite both}@keyframes lamp{0%{opacity:0}10%,100%{opacity:1}55%{opacity:.55}}"
                "@media (prefers-reduced-motion:reduce){.lamp{opacity:1}}"
                "@keyframes tremor{0%{transform:rotate(-.5deg)}40%{transform:rotate(.35deg)}70%{transform:rotate(-.15deg)}100%{transform:rotate(.6deg)}}")
